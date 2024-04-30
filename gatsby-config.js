@@ -15,7 +15,7 @@ module.exports = {
   siteMetadata: {
     pages: [
       {
-        title: 'Marketo API Documentation',
+        title: 'Marketo APIs',
         path: '/'
       },
       {
