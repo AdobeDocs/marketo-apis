@@ -1,0 +1,161 @@
+{
+    "swagger": "2.0",
+    "info":{"description":"Marketo Rest API","version":"1.0","title":"Marketo Rest API","termsOfService":"https://www.marketo.com/company/legal/","contact":{"name":"Marketo Developer Relations","url":"http://developers.marketo.com","email":"developerfeedback@marketo.com"},
+    "license":{"name":"API License Agreement","url":"http://developers.marketo.com/api-license/"}},
+    "host":"localhost:8080",
+    "basePath":"/",
+    "schemes": ["https"],	
+    "tags":[{"name":"Identity","description":"Identity Controller"}],
+    "paths": {
+        "/identity/oauth/token": {
+            "get": {
+                "tags":["Identity"],
+                "summary":"Identity",
+                "description": "Retrieve an access token from Marketo. Calls to this endpoint are not counted towards API call limit.\n",
+                "operationId":"identityUsingGET",
+                "consumes":["application/json"],
+                "produces":["application/json"],
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "query",
+                        "description": "Client ID from Admin > Integration > Launchpoint menu.",
+                        "type": "string",
+                        "format": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "client_secret",
+                        "in": "query",
+                        "description": "Client Secret from Admin > Integration > Launchpoint menu.",
+                        "type": "string",
+                        "format": "string",
+                        "required": true						
+                    },
+                    {
+                        "name": "grant_type",
+                        "in": "query",
+                        "description": "Grant type.",
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "client_credentials"
+                        ],
+                        "required": true						
+                    }
+                ],
+  				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/ResponseOfIdentity"
+						}
+					} 
+                }
+            },
+            "post": {
+                "tags":["Identity"],
+                "summary":"Identity",
+                "description": "Retrieve an access token from Marketo. Calls to this endpoint are not counted towards API call limit.\n",
+                "operationId":"identityUsingPOST",
+                "consumes":["application/json"],
+                "produces":["application/json"],
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "query",
+                        "description": "Client ID from Admin > Integration > Launchpoint menu.",
+                        "type": "string",
+                        "format": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "client_secret",
+                        "in": "query",
+                        "description": "Client Secret from Admin > Integration > Launchpoint menu.",
+                        "type": "string",
+                        "format": "string",
+                        "required": true						
+                    },
+                    {
+                        "name": "grant_type",
+                        "in": "query",
+                        "description": "Grant type.",
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "client_credentials"
+                        ],
+                        "required": true						
+                    }
+                ],
+  				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/ResponseOfIdentity"
+						}
+					} 
+                }
+			}
+		}
+    },
+	"definitions": {
+		"IdentityRequest": {
+			"type": "object",
+			"required": [
+				"client_id",
+				"client_secret",
+				"grant_type"			
+			],
+			"properties": {
+				"client_id": {
+				  "type": "string",
+				  "description": "Client ID from Admin > Integration > Launchpoint menu"
+				},			  
+				"client_secret": {
+				  "type": "string",
+				  "description": "Client Secret from Admin > Integration > Launchpoint menu"
+				},		  
+				"grant_type": {
+				  "type": "string",
+				  "description": "Grant type",
+					"enum": [
+							"client_credentials"
+					]					  
+				}	  			
+			}
+		},
+		"ResponseOfIdentity": {
+			"type": "object",
+			"required": [
+					"access_token",
+					"scope",
+					"expires_in",
+					"token_type"								
+			],			
+			"properties": {
+				"access_token": {
+					"description": "The token that you pass with subsequent calls to authenticate with the target instance",
+					"type": "string"
+				},
+				"scope": {
+					"description": "The owning API-only user of the custom service that was used to authenticate",
+					"type": "string"
+				},
+				"expires_in": {
+					"description": "Remaining lifespan of the current token in seconds",									
+					"type": "integer"
+				},
+				"token_type": {
+					"description": "The OAuth authentication method",																		
+					"type": "string",
+					"enum": [
+						"bearer"
+					]
+				}
+			}			
+		}
+
+	}
+}

@@ -17,39 +17,40 @@ module.exports = {
       {
         title: 'v2.0',
         selected: true
-      },
-      {
-        title: 'v1.4',
-        path: 'https://github.com/AdobeDocs/dev-site'
       }
     ],
     pages: [
       {
-        title: 'Cat Analytics',
+        title: 'Marketo API Documentation',
         path: '/'
       },
       {
-        title: 'Guides',
-        path: '/guides/'
+        title: 'Marketo Documentation',
+        path: 'https://experienceleague.adobe.com/en/docs/marketo-engage'
       },
       {
         title: 'API Reference',
         menu: [
           {
-            title: 'Cat Reference v2.0',
-            description: 'Cat Reporting API',
-            path: '/api/index.md'
+            title: 'Marketo Asset API',
+            description: 'API documentation for Marketo Asset',
+            path: '/api/asset.md'
           },
           {
-            title: 'Cat Reference v1.4',
-            description: 'Cat API Spec',
-            path: '/api/1.4.md'
+            title: 'Marketo Identity API',
+            description: 'API documentation for Marketo Identity',
+            path: '/api/identity.md'
+          },
+          {
+            title: 'Marketo MAPI API',
+            description: 'API documentation for Marketo MAPI',
+            path: '/api/identity.md'
           }
         ]
       },
       {
         title: 'Support',
-        path: '/support/'
+        path: 'https://experienceleague.adobe.com/en/docs/marketo/using/getting-started-with-marketo/help-center'
       }
     ],
     subPages: [
@@ -60,10 +61,6 @@ module.exports = {
           {
             title: 'Dummy an OAuth Client',
             path: '/guides/dummy_oauth_client/'
-          },
-          {
-            title: 'Dummy OAuth using POSTMAN',
-            path: '/guides/dummy_using_postman/'
           }
         ]
       },

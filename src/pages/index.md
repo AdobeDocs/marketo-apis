@@ -1,30 +1,28 @@
 ---
-title: Overview - Cat Analytics
-description: This is the overview page of Cat Analytics
-contributors:
-  - https://github.com/icaraps 
+title: Overview - Marketo API Documentation
+description: A guide to using Marketo APIs
 ---
 
 <Hero slots="heading, text"/>
 
-# Cat Analytics API
+# Marketo API
 
-Cat Product API offers limitless ways to integrate your most important customer data into key business processes. Cat Product API offer limitless ways.
+The Adobe Marketo APIs allow you to directly call Adobe's servers to perform actions on your Marketo data.
 
 <Resources slots="heading, links"/>
 
-#### Resources
+## Resources
 
-* [Quickstart Guide](https://developer.adobe.com)
-* [Cat Analytics Github Repo](https://github.com/AdobeDocs/dev-site)
+* [Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home)
+* [Marketo Measure](https://business.adobe.com/products/marketo/bizible.html)
+* [Marketo SDK for Android](https://github.com/Marketo/android-sdk)
+* [Marketo SDK for iOS](https://github.com/Marketo/ios-sdk)
 
 ## Overview
 
-This documentation provides instructions for Catt Analytics 2.0 APIs. For working with Cat Analytics APIs, see [Cat Analytics API Documentation](https://github.com/AdobeDocs/dev-site).
+This documentation provides instructions for Marketo APIs.
 
-The Cat Analytics APIs are a collection of APIs that power Cat Analytics products like Cat Workspace.
-The APIs allow for the creation of data rich user interfaces that you can use to manipulate and integrate data.
-You can also create reports to explore, get insights, or answer important questions about your data.
+Marketo API include REST, SOAP, and Javascript APIs, plus code for working with mobile devices and email templating.
 
 ## Discover
 
@@ -50,31 +48,18 @@ Returns information on the user's company that is necessary for making other Cat
 
 Provides configuration guidance and best practices for the /segments endpoint.
 
-<DiscoverBlock slots="link, text"/>
-
-[Reporting Guide API](guides/dummy_using_postman/)
-
-Provides configuration guidance and best practices for the /reports endpoint.
-
-<DiscoverBlock slots="link, text"/>
-
-[Migrating from 1.4 to 2.0](guides/migrating/)
-
-For help migrating from the 1.4 versions of the Analytics API to the newer and more capable /reports API.
-
-<DiscoverBlock width="100%" slots="heading, link, text"/>
-
 ### API References
 
-[Try the API](api/)
+Marketo provides three REST APIs for interacting with your data.
 
-Try the Analytics API with Swagger UI. Explore, make calls, with full endpoint descriptions.
+[Marketo Asset](api/asset.md)
+[Marketo Identity](api/identity.md)
+[Marketo MAPI](api/mapi.md)
 
 ## Contributing
 
-We encourage you to participate in our open documentation initiative, if you have suggestions, corrections, additions
-or deletions for this documentation, check out the source from [this github repo](https://github.com/adobe/gatsby-theme-spectrum-example), and submit a pull
-request with your contribution. For more information, refer to the [contributing page](support/contribute/).
+We encourage you to participate in our open documentation initiative. If you have suggestions, corrections, additions
+or deletions for this documentation, check out the source from the [Marketo API repo](https://github.com/AdobeDocs/marketo-apis), and submit a pull request.
 
 ## API Requests & Rate Limits
 
