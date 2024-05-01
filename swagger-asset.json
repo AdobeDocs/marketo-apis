@@ -4,7 +4,7 @@
     "description": "Marketo Rest API",
     "version": "1.0",
     "title": "Marketo Rest API",
-    "termsOfService": "https://www.marketo.com/company/legal/",
+    "termsOfService": "https://www.adobe.com/legal.html",
     "contact": {
       "name": "Marketo Developer Relations",
       "url": "http://developers.marketo.com",
@@ -20,36 +20,40 @@
   "schemes": ["https"],
   "tags": [
     {
-      "name": "Tokens",
-      "description": "Token Controller"
-    },
-    {
       "name": "Channels",
       "description": "Channel Controller"
+    },
+    {
+      "name": "Email Templates",
+      "description": "Email Template Controller"
+    },
+    {
+      "name": "Emails",
+      "description": "Email Controller"
+    },
+    {
+      "name": "File Contents",
+      "description": "File Content Controller"
     },
     {
       "name": "Files",
       "description": "File Controller"
     },
     {
-      "name": "Segments",
-      "description": "Segment Controller"
+      "name": "Folders",
+      "description": "Folder Controller"
+    },
+    {
+      "name": "Form Fields",
+      "description": "Form Field Controller"
+    },
+    {
+      "name": "Forms",
+      "description": "Form Controller"
     },
     {
       "name": "Landing Page Content",
       "description": "Landing Page Content Controller"
-    },
-    {
-      "name": "Snippets",
-      "description": "Snippet Controller"
-    },
-    {
-      "name": "Smart Lists",
-      "description": "Smart List Controller"
-    },
-    {
-      "name": "Static Lists",
-      "description": "Static List Controller"
     },
     {
       "name": "Landing Pages",
@@ -58,46 +62,38 @@
     {
       "name": "Landing Page Redirect Rules",
       "description": "Landing Page Redirect Rule Controller"
-    },	
-    {
-      "name": "Forms",
-      "description": "Form Controller"
-    },
-    {
-      "name": "Form Fields",
-      "description": "Form Field Controller"
-    },
-    {
-      "name": "Tags",
-      "description": "Tag Controller"
     },
     {
       "name": "Programs",
       "description": "Program Controller"
     },
     {
-      "name": "Email Templates",
-      "description": "Email Template Controller"
-    },
-    {
-      "name": "Folders",
-      "description": "Folder Controller"
-    },
-    {
-      "name": "Landing Page Templates",
-      "description": "Landing Page Template Controller"
-    },
-    {
-      "name": "Emails",
-      "description": "Email Controller"
+      "name": "Segments",
+      "description": "Segment Controller"
     },
     {
       "name": "Smart Campaigns",
       "description": "Smart Campaign Controller"
     },
     {
-      "name": "File Contents",
-      "description": "File Content Controller"
+      "name": "Smart Lists",
+      "description": "Smart List Controller"
+    },
+    {
+      "name": "Snippets",
+      "description": "Snippet Controller"
+    },
+    {
+      "name": "Static Lists",
+      "description": "Static List Controller"
+    },
+    {
+      "name": "Tags",
+      "description": "Tag Controller"
+    },
+    {
+      "name": "Tokens",
+      "description": "Token Controller"
     }
   ],
   "paths": {
