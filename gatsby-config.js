@@ -39,6 +39,11 @@ module.exports = {
             title: 'Marketo Lead Database API',
             description: 'API documentation for the Marketo Lead database',
             path: '/api/mapi.md'
+          },
+          {
+            title: 'Marketo User Management API',
+            description: 'API documentation for the Marketo User Management',
+            path: '/api/mapi.md'
           }
         ]
       },

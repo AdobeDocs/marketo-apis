@@ -64,6 +64,10 @@
       "description": "Landing Page Redirect Rule Controller"
     },
     {
+      "name": "Landing Page Templates",
+      "description": "Landing Page Templates"
+    },
+    {
       "name": "Programs",
       "description": "Program Controller"
     },
