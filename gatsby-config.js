@@ -43,7 +43,7 @@ module.exports = {
           {
             title: 'Marketo User Management API',
             description: 'API documentation for the Marketo User Management',
-            path: '/api/mapi.md'
+            path: '/api/user.md'
           }
         ]
       },
