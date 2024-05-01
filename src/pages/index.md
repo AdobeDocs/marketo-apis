@@ -24,6 +24,8 @@ This documentation provides instructions for Marketo APIs.
 
 Marketo API include REST, SOAP, and Javascript APIs, plus code for working with mobile devices and email templates.
 
+The REST API allows for remote execution of many of the system's capabilities. From creating programs to bulk lead import, there are a large number of options which allow fine-grained control of a Marketo instance.
+
 ## Discover
 
 <DiscoverBlock width="100%" slots="heading, link, text"/>
@@ -32,23 +34,44 @@ Marketo API include REST, SOAP, and Javascript APIs, plus code for working with 
 
 [Marketo Product page](https://business.adobe.com/products/marketo/adobe-marketo.html)
 
-Learn about the Marketo product
+Learn about Marketo.
 
 <DiscoverBlock slots="heading, link, text"/>
 
 ### Guides
 
-[Marketo Enage Documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home)
+[Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home)
 
-Learn how to configure and use Marketo Engage
+Learn how to configure and use Marketo Engage.
 
 ### API References
 
 Marketo provides three REST APIs for interacting with your data.
 
-* [Marketo Asset](api/asset.md)
-* [Marketo Identity](api/identity.md)
-* [Marketo MAPI](api/mapi.md)
+[Marketo Asset](api/asset.md) includes:
+
+* Folders
+* Programs
+* Emails and email templates
+* Landing pages and landing page templates
+* Snippets
+* Forms
+* Tokens
+* Files
+
+[Marketo Identity](api/identity.md) - Retrieves access tokens for Marketo users.
+
+[Marketo Lead Database](api/mapi.md) includes the following:
+
+* Leads
+* Companies/Accounts
+* Named Accounts
+* Opportunities
+* Opportunity Roles
+* Sales Persons
+* Custom Objects
+* Activities
+* List and Program Membership
 
 ## Contributing
 

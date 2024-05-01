@@ -4,7 +4,7 @@
     "description": "Marketo Rest API",
     "version": "1.0",
     "title": "Marketo Rest API",
-    "termsOfService": "https://www.marketo.com/company/legal/",
+    "termsOfService": "https://www.adobe.com/legal.html",
     "contact": {
       "name": "Marketo Developer Relations",
       "url": "http://developers.marketo.com",
@@ -20,56 +20,16 @@
   "schemes": ["https"],
   "tags": [
     {
-      "name": "Leads",
-      "description": "Leads Controller"
-    },
-    {
-      "name": "Sales Persons",
-      "description": "Sales Persons Controller"
-    },
-    {
       "name": "Activities",
       "description": "Activities Controller"
-    },
-    {
-      "name": "Bulk Import Custom Objects",
-      "description": "Bulk Import Custom Objects Controller"
-    },
-    {
-      "name": "Bulk Import Program Members",
-      "description": "Bulk Import Program Members Controller"
-    },
-    {
-      "name": "Campaigns",
-      "description": "Campaigns Controller"
-    },
-    {
-      "name": "Opportunities",
-      "description": "Opportunities Controller"
-    },
-    {
-      "name": "Custom Objects",
-      "description": "Custom Objects Controller"
-    },
-    {
-      "name": "Usage",
-      "description": "Stats Controller"
-    },
-    {
-      "name": "Bulk Import Leads",
-      "description": "Bulk Import Leads Controller"
-    },
-    {
-      "name": "Static Lists",
-      "description": "Lists Controller"
     },
     {
       "name": "Bulk Export Activities",
       "description": "Bulk Export Activities Controller"
     },
     {
-      "name": "Named Account Lists",
-      "description": "Named Account Lists Controller"
+      "name": "Bulk Export Custom Objects",
+      "description": "Bulk Export Custom Objects Controller"
     },
     {
       "name": "Bulk Export Leads",
@@ -80,21 +40,61 @@
       "description": "Bulk Export Program Members Controller"
     },
     {
-      "name": "Bulk Export Custom Objects",
-      "description": "Bulk Export Custom Objects Controller"
-    },	
+      "name": "Bulk Import Custom Objects",
+      "description": "Bulk Import Custom Objects Controller"
+    },
+    {
+      "name": "Bulk Import Leads",
+      "description": "Bulk Import Leads Controller"
+    },
+    {
+      "name": "Bulk Import Program Members",
+      "description": "Bulk Import Program Members Controller"
+    },
+    {
+      "name": "Campaigns",
+      "description": "Campaigns Controller"
+    },
     {
       "name": "Companies",
       "description": "Companies Controller"
+    },
+    {
+      "name": "Custom Objects",
+      "description": "Custom Objects Controller"
+    },
+    {
+      "name": "Leads",
+      "description": "Leads Controller"
+    },
+    {
+      "name": "Named Account Lists",
+      "description": "Named Account Lists Controller"
     },
     {
       "name": "Named Accounts",
       "description": "Named Accounts Controller"
     },
     {
+      "name": "Opportunities",
+      "description": "Opportunities Controller"
+    },
+    {
       "name": "Program Members",
       "description": "Program Members Controller"
     }	
+    {
+      "name": "Sales Persons",
+      "description": "Sales Persons Controller"
+    },
+    {
+      "name": "Static Lists",
+      "description": "Lists Controller"
+    },
+    {
+      "name": "Usage",
+      "description": "Stats Controller"
+    }
   ],
   "paths": {
     "/bulk/v1/activities/export.json": {
