@@ -73,6 +73,10 @@ Marketo provides three REST APIs for interacting with your data.
 * Activities
 * List and Program Membership
 
+[Marketo User Management](api/user.md) includes the following:
+
+Marketo provides a set of User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
+
 ## Contributing
 
 We encourage you to participate in our open documentation initiative. If you have suggestions, corrections, additions
