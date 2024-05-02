@@ -20,7 +20,18 @@ module.exports = {
       },
       {
         title: 'Marketo Documentation',
-        path: 'https://experienceleague.adobe.com/en/docs/marketo-engage'
+        menu: [
+          {
+            title: 'Marketo Developer Documentation',
+            description: 'Developer documentation for Marketo Asset',
+            path: '/api/asset.md'
+          },
+          {
+            title: 'Marketo Engage Documentation',
+            description: 'API documentation for Marketo Identity',
+            path: 'https://experienceleague.adobe.com/en/docs/marketo-engage'
+          }
+        ]
       },
       {
         title: 'API Reference',

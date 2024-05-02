@@ -21,7 +21,7 @@
   "tags": [
     {
       "name": "User Management",
-      "description": "User Management Controller"
+      "description": "Marketo provides a set of User Management endpoints allow you to perform CRUD operations on user records in Marketo."
     }
   ],
   "paths": {

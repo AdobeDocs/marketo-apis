@@ -9,20 +9,11 @@ description: A guide to using Marketo APIs
 
 The Adobe Marketo APIs allow you to directly call Adobe's servers to perform actions on your Marketo data.
 
-<Resources slots="heading, links"/>
-
-## Resources
-
-* [Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home)
-* [Marketo Measure](https://business.adobe.com/products/marketo/bizible.html)
-* [Marketo SDK for Android](https://github.com/Marketo/android-sdk)
-* [Marketo SDK for iOS](https://github.com/Marketo/ios-sdk)
-
 ## Overview
 
 This documentation provides instructions for Marketo APIs.
 
-Marketo API include REST, SOAP, and Javascript APIs, plus code for working with mobile devices and email templates.
+Marketo API include REST, SOAP, Javascript, and User Management APIs, plus code for working with mobile devices and email templates.
 
 The REST API allows for remote execution of many of the system's capabilities. From creating programs to bulk lead import, there are a large number of options which allow fine-grained control of a Marketo instance.
 
@@ -75,7 +66,16 @@ Marketo provides three REST APIs for interacting with your data.
 
 [Marketo User Management](api/user.md) includes the following:
 
-Marketo provides a set of User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
+The User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
+
+<Resources slots="heading, links"/>
+
+## Resources
+
+* [Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home)
+* [Marketo Measure](https://business.adobe.com/products/marketo/bizible.html)
+* [Marketo SDK for Android](https://github.com/Marketo/android-sdk)
+* [Marketo SDK for iOS](https://github.com/Marketo/ios-sdk)
 
 ## Contributing
 
