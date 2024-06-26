@@ -10412,7 +10412,7 @@
         },	  		
         "cookie": {
           "type": "string",
-          "description": "Munchkin cookie value used to associate new lead with anonymous activities. e.g. id:123-XYZ-456&token:_mch-marketo.com-1594662481190-60776"
+          "description": "Munchkin cookie value used to associate new lead with anonymous activities. e.g. id:123-XYZ-456&tooken:_mch-marketo.com-1594662481190-60776"
         }
       },
       "description": "Form field data. May have any number of fields depending on the fields available in the form."
