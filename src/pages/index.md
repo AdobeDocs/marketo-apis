@@ -1,13 +1,13 @@
 ---
-title: Marketo API Documentation
-description: A guide to using Marketo APIs
+title: Marketo Engage API Documentation
+description: A guide to using Marketo Engage APIs
 ---
 
 <Hero slots="heading, text"/>
 
-# Marketo API
+# Marketo Engage API
 
-The Adobe Marketo APIs allow you to directly call Adobe's servers to perform actions on your Marketo data.
+The Adobe Marketo Engage APIs allow you to directly call Adobe's servers to perform actions on your Marketo data.
 
 ## Overview
 

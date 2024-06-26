@@ -1,18 +1,18 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Marketo Rest API",
+    "description": "Marketo Engage Rest API",
     "version": "1.0",
-    "title": "Marketo Rest API",
+    "title": "Marketo Engage Rest API",
     "termsOfService": "https://www.marketo.com/company/legal/",
     "contact": {
-      "name": "Marketo Developer Relations",
-      "url": "http://developers.marketo.com",
+      "name": "Adobe Developer Relations",
+      "url": "https://experienceleague.adobe.com/en/docs/marketo-developer/marketo/home",
       "email": "developerfeedback@marketo.com"
     },
     "license": {
       "name": "API License Agreement",
-      "url": "http://developers.marketo.com/api-license/"
+      "url": "https://experienceleague.adobe.com/en/docs/marketo-developer/marketo/api-license"
     }
   },
   "host": "localhost:8080",
@@ -21,7 +21,7 @@
   "tags": [
     {
       "name": "User Management",
-      "description": "Marketo provides a set of User Management endpoints allow you to perform CRUD operations on user records in Marketo."
+      "description": "Marketo Engage provides a set of User Management endpoints allow you to perform CRUD operations on user records in Marketo."
     }
   ],
   "paths": {
