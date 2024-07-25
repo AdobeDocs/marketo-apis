@@ -1,6 +1,6 @@
 {
     "swagger": "2.0",
-    "info":{"description":"Marketo Engage Rest API","version":"1.0","title":"Marketo Engage Rest API","termsOfService":"https://www.adobe.com/legal.html","contact":{"name":"Adobe Developer Relations","url":"https://experienceleague.adobe.com/en/docs/marketo-developer/marketo/home","email":"developerfeedback@marketo.com"},
+    "info":{"description":"Marketo Engage Rest API","version":"1.0","title":"Marketo Engage Rest API","termsOfService":"https://www.adobe.com/legal.html","contact":{"name":"Adobe Developer Relations","url":"https://experienceleague.adobe.com/en/docs/marketo-developer/marketo/home","email":""},
     "license":{"name":"API License Agreement","url":"https://experienceleague.adobe.com/en/docs/marketo-developer/marketo/api-license"}},
     "host":"localhost:8080",
     "basePath":"/",
