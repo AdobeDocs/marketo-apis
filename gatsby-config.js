@@ -23,12 +23,12 @@ module.exports = {
         menu: [
           {
             title: 'Marketo Developer Documentation',
-            description: 'Developer documentation for Marketo Asset',
-            path: '/api/asset.md'
+            description: 'Developer documentation for Marketo APIs',
+            path: 'https://experienceleague.corp.adobe.com/docs/marketo-developer/marketo/home.html'
           },
           {
             title: 'Marketo Engage Documentation',
-            description: 'API documentation for Marketo Identity',
+            description: 'API documentation for Marketo Engage',
             path: 'https://experienceleague.adobe.com/en/docs/marketo-engage'
           }
         ]
