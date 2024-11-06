@@ -1,5 +1,6 @@
 ---
 title: Marketo Lead Database API
 description: Marketo Lead Database API instructions
-openAPISpec:  /swagger-mapi.json
+layout: none
 --- 
+<RedoclyAPIBlock src="/swagger-mapi.json"/>

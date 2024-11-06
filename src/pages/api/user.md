@@ -1,5 +1,6 @@
 ---
 title: Marketo User Management API
 description: Marketo User Management API instructions
-openAPISpec:  /swagger-user.json
+layout: none
 --- 
+<RedoclyAPIBlock src="/swagger-user.json"/>

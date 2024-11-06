@@ -1,5 +1,6 @@
 ---
 title: Marketo Identity API
 description: Marketo Identity API Specification
-openAPISpec:  /swagger-identity.json
+layout: none
 --- 
+<RedoclyAPIBlock src="/swagger-identity.json"/>
