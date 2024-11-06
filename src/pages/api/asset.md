@@ -4,4 +4,4 @@ description: Marketo Asset API Specification
 layout: none
 --- 
 
-<RedoclyAPIBlock src="/swagger-asset.json"/>
+<RedoclyAPIBlock src="/marketo-apis/swagger-asset.json"/>
