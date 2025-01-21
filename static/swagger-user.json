@@ -773,7 +773,7 @@
         },
        "userid": {
           "type": "string",
-          "description": "User id in the form of an email address.  If not specified, the emailAddress value is used"		  
+          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID."		  
         },		
        "reason": {
           "type": "string",
@@ -875,7 +875,7 @@
         },
         "userid": {
           "type": "string",
-          "description": "User id in the form of an email address" 		  
+          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID." 		  
         }
       },
       "title": "ResponseOfUser"
@@ -921,7 +921,7 @@
         },
         "userid": {
           "type": "string",
-          "description": "User id in the form of an email address" 		  
+          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID." 		  
         },		
         "subscriptionId": {
           "type": "string",
@@ -993,7 +993,7 @@
         },
         "userid": {
           "type": "string",
-          "description": "User id in the form of an email address" 		  
+          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID." 		  
         }
       },
       "title": "ResponseOfAllUsers"

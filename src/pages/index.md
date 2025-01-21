@@ -17,6 +17,8 @@ Marketo API include REST, SOAP, Javascript, and User Management APIs, plus code 
 
 The REST API allows for remote execution of many of the system's capabilities. From creating programs to bulk lead import, there are a large number of options which allow fine-grained control of a Marketo instance.
 
+The following User Management APIs are only available to users that are on [Marketo Identity](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/marketo-with-adobe-identity/adobe-identity-management-overview): Invite Users, Delete User, Delete Invited User and Update User Attributes. These APIs are not available on Adobe Identity.
+
 ## Discover
 
 <DiscoverBlock width="100%" slots="heading, link, text"/>
