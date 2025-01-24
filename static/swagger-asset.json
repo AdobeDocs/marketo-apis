@@ -3454,7 +3454,7 @@
             "name": "folder",
             "in": "query",
             "description": "JSON representation of parent folder, with members 'id', and 'type' which may be 'Folder' or 'Program'",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
