@@ -2245,7 +2245,7 @@
           "Campaigns"
         ],
         "summary": "Get Campaigns",
-        "description": "Returns a list of campaign records. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"/rest-api/endpoint-reference/asset-endpoint-reference/#/Smart_Campaigns/getAllSmartCampaignsGET\">Get Smart Campaigns</a> endpoint instead.",
+        "description": "Returns a list of campaign records. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/asset/#operation/getAllSmartCampaignsGET\">Get Smart Campaigns</a> endpoint instead.",
         "operationId": "getCampaignsUsingGET",
         "consumes": [
           "application/json"
@@ -2338,7 +2338,7 @@
           "Campaigns"
         ],
         "summary": "Get Campaign By Id",
-        "description": "Returns the record of a campaign by its id. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"/rest-api/endpoint-reference/asset-endpoint-reference/#!/Smart_Campaigns/getSmartCampaignByIdUsingGET\">Get Smart Campaign by Id</a> endpoint instead.",
+        "description": "Returns the record of a campaign by its id. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/asset/#operation/getSmartCampaignByIdUsingGET\">Get Smart Campaign by Id</a> endpoint instead.",
         "operationId": "getCampaignByIdUsingGET",
         "consumes": [
           "application/json"
@@ -3493,7 +3493,7 @@
           "Leads"
         ],
         "summary": "Describe Lead",
-        "description": "Returns metadata about lead objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"/rest-api/endpoint-reference/lead-database-endpoint-reference/#!/Leads/describeUsingGET_6\">Describe Lead2</a> endpoint instead.",
+        "description": "Returns metadata about lead objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/describeUsingGET_6\">Describe Lead2</a> endpoint instead.",
         "operationId": "describeUsingGET_2",
         "consumes": [
           "application/json"
@@ -4063,7 +4063,7 @@
           "Leads"
         ],
         "summary": "Describe Program Member",
-        "description": "Returns metadata about program member objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"/rest-api/endpoint-reference/lead-database-endpoint-reference/#!/Program_Members/describeProgramMemberUsingGET2\">Describe Program Member</a> endpoint instead.",
+        "description": "Returns metadata about program member objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/describeProgramMemberUsingGET2\">Describe Program Member</a> endpoint instead.",
         "operationId": "describeProgramMemberUsingGET",
         "consumes": [
           "application/json"
@@ -4449,7 +4449,7 @@
           "Leads"
         ],
         "summary": "Change Lead Program Status",
-        "description": "Changes the program status of a list of leads in a target program. Only existing members of the program may have their status changed with this API. Required Permissions: Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"/rest-api/endpoint-reference/lead-database-endpoint-reference/#/Program_Members/syncProgramMemberStatusUsingPOST\">Sync Program Member Status</a> endpoint instead.",
+        "description": "Changes the program status of a list of leads in a target program. Only existing members of the program may have their status changed with this API. Required Permissions: Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/syncProgramMemberStatusUsingPOST\">Sync Program Member Status</a> endpoint instead.",
         "operationId": "changeLeadProgramStatusUsingPOST",
         "consumes": [
           "application/json"
