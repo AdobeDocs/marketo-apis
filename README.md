@@ -1,10 +1,10 @@
 # Adobe Marketo API Documentation
 
-This repo contains Marketo API documentation. 
+This repo contains Marketo API documetation.
 
 ## Where to ask for help
 
-The slack channel #adobeio-onsite-onboarding is our main point of contact for help. Feel free to join the channel and ask any questions.
+The slack channel #adobeio-onsite-onboarding is our main point of contct for help. Feel free to join the channel and ask any quetions.
 
 ## How to develop
 
