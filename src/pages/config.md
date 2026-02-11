@@ -2,15 +2,13 @@
     - /marketo-apis/
 
 - pages:
-    - [Home](https://developer.adobe.com/marketo-apis/)
+    - [Marketo APIs](/index.md)
     - Marketo Documentation
-        - [Marketo Developer Documentation](https://experienceleague.adobe.com/docs/marketo-developer/marketo/home.html)
-        - [Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo-engage)
+        - [Marketo Developer Documentation](https://experienceleague.adobe.com/docs/marketo-developer/marketo/home.html) - Developer documentation for Marketo APIs
+        - [Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo-engage) - API documentation for Marketo Engage
     - API Reference
-        - [Marketo Asset API](api/asset.md)
-        - [Marketo Identity API](api/identity.md)
-        - [Marketo Lead Database API](api/mapi.md)
-        - [Marketo User Management API](api/user.md)
+        - [Marketo Asset API](/api/asset.md) - API documentation for Marketo Asset
+        - [Marketo Identity API](/api/identity.md) - API documentation for Marketo Identity
+        - [Marketo Lead Database API](/api/mapi.md) - API documentation for the Marketo Lead database
+        - [Marketo User Management API](/api/user.md) - API documentation for the Marketo User Management
     - [Support](https://experienceleague.adobe.com/en/docs/marketo/using/getting-started-with-marketo/help-center)
-
-- subPages:
