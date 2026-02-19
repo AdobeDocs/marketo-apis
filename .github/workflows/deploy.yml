@@ -12,7 +12,7 @@ on:
         required: true
         default: "prod"
         options:
-          - "stage"
+          - "prod"
           - "stage & prod"
       baseSha:
         description: "Use base SHA commit to deploy from (empty string defaults to last commit before HEAD)"
@@ -30,4 +30,4 @@ jobs:
     with:
       env: ${{ inputs.env || 'prod' }}
       baseSha: ${{ inputs.baseSha || '' }}
-      deployAll: ${{ inputs.deployAll || true }}
+      deployAll: ${{ inputs.deployAll }}
