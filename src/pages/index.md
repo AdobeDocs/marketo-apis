@@ -3,7 +3,7 @@ title: Marketo Engage API Documentation
 description: A guide to using Marketo Engage APIs
 ---
 
-<Hero slots="heading, text"/>
+<SuperHero slots="heading, text"/>
 
 # Marketo Engage API
 
