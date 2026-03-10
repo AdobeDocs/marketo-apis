@@ -28,16 +28,8 @@
       "description": "Email Template Controller"
     },
     {
-      "name": "Email Templates (New)",
-      "description": "New Email Template Controller for Acrite assets."
-    },
-    {
       "name": "Emails",
       "description": "Email Controller"
-    },
-    {
-      "name": "Emails (New)",
-      "description": "New Email Controller for Acrite assets"
     },
     {
       "name": "File Contents",
@@ -58,10 +50,6 @@
     {
       "name": "Forms",
       "description": "Form Controller"
-    },
-    {
-      "name": "Fragments (New)",
-      "description": "New Fragment Controller. New version of Snippets"
     },
     {
       "name": "Landing Page Content",
@@ -183,150 +171,6 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/ResponseOfChannelResponse"
-            }
-          }
-        }
-      }
-    },
-    "/rest/asset/v2/email": {
-      "post": {
-        "tags": [
-          "Emails (New)"
-        ],
-        "summary": "Creates a new email asset. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
-        "operationId": "createContentUsingPOST_email",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "access_token",
-            "in": "query",
-            "description": "Token for Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "x-app-type",
-            "in": "header",
-            "description": "Application type header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "createEmailRequest",
-            "description": "createEmailRequest",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateEmailRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
-          }
-        }
-      }
-    },
-    "/rest/asset/v2/emailtemplate": {
-      "post": {
-        "tags": [
-          "Email Templates (New)"
-        ],
-        "summary": "Creates a new email template. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
-        "operationId": "createContentUsingPOST_emailtemplate",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "access_token",
-            "in": "query",
-            "description": "Token for Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "x-app-type",
-            "in": "header",
-            "description": "Application type header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "createEmailTemplateRequest",
-            "description": "createEmailTemplateRequest",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateEmailTemplateRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
-          }
-        }
-      }
-    },
-    "/rest/asset/v2/fragment": {
-      "post": {
-        "tags": [
-          "Fragments (New)"
-        ],
-        "summary": "Creates a new fragment. Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
-        "operationId": "createContentUsingPOST_fragment",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "access_token",
-            "in": "query",
-            "description": "Token for Authorization",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "x-app-type",
-            "in": "header",
-            "description": "Application type header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "createFragmentRequest",
-            "description": "createFragmentRequest",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateFragmentRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
             }
           }
         }
