@@ -32,7 +32,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Creates a new email asset. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
+        "summary": "Creates a new email asset",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
         "operationId": "createContentUsingPOST_email",
         "consumes": [
           "application/json"
@@ -80,7 +81,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Creates a new email template. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
+        "summary": "Creates a new email template",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
         "operationId": "createContentUsingPOST_emailtemplate",
         "consumes": [
           "application/json"
@@ -128,7 +130,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Creates a new fragment. Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
+        "summary": "Creates a new fragment",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
         "operationId": "createContentUsingPOST_fragment",
         "consumes": [
           "application/json"
@@ -176,7 +179,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Clones an existing email asset. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
+        "summary": "Clones an existing email asset",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
         "operationId": "cloneContentUsingPOST_email",
         "consumes": [
           "application/json"
@@ -224,7 +228,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Clones an existing email template. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
+        "summary": "Clones an existing email template",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
         "operationId": "cloneContentUsingPOST_emailtemplate",
         "consumes": [
           "application/json"
@@ -272,7 +277,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Clones an existing fragment. Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
+        "summary": "Clones an existing fragment",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
         "operationId": "cloneContentUsingPOST_fragment",
         "consumes": [
           "application/json"
@@ -320,7 +326,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Filters and lists email assets by the given criteria. Required Permissions: Read-Only Assets, Access Design Studio, Access Email",
+        "summary": "Filters and lists email assets by the given criteria",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio, Access Email",
         "operationId": "filterContentUsingGET_email",
         "produces": [
           "application/json"
@@ -496,7 +503,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Filters and lists email templates by the given criteria. Required Permissions: Read-Only Assets, Access Design Studio, Access Email Template",
+        "summary": "Filters and lists email templates by the given criteria",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio, Access Email Template",
         "operationId": "filterContentUsingGET_emailtemplate",
         "produces": [
           "application/json"
@@ -666,7 +674,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Filters and lists fragments by the given criteria. Required Permissions: Read-Only Assets, Access Design Studio, Access Snippet",
+        "summary": "Filters and lists fragments by the given criteria",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio, Access Snippet",
         "operationId": "filterContentUsingGET_fragment",
         "produces": [
           "application/json"
@@ -842,7 +851,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Performs a state transition on an email. Required Permissions: Read-Write Assets, Access Design Studio, Approve Email",
+        "summary": "Performs a state transition on an email",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Approve Email",
         "operationId": "stateTransitionUsingPOST_email",
         "consumes": [
           "application/json"
@@ -890,7 +900,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Performs a state transition on an email template. Required Permissions: Read-Write Assets, Access Design Studio, Approve Email Template",
+        "summary": "Performs a state transition on an email template",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Approve Email Template",
         "operationId": "stateTransitionUsingPOST_emailtemplate",
         "consumes": [
           "application/json"
@@ -938,7 +949,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Performs a state transition on a fragment. Required Permissions: Read-Write Assets, Access Design Studio, Approve Snippet",
+        "summary": "Performs a state transition on a fragment",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Approve Snippet",
         "operationId": "stateTransitionUsingPOST_fragment",
         "consumes": [
           "application/json"
@@ -986,7 +998,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Returns a list of assets that reference the specified email. Required Permissions: Read-Only Assets, Access Design Studio",
+        "summary": "Returns a list of assets that reference the specified email",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio",
         "operationId": "getContentUsedByUsingPOST_email",
         "consumes": [
           "application/json"
@@ -1034,7 +1047,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Returns a list of assets that reference the specified email template. Required Permissions: Read-Only Assets, Access Design Studio",
+        "summary": "Returns a list of assets that reference the specified email template",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio",
         "operationId": "getContentUsedByUsingPOST_emailtemplate",
         "consumes": [
           "application/json"
@@ -1082,7 +1096,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Returns a list of assets that reference the specified fragment. Required Permissions: Read-Only Assets, Access Design Studio",
+        "summary": "Returns a list of assets that reference the specified fragment",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio",
         "operationId": "getContentUsedByUsingPOST_fragment",
         "consumes": [
           "application/json"
@@ -1130,7 +1145,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Retrieves an email asset by its ID. Required Permissions: Read-Only Assets, Access Design Studio, Access Email",
+        "summary": "Retrieves an email asset by its ID",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio, Access Email",
         "operationId": "getContentUsingGET_email",
         "produces": [
           "application/json"
@@ -1173,7 +1189,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Retrieves an email template by its ID. Required Permissions: Read-Only Assets, Access Design Studio, Access Email Template",
+        "summary": "Retrieves an email template by its ID",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio, Access Email Template",
         "operationId": "getContentUsingGET_emailtemplate",
         "produces": [
           "application/json"
@@ -1216,7 +1233,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Retrieves a fragment by its ID. Required Permissions: Read-Only Assets, Access Design Studio, Access Snippet",
+        "summary": "Retrieves a fragment by its ID",
+        "description": "Required Permissions: Read-Only Assets, Access Design Studio, Access Snippet",
         "operationId": "getContentUsingGET_fragment",
         "produces": [
           "application/json"
@@ -1259,7 +1277,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Deletes an email asset by its ID. Required Permissions: Read-Write Assets, Access Design Studio, Delete Email",
+        "summary": "Deletes an email asset by its ID",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Delete Email",
         "operationId": "deleteContentUsingPOST_email",
         "consumes": [
           "application/json"
@@ -1305,7 +1324,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Deletes an email template by its ID. Required Permissions: Read-Write Assets, Access Design Studio, Delete Email Template",
+        "summary": "Deletes an email template by its ID",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Delete Email Template",
         "operationId": "deleteContentUsingPOST_emailtemplate",
         "consumes": [
           "application/json"
@@ -1351,7 +1371,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Deletes a fragment by its ID. Required Permissions: Read-Write Assets, Access Design Studio, Delete Snippet",
+        "summary": "Deletes a fragment by its ID",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Delete Snippet",
         "operationId": "deleteContentUsingPOST_fragment",
         "consumes": [
           "application/json"
@@ -1397,7 +1418,8 @@
         "tags": [
           "Emails (New)"
         ],
-        "summary": "Updates an existing email asset. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
+        "summary": "Updates an existing email asset",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Email",
         "operationId": "updateContentUsingPOST_email",
         "consumes": [
           "application/json"
@@ -1452,7 +1474,8 @@
         "tags": [
           "Email Templates (New)"
         ],
-        "summary": "Updates an existing email template. Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
+        "summary": "Updates an existing email template",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Email Template",
         "operationId": "updateContentUsingPOST_emailtemplate",
         "consumes": [
           "application/json"
@@ -1507,7 +1530,8 @@
         "tags": [
           "Fragments (New)"
         ],
-        "summary": "Updates an existing fragment. Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
+        "summary": "Updates an existing fragment",
+        "description": "Required Permissions: Read-Write Assets, Access Design Studio, Edit Snippet",
         "operationId": "updateContentUsingPOST_fragment",
         "consumes": [
           "application/json"
