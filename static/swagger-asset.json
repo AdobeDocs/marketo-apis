@@ -10162,6 +10162,10 @@
           "type": "string",
           "description": "Id of the field"
         },
+        "fieldType": {
+          "type": "string",
+          "description": "Specifies the field type." 
+        },
         "fieldWidth": {
           "type": "integer",
           "format": "int32",
