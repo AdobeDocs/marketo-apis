@@ -30,8 +30,16 @@
       "description": "Email Template Controller"
     },
     {
+      "name": "Email Templates (New)",
+      "description": "API endpoints for managing email templates created with the new Email Designer in Marketo Engage."
+    },
+    {
       "name": "Emails",
       "description": "Email Controller"
+    },
+    {
+      "name": "Emails (New)",
+      "description": "API endpoints for managing emails created with the new Email Designer in Marketo Engage."
     },
     {
       "name": "File Contents",
@@ -53,6 +61,10 @@
       "name": "Forms",
       "description": "Form Controller"
     },
+    {
+      "name": "Fragments (New)",
+      "description": "API endpoints for managing fragments created with the new Email Designer in Marketo Engage."
+    }
     {
       "name": "Landing Page Content",
       "description": "Landing Page Content Controller"
@@ -101,18 +113,6 @@
       "name": "Tokens",
       "description": "Token Controller"
     },
-    {
-      "name": "Emails (New)",
-      "description": "API endpoints for managing emails created with the new Email Designer in Marketo Engage."
-    },
-    {
-      "name": "Email Templates (New)",
-      "description": "API endpoints for managing email templates created with the new Email Designer in Marketo Engage."
-    },
-    {
-      "name": "Fragments (New)",
-      "description": "API endpoints for managing fragments created with the new Email Designer in Marketo Engage."
-    }
   ],
   "paths": {
     "/rest/asset/v1/channel/byName.json": {
