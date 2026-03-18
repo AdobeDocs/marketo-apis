@@ -64,7 +64,7 @@
     {
       "name": "Fragments (New)",
       "description": "API endpoints for managing fragments created with the new Email Designer in Marketo Engage."
-    }
+    },
     {
       "name": "Landing Page Content",
       "description": "Landing Page Content Controller"
