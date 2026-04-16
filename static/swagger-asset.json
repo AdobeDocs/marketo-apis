@@ -7184,7 +7184,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -7233,7 +7234,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -7282,7 +7284,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -7331,7 +7334,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -7380,7 +7384,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -7429,7 +7434,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -7475,7 +7481,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "workspaceId",
@@ -7652,7 +7659,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "workspaceId",
@@ -7823,7 +7831,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "workspaceId",
@@ -8003,7 +8012,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -8052,7 +8062,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -8101,7 +8112,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -8150,7 +8162,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -8199,7 +8212,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -8248,7 +8262,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "in": "body",
@@ -8294,7 +8309,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8338,7 +8354,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8382,7 +8399,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8429,7 +8447,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8476,7 +8495,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8523,7 +8543,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8570,7 +8591,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8626,7 +8648,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
@@ -8682,7 +8705,8 @@
             "in": "header",
             "description": "Application type header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["marketo"]
           },
           {
             "name": "id",
