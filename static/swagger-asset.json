@@ -112,7 +112,7 @@
     {
       "name": "Tokens",
       "description": "Token Controller"
-    },
+    }
   ],
   "paths": {
     "/rest/asset/v1/channel/byName.json": {
