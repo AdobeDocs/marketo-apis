@@ -1588,7 +1588,7 @@
           "Activities"
         ],
         "summary": "Get Lead Activities",
-        "description": "Returns a list of activities from after a datetime given by the nextPageToken parameter. Also allows for filtering by lead static list membership, or by a list of up to 30 lead ids. Required Permissions: Read-Only Activity, Read-Write Activity",
+        "description": "Returns a list of activities from after a datetime given by the `nextPageToken` parameter. Also allows for filtering by lead static list membership, or by a list of up to 30 lead ids. Beginning 2026-12-30, calls to the `Get Lead Activities` and `Get Lead Changes` endpoints which includes the `listId` parameter will fail (error code 1003) if the target lists contain 10,000 or more leads. To avoid service disruptions, ensure that calls are properly scoped to avoid this limit. Required Permissions: Read-Only Activity, Read-Write Activity",
         "operationId": "getLeadActivitiesUsingGET",
         "consumes": [
           "application/json"
@@ -2115,7 +2115,7 @@
           "Activities"
         ],
         "summary": "Get Lead Changes",
-        "description": "Returns a list of Data Value Changes and New Lead activities after a given datetime. Required Permissions: Read-Only Activity, Read-Write Activity",
+        "description": "Returns a list of Data Value Changes and New Lead activities after a given datetime. Beginning 2026-12-30, calls to the `Get Lead Activities` and `Get Lead Changes` endpoints which includes the `listId` parameter will fail (error code 1003) if the target lists contain 10,000 or more leads. To avoid service disruptions, ensure that calls are properly scoped to avoid this limit. Required Permissions: Read-Only Activity, Read-Write Activity",
         "operationId": "getLeadChangesUsingGET",
         "consumes": [
           "application/json"
