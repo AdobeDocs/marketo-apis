@@ -11326,8 +11326,8 @@
           "type": "string",
           "description": "Filter program membership records for a given nurture cadence",
           "enum": [
-            "paus",
-            "norm"
+            "paused",
+            "normal"
           ]
         },
         "statusNames": {
