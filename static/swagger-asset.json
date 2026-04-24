@@ -10749,7 +10749,7 @@
           "description": "Id of the parent template"
         },
         "textOnly": {
-          "type": "string",
+          "type": "boolean",
           "description": "Setting to include text-only version of email when sent"
         }
       }
