@@ -196,7 +196,7 @@
           "Emails"
         ],
         "summary": "Get Email by Name",
-        "description": "Returns an email records based on the given name. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns email records based on the given name. Required Permissions: Read-Only Assets, Read-Write Assets",
         "operationId": "getEmailByNameUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -247,7 +247,7 @@
           "Emails"
         ],
         "summary": "Get Email By Id",
-        "description": "Returns an email records by its id. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns an email record by its id. Required Permissions: Read-Only Assets, Read-Write Assets",
         "operationId": "getEmailByIdUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -850,7 +850,7 @@
           "Emails"
         ],
         "summary": "Get Email Dynamic Content",
-        "description": "Retrieves the dyanmic content record for the given section. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Retrieves the dynamic content record for the given section. Required Permissions: Read-Only Assets, Read-Write Assets",
         "operationId": "getEmailDynamicContentUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
