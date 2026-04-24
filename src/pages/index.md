@@ -13,7 +13,7 @@ The Adobe Marketo Engage APIs allow you to directly call Adobe's servers to perf
 
 This documentation provides instructions for Marketo APIs.
 
-Marketo API include REST, SOAP, Javascript, and User Management APIs, plus code for working with mobile devices and email templates.
+Marketo APIs include REST, SOAP, Javascript, and User Management APIs, plus code for working with mobile devices and email templates.
 
 The REST API allows for remote execution of many of the system's capabilities. From creating programs to bulk lead import, there are a large number of options which allow fine-grained control of a Marketo instance.
 
@@ -39,7 +39,7 @@ Learn how to configure and use Marketo Engage.
 
 ### API References
 
-Marketo provides three REST APIs for interacting with your data.
+Marketo provides four REST APIs for interacting with your data.
 
 [Marketo Asset](api/asset.md) includes:
 
