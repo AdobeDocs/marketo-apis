@@ -11227,14 +11227,6 @@
     },
     "ExportLeadFilter": {
       "type": "object",
-      "required": [
-        "createdAt",
-        "smartListId",
-        "smartListName",
-        "staticListId",
-        "staticListName",
-        "updatedAt"
-      ],
       "properties": {
         "createdAt": {
           "description": "Date range to filter new leads on",
@@ -11266,13 +11258,6 @@
     },
     "ExportCustomObjectFilter": {
       "type": "object",
-      "required": [
-        "updatedAt",	  
-        "smartListId",
-        "smartListName",
-        "staticListId",
-        "staticListName"
-      ],
       "properties": {
         "updatedAt": {
           "description": "Date range to filter updated custom objects on",
@@ -11300,10 +11285,6 @@
     },	
     "ExportProgramMemberFilter": {
       "type": "object",
-      "required": [
-        "programId",
-        "programIds"		
-      ],
       "properties": {	  
         "programId": {
           "type": "integer",
