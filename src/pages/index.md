@@ -37,47 +37,39 @@ Learn about Marketo.
 
 Learn how to configure and use Marketo Engage.
 
-<Cards slots="heading, text, links" width="33%" />
+## APIs
+
+<DiscoverBlock slots="heading, text"/>
 
 ### Asset API
 
-[Marketo Asset](api/asset.md)
+Use the [Marketo Asset](api/asset.md) to manage emails and templates, snippets, programs, form and more.
 
-Use the Asset API to manage emails and templates, snippets, programs, form and more.
-
-<Cards slots="heading, text, links" width="33%" />
+<DiscoverBlock slots="heading, text"/>
 
 ### Identity API
 
-[Marketo Identity](api/identity.md)
+[Marketo Identity](api/identity.md) retrieves access tokens for Marketo users.
 
-Retrieves access tokens for Marketo users.
-
-<Cards slots="heading, text, links" width="33%" />
+<DiscoverBlock slots="heading, text"/>
 
 ### Lead Database API
 
-[Marketo Lead Database](api/mapi.md)
+Use the [Marketo Lead Database](api/mapi.md) API to manage leads, accounts, opportunities, and more.
 
-Use the Lead Database API to manage leads, accounts, opportunities, and more.
-
-<Cards slots="heading, text, links" width="33%" />
+<DiscoverBlock slots="heading, text"/>
 
 ### User Management API
 
-[Marketo User Management](api/user.md)
+The [User Management](api/user.md) endpoints allow you to perform CRUD operations on user records in Marketo.
 
-The User Management endpoints allow you to perform CRUD operations on user records in Marketo.
-
-<Cards slots="heading, text, links" width="33%" />
+<Cards slots="heading, text"/>
 
 ### Lists API
 
-[Marketo Lists](api/lists.md)
+[Marketo Lists](api/lists.md) adds and removes leads to a static list
 
-Add and remove leads to a static list
-
-<Cards slots="heading, text, links" width="33%" />
+<DiscoverBlock slots="heading, text"/>
 
 ### Data Ingestion API
 
