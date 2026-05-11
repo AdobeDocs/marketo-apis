@@ -37,20 +37,15 @@ Learn about Marketo.
 
 Learn how to configure and use Marketo Engage.
 
+---
+
 <Cards slots="heading, text, links" width="33%" />
 
 ## Asset API
 
 [Marketo Asset](api/asset.md)
 
-* Folders
-* Programs
-* Emails and email templates
-* Landing pages and landing page templates
-* Snippets
-* Forms
-* Tokens
-* Files
+Use the Asset API to manage emails and templates, snippets, programs, form and more.
 
 <Cards slots="heading, text, links" width="33%" />
 
@@ -66,15 +61,7 @@ Retrieves access tokens for Marketo users.
 
 [Marketo Lead Database](api/mapi.md)
 
-* Leads
-* Companies/Accounts
-* Named Accounts
-* Opportunities
-* Opportunity Roles
-* Sales Persons
-* Custom Objects
-* Activities
-* List and Program Membership
+Use the Lead Database API to manage leads, accounts, opportunities, and more.
 
 <Cards slots="heading, text, links" width="33%" />
 
@@ -82,7 +69,7 @@ Retrieves access tokens for Marketo users.
 
 [Marketo User Management](api/user.md)
 
-The User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
+The User Management endpoints allow you to perform CRUD operations on user records in Marketo.
 
 <Cards slots="heading, text, links" width="33%" />
 
@@ -90,8 +77,7 @@ The User Management endpoints allow you to perform CRUD operations on user recor
 
 [Marketo Lists](api/lists.md)
 
-* Add leads to a static list
-* Remove leads from a static list
+Add and remove leads to a static list
 
 <Cards slots="heading, text, links" width="33%" />
 
@@ -99,13 +85,7 @@ The User Management endpoints allow you to perform CRUD operations on user recor
 
 [Marketo Data Ingestion](api/data-ingestion.md)
 
-* Upsert person/lead records
-* Upsert custom object records by type
-* Sync company records (create, update, or upsert)
-* Add or update program member status for leads
-* Remove leads from programs
-* Add leads to a static list
-* Remove leads from a static list
+Use the Data Ingestion API to bulk import your Marketo data.
 
 <Resources slots="heading, links"/>
 
