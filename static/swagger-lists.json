@@ -1,0 +1,199 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ingestion Edge Service - Lists API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Default Server URL"
+    }
+  ],
+  "security": [
+    {
+      "Authorization": []
+    }
+  ],
+  "paths": {
+    "/subscriptions/{munchkinId}/lists": {
+      "post": {
+        "tags": ["Lists"],
+        "description": "Add leads to a static list.",
+        "operationId": "addToList",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListOperationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing"
+          },
+          "400": {
+            "description": "Bad Request – validation error (e.g. leads not specified, number of leads exceeded max size, invalid listId)"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/subscriptions/{munchkinId}/lists/remove": {
+      "post": {
+        "tags": ["Lists"],
+        "description": "Remove leads from a static list.",
+        "operationId": "removeFromList",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListOperationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing"
+          },
+          "400": {
+            "description": "Bad Request – validation error (e.g. leads not specified, number of leads exceeded max size, invalid listId)"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Lead": {
+        "required": ["leadId"],
+        "type": "object",
+        "properties": {
+          "leadId": {
+            "type": "integer",
+            "description": "Lead ID. Required.",
+            "format": "int64",
+            "example": 1001
+          }
+        },
+        "description": "Lead reference for list membership. leadId is required."
+      },
+      "ListOperationRequest": {
+        "required": ["input", "listId"],
+        "type": "object",
+        "properties": {
+          "listId": {
+            "type": "integer",
+            "description": "Static list ID. Required.",
+            "format": "int64",
+            "example": 1001
+          },
+          "input": {
+            "type": "array",
+            "description": "List of lead references. Required. Each must include leadId.",
+            "items": {
+              "$ref": "#/components/schemas/Lead"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "in": "header",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
