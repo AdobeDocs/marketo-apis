@@ -773,7 +773,7 @@
         },
        "userid": {
           "type": "string",
-          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID."		  
+          "description": "Marketo Identity users should use an email address. Adobe Identity users should use the generated GUID."		  
         },		
        "reason": {
           "type": "string",
@@ -875,7 +875,7 @@
         },
         "userid": {
           "type": "string",
-          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID." 		  
+          "description": "Marketo Identity users should use an email address. Adobe Identity users should use the generated GUID." 		  
         }
       },
       "title": "ResponseOfUser"
@@ -921,7 +921,7 @@
         },
         "userid": {
           "type": "string",
-          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID." 		  
+          "description": "Marketo Identity users should use an email address. Adobe Identity users should use the generated GUID." 		  
         },		
         "subscriptionId": {
           "type": "string",
@@ -993,7 +993,7 @@
         },
         "userid": {
           "type": "string",
-          "description": "Marketo Identity users should an email address. Adobe Identity users should use the generated GUID." 		  
+          "description": "Marketo Identity users should use an email address. Adobe Identity users should use the generated GUID." 		  
         }
       },
       "title": "ResponseOfAllUsers"
@@ -1020,10 +1020,9 @@
           "format": "int32"
         },
         "workspaceName": {
-          "type": "integer",
-          "description": "User workspace name",		  		  		  		  		  
-          "format": "int32"
-        }		
+          "type": "string",
+          "description": "User workspace name"
+        }
       },
       "title": "UserRoleWorkspace"
     },

@@ -166,7 +166,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -196,7 +196,7 @@
           "Emails"
         ],
         "summary": "Get Email by Name",
-        "description": "Returns an email records based on the given name. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns email records based on the given name. Required Permissions: Read-Only Assets, Read-Write Assets",
         "operationId": "getEmailByNameUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -247,7 +247,7 @@
           "Emails"
         ],
         "summary": "Get Email By Id",
-        "description": "Returns an email records by its id. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns an email record by its id. Required Permissions: Read-Only Assets, Read-Write Assets",
         "operationId": "getEmailByIdUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -850,7 +850,7 @@
           "Emails"
         ],
         "summary": "Get Email Dynamic Content",
-        "description": "Retrieves the dyanmic content record for the given section. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Retrieves the dynamic content record for the given section. Required Permissions: Read-Only Assets, Read-Write Assets",
         "operationId": "getEmailDynamicContentUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1552,7 +1552,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -1646,7 +1646,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -2231,7 +2231,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -3474,9 +3474,10 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of forms to return. Max 200, default 20",
             "required": false,
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           {
             "name": "offset",
@@ -3615,7 +3616,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -4663,7 +4664,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -5205,7 +5206,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -5508,7 +5509,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -5674,7 +5675,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -6573,7 +6574,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -7133,7 +7134,7 @@
           {
             "name": "maxReturn",
             "in": "query",
-            "description": "Maximum number of channels to return. Max 200, default 20",
+            "description": "Maximum number of records to return. Max 200, default 20",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -9751,7 +9752,7 @@
         "maxReturn": {
           "type": "integer",
           "format": "int32",
-          "description": "Maximum number of channels to return. Max 200, default 20"
+          "description": "Maximum number of records to return. Max 200, default 20"
         },
         "offset": {
           "type": "integer",
@@ -10749,7 +10750,7 @@
           "description": "Id of the parent template"
         },
         "textOnly": {
-          "type": "string",
+          "type": "boolean",
           "description": "Setting to include text-only version of email when sent"
         }
       }
