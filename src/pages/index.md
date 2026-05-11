@@ -37,11 +37,9 @@ Learn about Marketo.
 
 Learn how to configure and use Marketo Engage.
 
----
-
 <Cards slots="heading, text, links" width="33%" />
 
-## Asset API
+### Asset API
 
 [Marketo Asset](api/asset.md)
 
@@ -49,7 +47,7 @@ Use the Asset API to manage emails and templates, snippets, programs, form and m
 
 <Cards slots="heading, text, links" width="33%" />
 
-## Identity API
+### Identity API
 
 [Marketo Identity](api/identity.md)
 
@@ -57,7 +55,7 @@ Retrieves access tokens for Marketo users.
 
 <Cards slots="heading, text, links" width="33%" />
 
-## Lead Database API
+### Lead Database API
 
 [Marketo Lead Database](api/mapi.md)
 
@@ -65,7 +63,7 @@ Use the Lead Database API to manage leads, accounts, opportunities, and more.
 
 <Cards slots="heading, text, links" width="33%" />
 
-## User Management API
+### User Management API
 
 [Marketo User Management](api/user.md)
 
@@ -73,7 +71,7 @@ The User Management endpoints allow you to perform CRUD operations on user recor
 
 <Cards slots="heading, text, links" width="33%" />
 
-## Lists API
+### Lists API
 
 [Marketo Lists](api/lists.md)
 
@@ -81,7 +79,7 @@ Add and remove leads to a static list
 
 <Cards slots="heading, text, links" width="33%" />
 
-## Data Ingestion API
+### Data Ingestion API
 
 [Marketo Data Ingestion](api/data-ingestion.md)
 
