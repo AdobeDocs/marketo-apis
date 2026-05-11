@@ -56,13 +56,15 @@ Learn how to configure and use Marketo Engage.
 
 ## Identity API
 
-[Marketo Identity](api/identity.md) - Retrieves access tokens for Marketo users.
+[Marketo Identity](api/identity.md)
+
+Retrieves access tokens for Marketo users.
 
 <DiscoverBlock slots="heading, link, text"/>
 
 ## Lead Database API
 
-[Marketo Lead Database](api/mapi.md) includes the following:
+[Marketo Lead Database](api/mapi.md)
 
 * Leads
 * Companies/Accounts
@@ -82,20 +84,20 @@ Learn how to configure and use Marketo Engage.
 
 The User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
 
-<DiscoverBlock slots="heading,  link,text"/>
+<DiscoverBlock slots="heading,link,text"/>
 
 ## Lists API
 
-[Marketo Lists](api/lists.md) includes:
+[Marketo Lists](api/lists.md)
 
 * Add leads to a static list
 * Remove leads from a static list
 
-<DiscoverBlock slots="heading,  link,text"/>
+<DiscoverBlock slots="heading,link,text"/>
 
 ## Data Ingestion API
 
-[Marketo Data Ingestion](api/data-ingestion.md) includes:
+[Marketo Data Ingestion](api/data-ingestion.md)
 
 * Upsert person/lead records
 * Upsert custom object records by type
