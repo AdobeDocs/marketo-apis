@@ -41,7 +41,7 @@ Learn how to configure and use Marketo Engage.
 
 ## Asset API
 
-[Marketo Asset](api/asset.md) includes:
+[Marketo Asset](api/asset.md)
 
 * Folders
 * Programs
