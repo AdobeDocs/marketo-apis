@@ -21,7 +21,7 @@ The following User Management APIs are only available to users that are on [Mark
 
 ## Discover
 
-<DiscoverBlock width="100%" slots="heading, link, text"/>
+<DiscoverBlock width="100%" slots="heading, text"/>
 
 ### Get Started
 
@@ -29,7 +29,7 @@ The following User Management APIs are only available to users that are on [Mark
 
 Learn about Marketo.
 
-<DiscoverBlock slots="heading, link, text"/>
+<DiscoverBlock slots="heading, text"/>
 
 ### Guides
 
@@ -37,7 +37,7 @@ Learn about Marketo.
 
 Learn how to configure and use Marketo Engage.
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 ## Asset API
 
@@ -52,13 +52,13 @@ Learn how to configure and use Marketo Engage.
 * Tokens
 * Files
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 ## Identity API
 
 [Marketo Identity](api/identity.md) - Retrieves access tokens for Marketo users.
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 ## Lead Database API
 
@@ -74,7 +74,7 @@ Learn how to configure and use Marketo Engage.
 * Activities
 * List and Program Membership
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, link, text"/>
 
 ## User Management API
 
@@ -82,7 +82,7 @@ Learn how to configure and use Marketo Engage.
 
 The User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading,  link,text"/>
 
 ## Lists API
 
@@ -91,7 +91,7 @@ The User Management endpoints allow you to perform CRUD operations on user recor
 * Add leads to a static list
 * Remove leads from a static list
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading,  link,text"/>
 
 ## Data Ingestion API
 
