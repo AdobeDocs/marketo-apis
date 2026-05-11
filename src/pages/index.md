@@ -39,37 +39,37 @@ Learn how to configure and use Marketo Engage.
 
 ## APIs
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, text" width="33%"/>
 
 ### Asset API
 
 Use the [Marketo Asset](api/asset.md) to manage emails and templates, snippets, programs, form and more.
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, text" width="33%"/>
 
 ### Identity API
 
 [Marketo Identity](api/identity.md) retrieves access tokens for Marketo users.
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, text" width="33%"/>
 
 ### Lead Database API
 
 Use the [Marketo Lead Database](api/mapi.md) API to manage leads, accounts, opportunities, and more.
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, text" width="33%"/>
 
 ### User Management API
 
 The [User Management](api/user.md) endpoints allow you to perform CRUD operations on user records in Marketo.
 
-<Cards slots="heading, text"/>
+<DiscoverBlock slots="heading, text" width="33%"/>
 
 ### Lists API
 
 [Marketo Lists](api/lists.md) adds and removes leads to a static list
 
-<DiscoverBlock slots="heading, text"/>
+<DiscoverBlock slots="heading, text" width="33%"/>
 
 ### Data Ingestion API
 
