@@ -65,12 +65,6 @@ The [User Management](api/user.md) endpoints allow you to perform CRUD operation
 
 <DiscoverBlock slots="heading, text" width="33%"/>
 
-### Lists API
-
-[Marketo Lists](api/lists.md) adds and removes leads to a static list
-
-<DiscoverBlock slots="heading, text" width="33%"/>
-
 ### Data Ingestion API
 
 [Marketo Data Ingestion](api/data-ingestion.md)
