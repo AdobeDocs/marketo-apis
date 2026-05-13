@@ -30,13 +30,6 @@
         "summary": "Identity",
         "description": "Retrieve an access token from Marketo Engage. Calls to this endpoint are not counted towards API call limit.\n",
         "operationId": "identityUsingGET",
-        "x-codeSamples": [
-          {
-            "lang": "curl",
-            "label": "MCP",
-            "source": " "
-          }
-        ],
         "parameters": [
           {
             "name": "client_id",
