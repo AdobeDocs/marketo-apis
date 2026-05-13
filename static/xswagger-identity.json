@@ -30,6 +30,13 @@
         "summary": "Identity",
         "description": "Retrieve an access token from Marketo Engage. Calls to this endpoint are not counted towards API call limit.\n",
         "operationId": "identityUsingGET",
+        "x-badges": [
+          {
+            "name": "MCP",
+            "position": "before",
+            "color": "#2D9D78"
+          }
+        ],
         "parameters": [
           {
             "name": "client_id",
@@ -85,6 +92,13 @@
         "summary": "Identity",
         "description": "Retrieve an access token from Marketo. Calls to this endpoint are not counted towards API call limit.\n",
         "operationId": "identityUsingPOST",
+        "x-badges": [
+          {
+            "name": "MCP",
+            "position": "before",
+            "color": "#2D9D78"
+          }
+        ],
         "parameters": [
           {
             "name": "client_id",
