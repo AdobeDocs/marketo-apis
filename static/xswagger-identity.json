@@ -78,7 +78,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/ResponseOfIdentity"
+                  "$ref": "#/components/schemas/ResponseOfIdentity"
                 }
               }
             }
@@ -140,7 +140,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/ResponseOfIdentity"
+                  "$ref": "#/components/schemas/ResponseOfIdentity"
                 }
               }
             }
