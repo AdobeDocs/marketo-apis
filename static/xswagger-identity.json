@@ -27,7 +27,7 @@
         "tags": [
           "Identity"
         ],
-        "summary": "Identity",
+        "summary": "Identity [MCP]",
         "description": "Retrieve an access token from Marketo Engage. Calls to this endpoint are not counted towards API call limit.\n",
         "operationId": "identityUsingGET",
         "parameters": [
