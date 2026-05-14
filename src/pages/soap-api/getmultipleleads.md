@@ -25,7 +25,7 @@ A common use case for this endpoint is to find leads that were updated on specif
 | --- | --- | --- |
 | leadSelector | Required | Can be one of the following 3 types:`LeadKeySelector`, `StaticListSelector`,`LastUpdateAtSelector` |
 | keyType | Required | The id type that you wish to query. Values include IDNUM, COOKIE, EMAIL, LEADOWNEREMAIL, SFDCACCOUNTID, SFDCCONTACTID, SFDCLEADID, SFDCLEADOWNERID, SFDCOPPTYID. |
-| keyValues->stringItem | Required | List of key values. That is, "<lead@email.com>" |
+| keyValues->stringItem | Required | List of key values. That is, "lead@email.com" |
 | LastUpdateAtSelector: leadSelector->oldestUpdatedAt | Required | The timestamp to specify the "since" criteria. That is, Return all leads updated since the specified time. (W3C WSDL date-time format) |
 | LastUpdateAtSelector: leadSelector->latestUpdatedAt | Optional | The timestamp to specify the "until" criteria. That is, Return all leads updated up until the specified time. (W3C WSDL date-time format) |
 | StaticListSelector: leadSelector->staticListName | Optional when `leadSelector->staticListId` is present | The name of the static list |

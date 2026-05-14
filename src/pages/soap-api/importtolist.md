@@ -17,9 +17,9 @@ This function lets you import a list of leads into an existing Static List in Ma
 
 | Email | First | Last |
 | --- | --- | --- |
-| <joe@company.com> | Joe | Smith |
-| <mary@company.com> | Mary | Rodgers |
-| <wanda@megacorp.com> | Wanda | Williams |
+| joe@company.com | Joe | Smith |
+| mary@company.com | Mary | Rodgers |
+| wanda@megacorp.com | Wanda | Williams |
 
 `displayName` values should be used in the `importFileHeader` rather than the `name` values.
 
@@ -27,9 +27,9 @@ This function lets you import a list of leads into an existing Static List in Ma
 
 | Email | First | Last | `{{my.specialToken}}` | `{{my.otherToken}}` |
 | --- | --- | --- | --- | --- |
-| <joe@company.com> | Joe | Smith | Fish | Blue |
-| <mary@company.com> | Mary | Rodgers | Chicken | Brown |
-| <wanda@megacorp.com> | Wanda | Williams | Veggie | Hazel |
+| joe@company.com | Joe | Smith | Fish | Blue |
+| mary@company.com | Mary | Rodgers | Chicken | Brown |
+| wanda@megacorp.com | Wanda | Williams | Veggie | Hazel |
 
 **Important:** If you add in tokens for the leads, you must specify the Smart Campaign that uses them. The next time the specified Smart Campaign runs, it will use the values from your list, instead of the normal My Token values. After that single Campaign runs, the tokens will be discarded.
 

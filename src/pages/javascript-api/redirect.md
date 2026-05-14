@@ -27,16 +27,16 @@ Organization, Industry, ABM Lists, Location, ISP, Matched Segments
 
 | Condition | Data Hierarchy | Example |
 | --- | --- | --- |
-| Matched Segments (Works only after first click) | matchedSegments.name | rtp( 'send', 'redirect' , 'matchedSegments.name' , ['Fortune 1,000' , 'Enterprise'] , '<https://www.example.com>'); |
-| Matched Segments (Works only after first click) | matchedSegments.id | rtp( 'send', 'redirect' , 'matchedSegments.id' , [ 106 , 107 , 190 ] , '<https://www.example.com>'); |
-| ABM Lists | abm.name | rtp( 'send', 'redirect' , 'abm.name' , [ 'top_key_accounts', 'active_customers' ] , '<https://www.example.com>'); |
-| ABM Lists | abm.code | rtp( 'send', 'redirect' , 'abm.code' , [ 13 , 15 ] , '<https://www.example.com>'); |
-| Organizations | org | rtp( 'send', 'redirect' , 'org', ['ebay'], '<https://www.example.com>'); |
-| Location | location.country | rtp( 'send', 'redirect' , 'location.country' , ['United States'], '<https://www.example.com>'); |
-| Location | location.state | rtp( 'send', 'redirect' , 'location.state', ['ca'], '<https://www.example.com>'); |
-| Location | location.city | rtp( 'send', 'redirect' , 'location.city', ['San Mateo'], '<https://www.example.com>'); |
-| Industries | industries | rtp( 'send', 'redirect' , 'industries' , ['Education'], '<https://www.example.com>'); |
-| ISP | isp | rtp( 'send', 'redirect' , isp , ['False'], '<https://www.example.com>'); |
+| Matched Segments (Works only after first click) | matchedSegments.name | rtp( 'send', 'redirect' , 'matchedSegments.name' , ['Fortune 1,000' , 'Enterprise'] , '[https://www.example.com](https://www.example.com)'); |
+| Matched Segments (Works only after first click) | matchedSegments.id | rtp( 'send', 'redirect' , 'matchedSegments.id' , [ 106 , 107 , 190 ] , '[https://www.example.com](https://www.example.com)'); |
+| ABM Lists | abm.name | rtp( 'send', 'redirect' , 'abm.name' , [ 'top_key_accounts', 'active_customers' ] , '[https://www.example.com](https://www.example.com)'); |
+| ABM Lists | abm.code | rtp( 'send', 'redirect' , 'abm.code' , [ 13 , 15 ] , '[https://www.example.com](https://www.example.com)'); |
+| Organizations | org | rtp( 'send', 'redirect' , 'org', ['ebay'], '[https://www.example.com](https://www.example.com)'); |
+| Location | location.country | rtp( 'send', 'redirect' , 'location.country' , ['United States'], '[https://www.example.com](https://www.example.com)'); |
+| Location | location.state | rtp( 'send', 'redirect' , 'location.state', ['ca'], '[https://www.example.com](https://www.example.com)'); |
+| Location | location.city | rtp( 'send', 'redirect' , 'location.city', ['San Mateo'], '[https://www.example.com](https://www.example.com)'); |
+| Industries | industries | rtp( 'send', 'redirect' , 'industries' , ['Education'], '[https://www.example.com](https://www.example.com)'); |
+| ISP | isp | rtp( 'send', 'redirect' , isp , ['False'], '[https://www.example.com](https://www.example.com)'); |
 
 ## Notes
 
@@ -79,7 +79,7 @@ rtp('get','campaign');
 
 ## How to Redirect Tracked Visitors
 
-1. Append a parameter to the end of the target URL: that is <www.marketo.com?rtp=redirect>
+1. Append a parameter to the end of the target URL: that is \<www.marketo.com?rtp=redirect>
 1. Create a segment called - "Redirected by RTP"
 1. Use the 'Specific Pages' parameter to target visitors viewing any page with the parameter shown below.
 
@@ -98,7 +98,7 @@ The redirect call supports multiple calls. This makes it possible to redirect wi
 | 'send' | Required | String | Method action. |
 | 'redirect' | Required | String | Method name. |
 | field_name | Required | String | Field name to match against. Example: 'abm.name' (see above). |
-| url_values_map | Required | Object | Map between redirect url and list of values. Example:{'<https://www.example.com>' : ['first_abm', 'second_abm']} |
+| url_values_map | Required | Object | Map between redirect url and list of values. Example:{'[https://www.example.com](https://www.example.com)' : ['first_abm', 'second_abm']} |
 
 #### Example
 

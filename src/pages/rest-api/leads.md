@@ -467,84 +467,84 @@ POST /rest/v1/leads/schema/fields.json
 
 The Update Lead Field endpoint updates a single custom field on the lead object. For the most part, field update operations performed using the Marketo Engage UI are achievable using the API. There are a few differences summarized in the table below.
 
-<table>
-<tbody>
-<tr>
-<td style="width: 26.5306%;" rowspan="2"><strong>Attribute</strong></td>
-<td style="width: 35%;" colspan="2"><strong>Standard Field</strong></td>
-<td style="width: 38.2654%;" colspan="2"><strong>Custom Field</strong></td>
-</tr>
-<tr>
-<td style="width: 17.449%;"><strong>Updatable by API?</strong></td>
-<td style="width: 17.551%;"><strong>Updatable by UI?</strong></td>
-<td style="width: 19.3878%;"><strong>Updatable by API?</strong></td>
-<td style="width: 18.8776%;"><strong>Updatable by UI?</strong></td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">dataType</td>
-<td style="width: 17.449%;">no</td>
-<td style="width: 17.551%;">no</td>
-<td style="width: 19.3878%;">no</td>
-<td style="width: 18.8776%;">yes</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">description</td>
-<td style="width: 17.449%;">yes</td>
-<td style="width: 17.551%;">yes</td>
-<td style="width: 19.3878%;">yes</td>
-<td style="width: 18.8776%;">yes</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">displayName</td>
-<td style="width: 17.449%;">no</td>
-<td style="width: 17.551%;">no</td>
-<td style="width: 19.3878%;">yes</td>
-<td style="width: 18.8776%;">yes</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">isCustom</td>
-<td style="width: 17.449%;">no</td>
-<td style="width: 17.551%;">no</td>
-<td style="width: 19.3878%;">no</td>
-<td style="width: 18.8776%;">no</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">isHidden</td>
-<td style="width: 17.449%;">no</td>
-<td style="width: 17.551%;">yes</td>
-<td style="width: 19.3878%;">yes (if created by API)</td>
-<td style="width: 18.8776%;">yes</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">isHtmlEncodingInEmail</td>
-<td style="width: 17.449%;">yes</td>
-<td style="width: 17.551%;">yes</td>
-<td style="width: 19.3878%;">yes</td>
-<td style="width: 18.8776%;">yes</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">isSensitive</td>
-<td style="width: 17.449%;">yes</td>
-<td style="width: 17.551%;">yes</td>
-<td style="width: 19.3878%;">yes</td>
-<td style="width: 18.8776%;">yes</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">length</td>
-<td style="width: 17.449%;">no</td>
-<td style="width: 17.551%;">no</td>
-<td style="width: 19.3878%;">no</td>
-<td style="width: 18.8776%;">no</td>
-</tr>
-<tr>
-<td style="width: 26.5306%;">name</td>
-<td style="width: 17.449%;">no</td>
-<td style="width: 17.551%;">no</td>
-<td style="width: 19.3878%;">no</td>
-<td style="width: 18.8776%;">no</td>
-</tr>
-</tbody>
-</table>
+\<table>
+\<tbody>
+\<tr>
+\<td style="width: 26.5306%;" rowspan="2">\<strong>Attribute\</strong>\</td>
+\<td style="width: 35%;" colspan="2">\<strong>Standard Field\</strong>\</td>
+\<td style="width: 38.2654%;" colspan="2">\<strong>Custom Field\</strong>\</td>
+\</tr>
+\<tr>
+\<td style="width: 17.449%;">\<strong>Updatable by API?\</strong>\</td>
+\<td style="width: 17.551%;">\<strong>Updatable by UI?\</strong>\</td>
+\<td style="width: 19.3878%;">\<strong>Updatable by API?\</strong>\</td>
+\<td style="width: 18.8776%;">\<strong>Updatable by UI?\</strong>\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">dataType\</td>
+\<td style="width: 17.449%;">no\</td>
+\<td style="width: 17.551%;">no\</td>
+\<td style="width: 19.3878%;">no\</td>
+\<td style="width: 18.8776%;">yes\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">description\</td>
+\<td style="width: 17.449%;">yes\</td>
+\<td style="width: 17.551%;">yes\</td>
+\<td style="width: 19.3878%;">yes\</td>
+\<td style="width: 18.8776%;">yes\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">displayName\</td>
+\<td style="width: 17.449%;">no\</td>
+\<td style="width: 17.551%;">no\</td>
+\<td style="width: 19.3878%;">yes\</td>
+\<td style="width: 18.8776%;">yes\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">isCustom\</td>
+\<td style="width: 17.449%;">no\</td>
+\<td style="width: 17.551%;">no\</td>
+\<td style="width: 19.3878%;">no\</td>
+\<td style="width: 18.8776%;">no\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">isHidden\</td>
+\<td style="width: 17.449%;">no\</td>
+\<td style="width: 17.551%;">yes\</td>
+\<td style="width: 19.3878%;">yes (if created by API)\</td>
+\<td style="width: 18.8776%;">yes\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">isHtmlEncodingInEmail\</td>
+\<td style="width: 17.449%;">yes\</td>
+\<td style="width: 17.551%;">yes\</td>
+\<td style="width: 19.3878%;">yes\</td>
+\<td style="width: 18.8776%;">yes\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">isSensitive\</td>
+\<td style="width: 17.449%;">yes\</td>
+\<td style="width: 17.551%;">yes\</td>
+\<td style="width: 19.3878%;">yes\</td>
+\<td style="width: 18.8776%;">yes\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">length\</td>
+\<td style="width: 17.449%;">no\</td>
+\<td style="width: 17.551%;">no\</td>
+\<td style="width: 19.3878%;">no\</td>
+\<td style="width: 18.8776%;">no\</td>
+\</tr>
+\<tr>
+\<td style="width: 26.5306%;">name\</td>
+\<td style="width: 17.449%;">no\</td>
+\<td style="width: 17.551%;">no\</td>
+\<td style="width: 19.3878%;">no\</td>
+\<td style="width: 18.8776%;">no\</td>
+\</tr>
+\</tbody>
+\</table>
 
 The required `fieldApiName` path parameter specifies the API name of the field to update. The required input parameter is an array that contains a single lead field object.  The field object contains one or more attributes.
 

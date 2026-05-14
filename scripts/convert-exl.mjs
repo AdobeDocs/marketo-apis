@@ -213,6 +213,72 @@ function stripLinkAttrs(content) {
 }
 
 // ---------------------------------------------------------------------------
+// HTML sanitization — ADP/EDS rejects raw HTML in plain text
+// ---------------------------------------------------------------------------
+
+// Split a line on backtick code spans so we can leave code alone.
+function splitOnCodeSpans(line) {
+  // Returns array of {text, isCode} segments.
+  const segs = [];
+  const re = /(`+)([^`]*)\1/g;
+  let last = 0, m;
+  while ((m = re.exec(line)) !== null) {
+    if (m.index > last) segs.push({ text: line.slice(last, m.index), isCode: false });
+    segs.push({ text: m[0], isCode: true });
+    last = re.lastIndex;
+  }
+  if (last < line.length) segs.push({ text: line.slice(last), isCode: false });
+  return segs;
+}
+
+function sanitizePlainTextSegment(text) {
+  // 1. Angle-bracket URLs → markdown link
+  let t = text.replace(/<(https?:\/\/[^>\s]+)>/g, '[$1]($1)');
+  // 2. Angle-bracket email addresses → plain email
+  t = t.replace(/<([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})>/g, '$1');
+  // 3. <a href="url">text</a> → [text](url)
+  t = t.replace(/<a\s[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, '[$2]($1)');
+  // 4. Escape remaining < that open HTML-like tags (preserves as literal text)
+  t = t.replace(/<([a-zA-Z/!][^>]*?)>/g, '\\<$1>');
+  return t;
+}
+
+function sanitizeHTML(content) {
+  const lines = content.split('\n');
+  const out = [];
+  let inFence = false;
+
+  for (const line of lines) {
+    // Toggle fenced code block state
+    if (/^```|^~~~/.test(line.trimStart())) {
+      inFence = !inFence;
+      out.push(line);
+      continue;
+    }
+
+    if (inFence) {
+      out.push(line);
+      continue;
+    }
+
+    // Skip lines that are pure ADP component tags (e.g. <InlineAlert .../>)
+    if (/^<[A-Z]/.test(line.trimStart())) {
+      out.push(line);
+      continue;
+    }
+
+    // Process non-code portions of the line
+    const segs = splitOnCodeSpans(line);
+    const sanitized = segs
+      .map((s) => (s.isCode ? s.text : sanitizePlainTextSegment(s.text)))
+      .join('');
+    out.push(sanitized);
+  }
+
+  return out.join('\n');
+}
+
+// ---------------------------------------------------------------------------
 // Full file transformation
 // ---------------------------------------------------------------------------
 
@@ -230,6 +296,7 @@ function transformFile(rawContent, relPath) {
   b = transformTabs(b);
   b = stripImageAttrs(b);
   b = stripLinkAttrs(b);
+  b = sanitizeHTML(b);
 
   const fm = buildFrontmatter(
     stripDNL(title || basename(relPath, '.md')),

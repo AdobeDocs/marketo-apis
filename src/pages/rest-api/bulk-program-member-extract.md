@@ -208,98 +208,98 @@ GET /rest/v1/programs/members/describe.json
 
 Program Members support various filter options. Multiple filter types can be specified for a job, in which case they are ANDed together. You must specify either the `programId` or the `programIds` filter. All other filters are optional. The `updatedAt` filter requires additional infrastructure components which have not yet been rolled out to all subscriptions.
 
-<table>
-  <tbody>
-    <tr>
-      <td>Filter Type</td>
-      <td>Data Type</td>
-      <td>Notes</td>
-    </tr>
-    <tr>
-      <td>programId</td>
-      <td>Integer</td>
-      <td>Accepts the id of a program. Jobs return all accessible records which are members of the program at the time that the job begins processing.Retrieve program ids using the <a href="https://developer.adobe.com/marketo-apis/api/asset#tag/Programs">Get Programs</a> endpoint.Cannot be used with programIds filter.</td>
-    </tr>
-    <tr>
-      <td>programIds</td>
-      <td>Array[Integer]</td>
-      <td>Accepts an array of up to 10 program ids. Jobs return all accessible records which are members of the programs at the time that the job begins processing.An additional field "programId" is added to the export file as the first field. This field identifies the program that a program membership record was extracted from.Retrieve program ids using the <a href="https://developer.adobe.com/marketo-apis/api/asset#tag/Programs">Get Programs</a> endpoint.Cannot be used with programId filter.</td>
-    </tr>
-    <tr>
-      <td>isExhausted</td>
-      <td>Boolean</td>
-      <td>Accepts a boolean used to filter program membership records for <a href="https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/email-marketing/drip-nurturing/using-engagement-programs/people-who-have-exhausted-content">people who have exhausted content</a>.</td>
-    </tr>
-    <tr>
-      <td>nurtureCadence</td>
-      <td>String</td>
-      <td>Accepts a string used to filter program membership records for a given nurture cadence.Permissible values are:
-        <ul>
-          <li>pause - cadence is paused</li>
-          <li>norm - cadence is normal</li>
-        </ul></td>
-    </tr>
-    <tr>
-      <td>statusNames</td>
-      <td>Array[String]</td>
-      <td>Accepts an array of program member status names. Multiple status names are ORed together.Jobs with this filter type return all accessible records whose program member status matches any of the specified status names. Both default and user-defined status names may be used.If the statusNames filter is used with `programIds` filter, then each program is checked for membership records whose status matches any of the status names. If a status name is not found in any of the programs, "1003, Invalid Data" error is returned.
-        <table>
-          <tbody>
-            <tr>
-              <td>Attended</td>
-              <td>Attended On-demand</td>
-              <td>Bounced</td>
-            </tr>
-            <tr>
-              <td>Clicked</td>
-              <td>Contacted</td>
-              <td>Converted</td>
-            </tr>
-            <tr>
-              <td>Engaged</td>
-              <td>Filled-out Form</td>
-              <td>Influenced</td>
-            </tr>
-            <tr>
-              <td>Invited</td>
-              <td>Member</td>
-              <td>No Show</td>
-            </tr>
-            <tr>
-              <td>Not in Program</td>
-              <td>On List</td>
-              <td>Opened</td>
-            </tr>
-            <tr>
-              <td>Registered</td>
-              <td>Registering</td>
-              <td>Registration Error</td>
-            </tr>
-            <tr>
-              <td>Sent</td>
-              <td>Subscribed</td>
-              <td>Unsubscribed</td>
-            </tr>
-            <tr>
-              <td>Viewed</td>
-              <td>Visited</td>
-              <td>Visited Booth</td>
-            </tr>
-            <tr>
-              <td>Waitlisted</td>
-              <td>Web Content</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table></td>
-    </tr>
-    <tr>
-      <td>updatedAt*</td>
-      <td>Date Range</td>
-      <td>Accepts a JSON object with the members startAt and endAt. startAt accepts a datetime representing the low-watermark, and endAt accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Datetimes should be in an ISO-8601 format, without milliseconds.Jobs with this filter type return all accessible records which were most recently updated within the date range.</td>
-    </tr>
-  </tbody>
-</table>
+\<table>
+  \<tbody>
+    \<tr>
+      \<td>Filter Type\</td>
+      \<td>Data Type\</td>
+      \<td>Notes\</td>
+    \</tr>
+    \<tr>
+      \<td>programId\</td>
+      \<td>Integer\</td>
+      \<td>Accepts the id of a program. Jobs return all accessible records which are members of the program at the time that the job begins processing.Retrieve program ids using the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs) endpoint.Cannot be used with programIds filter.\</td>
+    \</tr>
+    \<tr>
+      \<td>programIds\</td>
+      \<td>Array[Integer]\</td>
+      \<td>Accepts an array of up to 10 program ids. Jobs return all accessible records which are members of the programs at the time that the job begins processing.An additional field "programId" is added to the export file as the first field. This field identifies the program that a program membership record was extracted from.Retrieve program ids using the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs) endpoint.Cannot be used with programId filter.\</td>
+    \</tr>
+    \<tr>
+      \<td>isExhausted\</td>
+      \<td>Boolean\</td>
+      \<td>Accepts a boolean used to filter program membership records for [people who have exhausted content](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/email-marketing/drip-nurturing/using-engagement-programs/people-who-have-exhausted-content).\</td>
+    \</tr>
+    \<tr>
+      \<td>nurtureCadence\</td>
+      \<td>String\</td>
+      \<td>Accepts a string used to filter program membership records for a given nurture cadence.Permissible values are:
+        \<ul>
+          \<li>pause - cadence is paused\</li>
+          \<li>norm - cadence is normal\</li>
+        \</ul>\</td>
+    \</tr>
+    \<tr>
+      \<td>statusNames\</td>
+      \<td>Array[String]\</td>
+      \<td>Accepts an array of program member status names. Multiple status names are ORed together.Jobs with this filter type return all accessible records whose program member status matches any of the specified status names. Both default and user-defined status names may be used.If the statusNames filter is used with `programIds` filter, then each program is checked for membership records whose status matches any of the status names. If a status name is not found in any of the programs, "1003, Invalid Data" error is returned.
+        \<table>
+          \<tbody>
+            \<tr>
+              \<td>Attended\</td>
+              \<td>Attended On-demand\</td>
+              \<td>Bounced\</td>
+            \</tr>
+            \<tr>
+              \<td>Clicked\</td>
+              \<td>Contacted\</td>
+              \<td>Converted\</td>
+            \</tr>
+            \<tr>
+              \<td>Engaged\</td>
+              \<td>Filled-out Form\</td>
+              \<td>Influenced\</td>
+            \</tr>
+            \<tr>
+              \<td>Invited\</td>
+              \<td>Member\</td>
+              \<td>No Show\</td>
+            \</tr>
+            \<tr>
+              \<td>Not in Program\</td>
+              \<td>On List\</td>
+              \<td>Opened\</td>
+            \</tr>
+            \<tr>
+              \<td>Registered\</td>
+              \<td>Registering\</td>
+              \<td>Registration Error\</td>
+            \</tr>
+            \<tr>
+              \<td>Sent\</td>
+              \<td>Subscribed\</td>
+              \<td>Unsubscribed\</td>
+            \</tr>
+            \<tr>
+              \<td>Viewed\</td>
+              \<td>Visited\</td>
+              \<td>Visited Booth\</td>
+            \</tr>
+            \<tr>
+              \<td>Waitlisted\</td>
+              \<td>Web Content\</td>
+              \<td>\</td>
+            \</tr>
+          \</tbody>
+        \</table>\</td>
+    \</tr>
+    \<tr>
+      \<td>updatedAt*\</td>
+      \<td>Date Range\</td>
+      \<td>Accepts a JSON object with the members startAt and endAt. startAt accepts a datetime representing the low-watermark, and endAt accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Datetimes should be in an ISO-8601 format, without milliseconds.Jobs with this filter type return all accessible records which were most recently updated within the date range.\</td>
+    \</tr>
+  \</tbody>
+\</table>
 
 Filter type is unavailable for some subscriptions. If unavailable for your subscription, you receive an error when calling the Create Export Program Member Job endpoint ("1035, Unsupported filter type for target subscription"). Customers may contact Marketo Support to have this functionality enabled in their subscription.
 

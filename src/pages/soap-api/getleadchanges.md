@@ -37,7 +37,7 @@ Note: The limit number of leads supported in a `LeadKeySelector` is 100. If the 
 | startPosition->activityCreatedAt | Optional | The timestamp used to filter results to only include leads with activity since activityCreatedAt. NOTE: You can use `LastUpdateAtSelector->latestUpdatedAt` timestamp to specify `activityCreatedAt`. |
 | leadSelector | Optional | Can be one of the following 3 types: `LeadKeySelector`, `StaticListSelector`, `LastUpdateAtSelector` |
 | LeadKeySelector: leadSelector->keyType | Required | The id type that you wish to query. Values include `IDNUM`, `COOKIE`, `EMAIL`, `LEADOWNEREMAIL`, `SFDCACCOUNTID`, `SFDCCONTACTID`, `SFDCLEADID`, `SFDCLEADOWNERID`, `SFDCOPPTYID`. |
-| LeadKeySelector: leadSelector->keyValues->stringItem | Required | List of key values. That is, "<lead@email.com>" |
+| LeadKeySelector: leadSelector->keyValues->stringItem | Required | List of key values. That is, "lead@email.com" |
 | StaticListSelector: leadSelector->staticListName | Optional when `leadSelector->staticListId` is present | The name of the static list |
 | StaticListSelector: leadSelector->staticListId | Optional when `leadSelector->staticListName` is present | The ID of the static list |
 

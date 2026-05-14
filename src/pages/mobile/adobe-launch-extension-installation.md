@@ -56,7 +56,7 @@ func applicationDidBecomeActive(_ application: UIApplication)
 
 1. Select **Project** > **Target** > **Info** > **URL Types**.
 1. Add identifier: ${PRODUCT_NAME}
-1. Set URL Schemes: mkto-<S_ecret Key_>
+1. Set URL Schemes: mkto-\<S_ecret Key_>
 1. Include `application:openURL:sourceApplication:annotation:` to `AppDelegate.m file` (Objective-C)
 
 ### Handle Custom Url Type in AppDelegate

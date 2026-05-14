@@ -168,7 +168,7 @@ Endpoint used to upsert person records.
 | --- | --- | --- | --- | --- |
 | `priority` | String | No | Priority of the request: normal or high | normal |
 | `partitionName` | String | No | Name of person partition | Default |
-| `dedupeFields` | Object | No | Attributes to deduplicate on. One or two attribute names are allowed. <br/> Two attributes are used in an AND operation. For example, if both `email` and `firstName` are specified, they are both used to look up a person using the AND operation. <br/>Supported attributes are: `id`, `email`, `sfdcAccountId`, `sfdcContactId`, `sfdcLeadId` `sfdcLeadOwnerId`, Custom attributes ("string" and "integer" type only), `email` |  |
+| `dedupeFields` | Object | No | Attributes to deduplicate on. One or two attribute names are allowed. \<br/> Two attributes are used in an AND operation. For example, if both `email` and `firstName` are specified, they are both used to look up a person using the AND operation. \<br/>Supported attributes are: `id`, `email`, `sfdcAccountId`, `sfdcContactId`, `sfdcLeadId` `sfdcLeadOwnerId`, Custom attributes ("string" and "integer" type only), `email` |  |
 | `persons` | Array of Object | Yes | List of attribute name-value pairs for the person | – |
 
 Permissions required are `Read-Write Lead`.

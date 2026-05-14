@@ -110,7 +110,7 @@ The combined length of all Email Script Tokens in a given email may not exceed 1
 - If you include more than one Email Script within an email, they execute top to bottom. The scope of variables defined in the first script to execute is available in subsequent scripts.
 - Tools Reference: [https://velocity.apache.org/tools/2.0/index.html](https://velocity.apache.org/tools/2.0/index.html)
 - A note regarding tokens that contain newline characters "\n" or "\r\n." When an email is sent via Send Sample or via a Batch Campaign, newline characters in tokens are replaced with spaces. When email is sent via Trigger Campaign, newline characters are left untouched.
-- To ensure proper parsing of URLs, the whole path should be set as a variable and then printed, and variable should not be printed inside URL references. The protocol (http:// or https://) must be included and must be separate from the rest of the URL. The URL must also be part of a fully formed anchor (<a>) tag. The script must Output a fully formed anchor tag, in order for links to be tracked. Links are not tracked if they are outputted from within a for or foreach loop.
+- To ensure proper parsing of URLs, the whole path should be set as a variable and then printed, and variable should not be printed inside URL references. The protocol (http:// or https://) must be included and must be separate from the rest of the URL. The URL must also be part of a fully formed anchor (\<a>) tag. The script must Output a fully formed anchor tag, in order for links to be tracked. Links are not tracked if they are outputted from within a for or foreach loop.
 
 ```html
 <!-- Correct -->

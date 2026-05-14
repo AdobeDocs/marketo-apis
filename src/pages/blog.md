@@ -480,14 +480,14 @@ Posted on _2014-05-16_ by _Murta_
 
 Let's you want to track custom activity in Marketo. For example, you have a video on a webpage, and want to track visitors who watch more than 50% of a video. You can do this using Munchkin's custom activity tracking feature. This would be implemented by listening for an event on the page, which is the video reaching 50%, and then calling the Munchkin API. To do this, we have to set up a custom activity in Marketo to call based on this event on the page. We use YouTube for the video player, and use their [YouTube Iframe API](https://developers.google.com/youtube/iframe_api_reference) to call the method on the Munchkin API.
 
- We show you first how to generate Munchkin tracking code in Marketo, second how to modify your Munchkin sample code to trigger based on page events, third how to set up a campaign with a smart list that is defined by actions on the page with flows steps, and fifth how to verify that a page visit from an anonymous user was recorded in Marketo. ==== This blog post is a live example of the code being explained. Please fill out this form, so you are a known user in Marketo. This way when you watch 50% of the video, it sends you rest of the video, and if you watch 100% of the video it sends you a link to another blog post. === <https://developers.google.com/youtube/iframe_api_reference>
+ We show you first how to generate Munchkin tracking code in Marketo, second how to modify your Munchkin sample code to trigger based on page events, third how to set up a campaign with a smart list that is defined by actions on the page with flows steps, and fifth how to verify that a page visit from an anonymous user was recorded in Marketo. ==== This blog post is a live example of the code being explained. Please fill out this form, so you are a known user in Marketo. This way when you watch 50% of the video, it sends you rest of the video, and if you watch 100% of the video it sends you a link to another blog post. === [https://developers.google.com/youtube/iframe_api_reference](https://developers.google.com/youtube/iframe_api_reference)
 
  **How to Generate Munchkin Tracking Code** The Munchkin tracking code allows you to track visits to your web site. There are three types of Munchkin code described below, but in this example we use the Asynchronous Munchkin tracking code. A) Simple: has the fewest lines of code, but does not optimize for webpage loading time. This code loads the jQuery library each time a webpage is loaded. B) Asynchronous: reduces webpage loading time. This code checks if the jQuery library already exists, loads it if it's missing, and uses it for executing tracking code once the rest of the webpage has loaded. C) Asynchronous jQuery: reduces webpage loading time and also improves system performance. This code assumes that you already have jQuery, and does not check to load it.
 
 1. Click Admin at the top right of the app.
 1. Click Munchkin in the tree on the left.
 1. Select Asynchronous for Tracking Code Type.
-1. Click and copy the JavaScript tracking code to put on your website. **YouTube Code** <https://developers.google.com/youtube/js_api_reference#EventHandlers> <https://developers.google.com/youtube/iframe_api_reference> player.
+1. Click and copy the JavaScript tracking code to put on your website. **YouTube Code** [https://developers.google.com/youtube/js_api_reference#EventHandlers](https://developers.google.com/youtube/js_api_reference#EventHandlers) [https://developers.google.com/youtube/iframe_api_reference](https://developers.google.com/youtube/iframe_api_reference) player.
 
 `getCurrentTime()` Returns the elapsed time in seconds since the video started playing. `player.getDuration()` Returns the duration in seconds of the currently playing video. Note that `getDuration()` will return 0 until the video's metadata is loaded, which normally happens just after the video starts playing. When a non-cookied user goes to a page with the Munchkin tracking code, a new cookie is created on the user's browser, and a new anonymous lead will be created in Marketo. If the user is already cookied and the user is an existing lead in Marketo, the visit to the page will be recorded in the activity log of the user in Marketo. **Code Sample to Cookie User and Track Event** Place the tracking code on your web pages right before the `</body>` tag. Landing pages created in Marketo automatically contain tracking code, so you don't need to put this code on them. This code sample would call the Munchkin API after the script is loaded:
 
@@ -1384,7 +1384,7 @@ Posted on _2014-09-09_ by _Murta_
 
 ## Debugging a field that is not accessible via the API
 
-If you are coming to this field <https://nation.marketo.com/> When we attempt to update the field AnnualRevenue using the SOAP API, the response says that the record is updated, however the AnnualRevenue field does not persist the change. If we try to update the field manually using the Lead Database, changes to this field are not persisted either. Check if the field is blocked in Admin. The other thing that can sometimes happen is that it might be an Account Field synced over from SFDC. We block changes to those fields by default because SFDC is the system of record for them in many cases. 1) Created At 2) Marketo SFDC ID 3) Marketo Unique Code 4) SFDC Type 5) Updated At 6) Urgency 7) Priority 8) Sales Created Date
+If you are coming to this field [https://nation.marketo.com/](https://nation.marketo.com/) When we attempt to update the field AnnualRevenue using the SOAP API, the response says that the record is updated, however the AnnualRevenue field does not persist the change. If we try to update the field manually using the Lead Database, changes to this field are not persisted either. Check if the field is blocked in Admin. The other thing that can sometimes happen is that it might be an Account Field synced over from SFDC. We block changes to those fields by default because SFDC is the system of record for them in many cases. 1) Created At 2) Marketo SFDC ID 3) Marketo Unique Code 4) SFDC Type 5) Updated At 6) Urgency 7) Priority 8) Sales Created Date
 
 Posted on _1970-01-01_ by _Murta_
 
@@ -2377,7 +2377,7 @@ Posted on _2014-12-17_ by _David_
 
 ## Show Thank You Message Without a Follow-Up Landing Page
 
-Typically, when you use Marketo forms, you create two landing pages – one to place the form on and one to redirect to after the form is completed. However, in some cases, you may not want to have two separate but very similar landing pages to maintain. You can actually use the same landing page for the form and for the thank you message using the Forms 2.0 JavaScript API. To do this, first create your registration landing page and form and place the form on the landing page as you would normally. Then, add an HTML element to the page. In this element, we add some code that activates at the moment the form is submitted. It will then hide the form and reveal a hidden <div> that contains the thank you message. Your JavaScript should look like this:
+Typically, when you use Marketo forms, you create two landing pages – one to place the form on and one to redirect to after the form is completed. However, in some cases, you may not want to have two separate but very similar landing pages to maintain. You can actually use the same landing page for the form and for the thank you message using the Forms 2.0 JavaScript API. To do this, first create your registration landing page and form and place the form on the landing page as you would normally. Then, add an HTML element to the page. In this element, we add some code that activates at the moment the form is submitted. It will then hide the form and reveal a hidden \<div> that contains the thank you message. Your JavaScript should look like this:
 
 ```javascript
 //Edit host with your Marketo instance info
@@ -4138,7 +4138,7 @@ This class has a single constructor which accepts an Auth object, and then expos
 
 ### Putting it together
 
-Now that we've gone through the sample code that we are using let's take a look at a simple example to retrieve leads matching a test email address, <testlead@marketo.com>. For this we need to use setFilterType for "email," and addFilterValue for the email address that we need to retrieve information for. When you've set your parameters, you can use the getData method to retrieve a JsonObject from the leads endpoint, containing a results array which has a JSON representation of the lead records which were retrieved.
+Now that we've gone through the sample code that we are using let's take a look at a simple example to retrieve leads matching a test email address, testlead@marketo.com. For this we need to use setFilterType for "email," and addFilterValue for the email address that we need to retrieve information for. When you've set your parameters, you can use the getData method to retrieve a JsonObject from the leads endpoint, containing a results array which has a JSON representation of the lead records which were retrieved.
 
 ```java
 package dev.marketo.blog_leads;
@@ -4163,12 +4163,12 @@ public class App
 }
 ```
 
-In this main method example, we create an instance of Auth, and then pass this to a new Leads constructor. Using setFilterType, and addFilterValue, we configure our instance of Leads to retrieve just leads matching the email address "<testlead@marketo.com>." This example prints this out to the console:
+In this main method example, we create an instance of Auth, and then pass this to a new Leads constructor. Using setFilterType, and addFilterValue, we configure our instance of Leads to retrieve just leads matching the email address "testlead@marketo.com." This example prints this out to the console:
 
 Token is empty or expired. Trying new authentication
 Trying to authenticate with `https://299-BYM-827.mktorest.com/identity/oauth/token?grant_type=client_credentials&client_id=b417d98f-9289-47d1-a61f-db141bf0267f&client_secret=0DipOvz4h2wP1ANeVjlfwMvECJpo0ZYc`
-Got Authentication Response: {"access_token":"ec0f02c0-28ac-4d6c-b7d7-00e47ae85ff1:st","token_type":"bearer","expires_in":538,"scope":"<apiuser@mktosupport.com>"}
-{"requestId":"14fb6#14e6a7a9ad6","result":[{"id":1026322,"updatedAt":"2015-07-07T21:43:25Z","lastName":"Lead","email":"<testlead@marketo.com>","createdAt":"2015-07-07T21:43:25Z","firstName":"Test"},{"id":1026323,"updatedAt":"2015-07-07T21:43:43Z","lastName":"Lead2","email":"<testlead@marketo.com>","createdAt":"2015-07-07T21:43:43Z","firstName":"Test"}],"success":true}
+Got Authentication Response: {"access_token":"ec0f02c0-28ac-4d6c-b7d7-00e47ae85ff1:st","token_type":"bearer","expires_in":538,"scope":"apiuser@mktosupport.com"}
+{"requestId":"14fb6#14e6a7a9ad6","result":[{"id":1026322,"updatedAt":"2015-07-07T21:43:25Z","lastName":"Lead","email":"testlead@marketo.com","createdAt":"2015-07-07T21:43:25Z","firstName":"Test"},{"id":1026323,"updatedAt":"2015-07-07T21:43:43Z","lastName":"Lead2","email":"testlead@marketo.com","createdAt":"2015-07-07T21:43:43Z","firstName":"Test"}],"success":true}
 
 Now we have lead data which we can process in whatever way that we need. Thanks for reading, and please leave any feedback you have in the comments.
 
@@ -5217,7 +5217,7 @@ if ($json->success){
 }
 ```
 
-For our example classes, we're just creating stdClass objects to represent our SalesPerson and Lead records which need to be synched, with each desired field added as a member. After execution of this code, the leads <marketoDev@example.com> and <devBlog@example.com> will both have the Lead Owner Email, Lead Owner First Name, and Lead Owner Last name fields populated, affording them the ability to use the relevant tokens for those fields and be filtered by the relevant smart list filters.
+For our example classes, we're just creating stdClass objects to represent our SalesPerson and Lead records which need to be synched, with each desired field added as a member. After execution of this code, the leads marketoDev@example.com and devBlog@example.com will both have the Lead Owner Email, Lead Owner First Name, and Lead Owner Last name fields populated, affording them the ability to use the relevant tokens for those fields and be filtered by the relevant smart list filters.
 
 ### Auth Class
 
@@ -6969,7 +6969,7 @@ Posted on _2014-04-17_ by _Murta_
 
 ## Dynamically Change Local Phone Number using RTP
 
-Personalization is everything - we figured this out a long time ago. With that being said, it's still surprising to me that every time I need immediate assistance, it is so hard to find the relevant local phone numbers on a website. Good thing we have [Marketo Real-Time Personalization](https://business.adobe.com/products/marketo/content-personalization.html) (RTP) installed on <https://business.adobe.com/products/marketo/adobe-marketo.html>. We can leverage the [RTP Visitor API](/help/javascript-api/web-personalization.md) to dynamically change the phone number that a web visitor sees in different sections of the website. Wow! Can you believe this? How does this magic work? First, you need to have RTP installed on your web site as described [here](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript). Next, follow the instructions below and implement the JavaScript code on your website:
+Personalization is everything - we figured this out a long time ago. With that being said, it's still surprising to me that every time I need immediate assistance, it is so hard to find the relevant local phone numbers on a website. Good thing we have [Marketo Real-Time Personalization](https://business.adobe.com/products/marketo/content-personalization.html) (RTP) installed on [https://business.adobe.com/products/marketo/adobe-marketo.html](https://business.adobe.com/products/marketo/adobe-marketo.html). We can leverage the [RTP Visitor API](/help/javascript-api/web-personalization.md) to dynamically change the phone number that a web visitor sees in different sections of the website. Wow! Can you believe this? How does this magic work? First, you need to have RTP installed on your web site as described [here](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript). Next, follow the instructions below and implement the JavaScript code on your website:
 
 1. Insert your international phone number in the **defaultPhone** configuration
 1. Insert the HTML element id(s) in the **divIds** configuration

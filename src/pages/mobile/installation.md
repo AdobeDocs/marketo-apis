@@ -30,7 +30,7 @@ Installation instructions for Marketo Mobile SDK. The steps below are required t
 
     ![Add Dependency](assets/dependency-manager-add.png)
 
-1. Add Marketo package from this Repo. Add this URL for this repository: <https://github.com/Marketo/ios-sdk>.
+1. Add Marketo package from this Repo. Add this URL for this repository: [https://github.com/Marketo/ios-sdk](https://github.com/Marketo/ios-sdk).
 
     ![Repo URL](assets/dependency-manager-url.png)
 
