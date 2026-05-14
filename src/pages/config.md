@@ -4,10 +4,10 @@
 - pages:
     - [Marketo APIs](/index.md)
     - [Getting Started](/getting-started.md)
-    - REST API
-        - [Overview](/rest-api/rest-api.md)
+    - Developer Documentation
+        - [REST API](/rest-api/rest-api.md)
     - JavaScript API
-        - [Overview](/javascript-api/javascript-api.md)
+        - [](/javascript-api/javascript-api.md)
     - Mobile
         - [Overview](/mobile/mobile.md)
     - SOAP API
