@@ -98,7 +98,7 @@ The redirect call supports multiple calls. This makes it possible to redirect wi
 | 'send' | Required | String | Method action. |
 | 'redirect' | Required | String | Method name. |
 | field_name | Required | String | Field name to match against. Example: 'abm.name' (see above). |
-| url_values_map | Required | Object | Map between redirect url and list of values. Example:{'[https://www.example.com](https://www.example.com)' : ['first_abm', 'second_abm']} |
+| url_values_map | Required | Object | Map between redirect url and list of values. Example: `{'https://www.example.com' : ['first_abm', 'second_abm']}` |
 
 #### Example
 

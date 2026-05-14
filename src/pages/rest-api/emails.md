@@ -790,7 +790,7 @@ POST /rest/asset/v1/email/{id}/content/{moduleId}/duplicate.json
 
 #### Rearrange
 
-[Rearrange modules](https://developer.adobe.com/marketo-apis/api/asset#tag/Emails/operation/rearrangeModulesUsingPOST)array that contains all modules and the desired position within the email for each. Each array element contains a JSON object of the following form:  { "index": <_index_>, "moduleId": "<_moduleId_>" }, where <_index_> is the zero-based module order number, and <_moduleId_> is the moduleId.
+[Rearrange modules](https://developer.adobe.com/marketo-apis/api/asset#tag/Emails/operation/rearrangeModulesUsingPOST)array that contains all modules and the desired position within the email for each. Each array element contains a JSON object of the following form: `{ "index": <index>, "moduleId": "<moduleId>" }`, where `<index>` is the zero-based module order number, and `<moduleId>` is the moduleId.
 
 ```http
 POST /rest/asset/v1/email/{id}/content/rearrange.json

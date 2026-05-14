@@ -145,8 +145,8 @@ The `redirectTo` parameter specifies the target landing page. This is a JSON obj
 
 | Landing Page Type | redirectTo type | Example |
 | --- | --- | --- |
-| Marketo | landingPageId | {"type":"landingPageId","value":"1774"} |
-| Non-Marketo | url | {"type":"url","value":"www.contactLogs.com"} |
+| Marketo | landingPageId | `{"type":"landingPageId","value":"1774"}` |
+| Non-Marketo | url | `{"type":"url","value":"www.contactLogs.com"}` |
 
 More information on creating landing page redirect rules can be found [here](https://experienceleague.adobe.com/docs/marketo/using/product-docs/demand-generation/landing-pages/landing-page-actions/redirect-a-marketo-landing-page-to-another-page.html).
 

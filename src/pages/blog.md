@@ -4167,8 +4167,8 @@ In this main method example, we create an instance of Auth, and then pass this t
 
 Token is empty or expired. Trying new authentication
 Trying to authenticate with `https://299-BYM-827.mktorest.com/identity/oauth/token?grant_type=client_credentials&client_id=b417d98f-9289-47d1-a61f-db141bf0267f&client_secret=0DipOvz4h2wP1ANeVjlfwMvECJpo0ZYc`
-Got Authentication Response: {"access_token":"ec0f02c0-28ac-4d6c-b7d7-00e47ae85ff1:st","token_type":"bearer","expires_in":538,"scope":"apiuser@mktosupport.com"}
-{"requestId":"14fb6#14e6a7a9ad6","result":[{"id":1026322,"updatedAt":"2015-07-07T21:43:25Z","lastName":"Lead","email":"testlead@marketo.com","createdAt":"2015-07-07T21:43:25Z","firstName":"Test"},{"id":1026323,"updatedAt":"2015-07-07T21:43:43Z","lastName":"Lead2","email":"testlead@marketo.com","createdAt":"2015-07-07T21:43:43Z","firstName":"Test"}],"success":true}
+Got Authentication Response: `{"access_token":"ec0f02c0-28ac-4d6c-b7d7-00e47ae85ff1:st","token_type":"bearer","expires_in":538,"scope":"apiuser@mktosupport.com"}`
+`{"requestId":"14fb6#14e6a7a9ad6","result":[{"id":1026322,"updatedAt":"2015-07-07T21:43:25Z","lastName":"Lead","email":"testlead@marketo.com","createdAt":"2015-07-07T21:43:25Z","firstName":"Test"},{"id":1026323,"updatedAt":"2015-07-07T21:43:43Z","lastName":"Lead2","email":"testlead@marketo.com","createdAt":"2015-07-07T21:43:43Z","firstName":"Test"}],"success":true}`
 
 Now we have lead data which we can process in whatever way that we need. Thanks for reading, and please leave any feedback you have in the comments.
 
@@ -8650,7 +8650,7 @@ Where [YOUR_STAGING_BUCKET_NAME] is the name of your staging Cloud Storage bucke
     * HTTP Verb: POST
     * URL: `https://us-central1-marketo-cloud-logic.cloudfunctions.net/scoreCompare`
     * Headers: content-type = application/json
-    * Body: {"onlineScore":110, "offlineScore":200}Output should give: {"output": "offline"}.
+    * Body: `{"onlineScore":110, "offlineScore":200}` Output should give: `{"output": "offline"}`.
 
 ### Call the Cloud Function from a Marketo's Webhook
 
