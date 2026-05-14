@@ -13,7 +13,7 @@ The Adobe Marketo Engage APIs allow you to directly call Adobe's servers to perf
 
 This documentation provides instructions for Marketo APIs.
 
-Marketo API include REST, SOAP, Javascript, and User Management APIs, plus code for working with mobile devices and email templates.
+Marketo APIs include REST, SOAP, Javascript, and User Management APIs, plus code for working with mobile devices and email templates.
 
 The REST API allows for remote execution of many of the system's capabilities. From creating programs to bulk lead import, there are a large number of options which allow fine-grained control of a Marketo instance.
 
@@ -21,13 +21,13 @@ The following User Management APIs are only available to users that are on [Mark
 
 ## Discover
 
-<DiscoverBlock width="100%" slots="heading, link, text"/>
+<DiscoverBlock width="100%" slots="heading, text"/>
 
 ### Get Started
 
-[Marketo Product page](https://business.adobe.com/products/marketo/adobe-marketo.html)
+[Getting Started](getting-started.md)
 
-Learn about Marketo.
+Learn how to authenticate, understand the data model, and make your first API call.
 
 <DiscoverBlock slots="heading, link, text"/>
 
@@ -37,47 +37,81 @@ Learn about Marketo.
 
 Learn how to configure and use Marketo Engage.
 
-### API References
+## Developer Guides
 
-Marketo provides three REST APIs for interacting with your data.
+<DiscoverBlock slots="heading, text" width="33%"/>
 
-[Marketo Asset](api/asset.md) includes:
+### REST API
 
-* Folders
-* Programs
-* Emails and email templates
-* Landing pages and landing page templates
-* Snippets
-* Forms
-* Tokens
-* Files
+Use the [REST API](rest-api/rest-api.md) to manage leads, assets, programs, campaigns, and more with fine-grained control over your Marketo instance.
 
-[Marketo Identity](api/identity.md) - Retrieves access tokens for Marketo users.
+<DiscoverBlock slots="heading, text" width="33%"/>
 
-[Marketo Lead Database](api/mapi.md) includes the following:
+### JavaScript API
 
-* Leads
-* Companies/Accounts
-* Named Accounts
-* Opportunities
-* Opportunity Roles
-* Sales Persons
-* Custom Objects
-* Activities
-* List and Program Membership
+The [JavaScript API](javascript-api/javascript-api.md) provides Munchkin lead tracking, Forms integration, Web Personalization, and Predictive Content on your web pages.
 
-[Marketo User Management](api/user.md) includes the following:
+<DiscoverBlock slots="heading, text" width="33%"/>
 
-The User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
+### Mobile SDK
+
+The [Mobile SDK](mobile/mobile.md) lets you integrate Marketo lead tracking, push notifications, and in-app messaging into your iOS and Android apps.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### Webhooks
+
+[Webhooks](webhooks/webhooks.md) let you trigger real-time HTTP callbacks to external services from Marketo Smart Campaign flow steps.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### SOAP API
+
+The [SOAP API](soap-api/soap-api.md) is deprecated and will reach end of life on July 31, 2026. New integrations should use the REST API.
+
+## API Reference
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### Asset API
+
+Use the [Marketo Asset](api/asset.md) to manage emails and templates, snippets, programs, form and more.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### Identity API
+
+[Marketo Identity](api/identity.md) retrieves access tokens for Marketo users.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### Lead Database API
+
+Use the [Marketo Lead Database](api/mapi.md) API to manage leads, accounts, opportunities, and more.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### User Management API
+
+The [User Management](api/user.md) endpoints allow you to perform CRUD operations on user records in Marketo.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### Data Ingestion API
+
+[Marketo Data Ingestion](api/data-ingestion.md)
+
+Use the Data Ingestion API to bulk import your Marketo data.
 
 <Resources slots="heading, links"/>
 
 ## Resources
 
 * [Marketo Engage Documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home)
-* [Marketo Measure](https://business.adobe.com/products/marketo/bizible.html)
+* [Marketo Measure](https://experienceleague.adobe.com/en/docs/marketo-measure/using/home)
 * [Marketo SDK for Android](https://github.com/Marketo/android-sdk)
 * [Marketo SDK for iOS](https://github.com/Marketo/ios-sdk)
+* [Community-Supported Client Libraries](https://github.com/Marketo/Community-Supported-Client-Libraries)
 
 ## Contributing
 
