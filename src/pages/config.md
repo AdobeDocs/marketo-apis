@@ -6,13 +6,10 @@
     - [Getting Started](/getting-started.md)
     - Developer Documentation
         - [REST API](/rest-api/rest-api.md)
-    - JavaScript API
-        - [](/javascript-api/javascript-api.md)
-    - Mobile
-        - [Overview](/mobile/mobile.md)
-    - SOAP API
-        - [Overview](/soap-api/soap-api.md)
-    - [Webhooks](/webhooks/webhooks.md)
+        - [Javascript API](/javascript-api/javascript-api.md)
+        - [Mobile](/mobile/mobile.md)
+        - [SOAP API](/soap-api/soap-api.md)
+        - [Webhooks](/webhooks/webhooks.md)
     - API Reference
         - [Marketo Asset API](/api/asset.md) API documentation for Marketo Asset
         - [Marketo Data Ingestion API](/api/data-ingestion.md) API documentation for Marketo Data Ingestion
@@ -25,7 +22,7 @@
     - [Marketo APIs](/index.md)
     - [Getting Started](/getting-started.md)
     - REST API
-        - [Overview](/rest-api/rest-api.md)
+        - [REST API](/rest-api/rest-api.md)
         - [Authentication](/rest-api/authentication.md)
         - [Base URL](/rest-api/base-url.md)
         - [Best Practices](/rest-api/marketo-integration-best-practices.md)
@@ -90,7 +87,7 @@
             - [Static List Membership](/rest-api/list-membership.md)
             - [Usage](/rest-api/usage.md)
     - JavaScript API
-        - [Overview](/javascript-api/javascript-api.md)
+        - [Javascript API](/javascript-api/javascript-api.md)
         - [Custom Data Events](/javascript-api/custom-data-events.md)
         - [Forms API Reference](/javascript-api/forms-api-reference.md)
         - [Get Visitor Data](/javascript-api/get-visitor-data.md)
@@ -105,7 +102,7 @@
             - [Configuration](/javascript-api/configuration.md)
             - [Munchkin API Reference](/javascript-api/api-reference.md)
     - Mobile
-        - [Overview](/mobile/mobile.md)
+        - [Mobile](/mobile/mobile.md)
         - [Installation](/mobile/installation.md)
         - [Adobe Launch Extension Installation](/mobile/adobe-launch-extension-installation.md)
         - [Adobe Launch Extension](/mobile/adobe-launch-extension.md)
@@ -119,7 +116,7 @@
         - [React Native](/mobile/react-native.md)
         - [User Profiles](/mobile/user-profiles.md)
     - SOAP API
-        - [Overview](/soap-api/soap-api.md)
+        - [SOAP API](/soap-api/soap-api.md)
         - [Authentication Signature](/soap-api/authentication-signature.md)
         - [Activity Type Filters](/soap-api/activity-type-filters.md)
         - [Error Codes](/soap-api/error-codes.md)
@@ -164,9 +161,3 @@
         - [Webhooks](/webhooks/webhooks.md)
         - [Errors](/webhooks/errors.md)
         - [Response Mappings](/webhooks/response-mappings.md)
-    - API Reference
-        - [Marketo Asset API](/api/asset.md)
-        - [Marketo Data Ingestion API](/api/data-ingestion.md)
-        - [Marketo Identity API](/api/identity.md)
-        - [Marketo Lead Database API](/api/mapi.md)
-        - [Marketo User Management API](/api/user.md)
