@@ -21,7 +21,7 @@ The following User Management APIs are only available to users that are on [Mark
 
 ## Discover
 
-<DiscoverBlock width="100%" slots="heading, link, text"/>
+<DiscoverBlock width="100%" slots="heading, text"/>
 
 ### Get Started
 
@@ -37,38 +37,39 @@ Learn about Marketo.
 
 Learn how to configure and use Marketo Engage.
 
-### API References
+## APIs
 
-Marketo provides four REST APIs for interacting with your data.
+<DiscoverBlock slots="heading, text" width="33%"/>
 
-[Marketo Asset](api/asset.md) includes:
+### Asset API
 
-* Folders
-* Programs
-* Emails and email templates
-* Landing pages and landing page templates
-* Snippets
-* Forms
-* Tokens
-* Files
+Use the [Marketo Asset](api/asset.md) to manage emails and templates, snippets, programs, form and more.
 
-[Marketo Identity](api/identity.md) - Retrieves access tokens for Marketo users.
+<DiscoverBlock slots="heading, text" width="33%"/>
 
-[Marketo Lead Database](api/mapi.md) includes the following:
+### Identity API
 
-* Leads
-* Companies/Accounts
-* Named Accounts
-* Opportunities
-* Opportunity Roles
-* Sales Persons
-* Custom Objects
-* Activities
-* List and Program Membership
+[Marketo Identity](api/identity.md) retrieves access tokens for Marketo users.
 
-[Marketo User Management](api/user.md) includes the following:
+<DiscoverBlock slots="heading, text" width="33%"/>
 
-The User Management endpoints allow you to perform CRUD operations on user records in Marketo. Users are created by sending an invitation to a user, who then sets a password and gains access to Marketo for the first time.
+### Lead Database API
+
+Use the [Marketo Lead Database](api/mapi.md) API to manage leads, accounts, opportunities, and more.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### User Management API
+
+The [User Management](api/user.md) endpoints allow you to perform CRUD operations on user records in Marketo.
+
+<DiscoverBlock slots="heading, text" width="33%"/>
+
+### Data Ingestion API
+
+[Marketo Data Ingestion](api/data-ingestion.md)
+
+Use the Data Ingestion API to bulk import your Marketo data.
 
 <Resources slots="heading, links"/>
 
