@@ -8812,6 +8812,10 @@
         "webView": {
           "type": "boolean",
           "description": "Whether the email has been enabled to allow the 'View as Web Page' when received"
+        },
+        "autoCopyToText": {
+          "type": "boolean",
+          "description": "Setting to automatically copy HTML version to Text version"
         }
       }
     },
@@ -10752,6 +10756,10 @@
         "textOnly": {
           "type": "boolean",
           "description": "Setting to include text-only version of email when sent"
+        },
+        "autoCopyToText": {
+          "type": "boolean",
+          "description": "Setting to automatically copy HTML version to Text version"
         }
       }
     },
