@@ -7202,7 +7202,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -7252,7 +7252,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -7302,7 +7302,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -7352,7 +7352,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -7402,7 +7402,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -7452,7 +7452,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -7630,7 +7630,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveFilterResponse"
             }
           }
         }
@@ -7802,7 +7802,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveFilterResponse"
             }
           }
         }
@@ -7980,7 +7980,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveFilterResponse"
             }
           }
         }
@@ -8030,7 +8030,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8080,7 +8080,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8130,7 +8130,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8180,7 +8180,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8230,7 +8230,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8280,7 +8280,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8325,7 +8325,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8370,7 +8370,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8415,7 +8415,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8463,7 +8463,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8511,7 +8511,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8559,7 +8559,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8616,7 +8616,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8673,7 +8673,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -8730,7 +8730,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
+              "$ref": "#/definitions/ResponseOfContentWaveResponse"
             }
           }
         }
@@ -15209,19 +15209,7 @@
       },
       "title": "CloneNewAsset"
     },
-    "ApiError": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
-        }
-      },
-      "title": "ApiError"
-    },
-    "ApiResponse": {
+    "ResponseOfContentWaveResponse": {
       "type": "object",
       "properties": {
         "requestId": {
@@ -15233,7 +15221,7 @@
         "result": {
           "type": "array",
           "items": {
-            "type": "object"
+            "$ref": "#/definitions/ContentWaveResponse"
           }
         },
         "warnings": {
@@ -15245,11 +15233,641 @@
         "errors": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ApiError"
+            "$ref": "#/definitions/ContentWaveError"
+          }
+        },
+        "pageDetails": {
+          "$ref": "#/definitions/ContentWavePageDetails"
+        }
+      },
+      "title": "ResponseOfContentWaveResponse"
+    },
+    "ResponseOfContentWaveFilterResponse": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/ContentWaveFilterResponse"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentWaveError"
           }
         }
       },
-      "title": "ApiResponse"
+      "title": "ResponseOfContentWaveFilterResponse"
+    },
+    "ContentWaveFilterResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentWaveResponse"
+          }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentPage": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ContentWaveFilterResponse"
+    },
+    "ContentWavePageDetails": {
+      "type": "object",
+      "properties": {
+        "totalItems": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentPage": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ContentWavePageDetails"
+    },
+    "ContentWaveResponse": {
+      "type": "object",
+      "properties": {
+        "mailingDefId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string"
+        },
+        "contentWaveId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "journeyIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "headers": {
+          "$ref": "#/definitions/ContentWaveHeaders"
+        },
+        "metadata": {
+          "$ref": "#/definitions/ContentWaveMetadata"
+        },
+        "settings": {
+          "$ref": "#/definitions/ContentWaveSettings"
+        },
+        "metaTags": {
+          "$ref": "#/definitions/ContentWaveMetaTags"
+        },
+        "publishConfigs": {
+          "$ref": "#/definitions/ContentWavePublishConfigs"
+        },
+        "data": {
+          "$ref": "#/definitions/ContentWaveData"
+        },
+        "thumbnail": {
+          "$ref": "#/definitions/ContentWaveThumbnail"
+        },
+        "status": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "virtualId": {
+          "type": "string"
+        },
+        "associatedStates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentWaveAssociatedState"
+          }
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "appData": {
+          "$ref": "#/definitions/ContentWaveAppData"
+        },
+        "channel": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "templateId": {
+          "type": "string"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "used": {
+          "type": "boolean"
+        },
+        "accessZoneId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "editorContext": {
+          "$ref": "#/definitions/ContentWaveEditorContext"
+        },
+        "previewUrl": {
+          "type": "string"
+        },
+        "isWorkflowAssociated": {
+          "type": "string"
+        },
+        "scriptEngine": {
+          "type": "string"
+        },
+        "conditionalContentType": {
+          "type": "string"
+        },
+        "imsOrg": {
+          "type": "string"
+        },
+        "webConfigId": {
+          "type": "string"
+        },
+        "themeId": {
+          "type": "string"
+        },
+        "smartCampaignId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ContentWaveResponse"
+    },
+    "ContentWaveHeaders": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string"
+        },
+        "fromEmail": {
+          "type": "string"
+        },
+        "fromName": {
+          "type": "string"
+        },
+        "replyEmail": {
+          "type": "string"
+        },
+        "ccEmails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preheader": {
+          "type": "string"
+        },
+        "pqlListFromEmail": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pqlListFromName": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pqlListSubject": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pqlListReplyEmail": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ContentWaveHeaders"
+    },
+    "ContentWaveMetadata": {
+      "type": "object",
+      "properties": {
+        "createdBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "createdById": {
+          "type": "string"
+        },
+        "createdByAepId": {
+          "type": "string"
+        },
+        "modifiedBy": {
+          "type": "string"
+        },
+        "modifiedAt": {
+          "type": "string"
+        },
+        "modifiedById": {
+          "type": "string"
+        },
+        "modifiedByAepId": {
+          "type": "string"
+        },
+        "contentCreationMethod": {
+          "type": "string"
+        }
+      },
+      "title": "ContentWaveMetadata"
+    },
+    "ContentWaveSettings": {
+      "type": "object",
+      "properties": {
+        "isOperational": {
+          "type": "boolean"
+        },
+        "isWebPageView": {
+          "type": "boolean"
+        },
+        "isTextOnly": {
+          "type": "boolean"
+        },
+        "disableOpenTracking": {
+          "type": "boolean"
+        },
+        "enableUrlTracking": {
+          "type": "boolean"
+        },
+        "apiConfigId": {
+          "type": "string"
+        },
+        "smsType": {
+          "type": "string"
+        },
+        "senderNumber": {
+          "type": "string"
+        },
+        "executionField": {
+          "type": "string"
+        },
+        "fragmentType": {
+          "type": "string"
+        },
+        "fragmentSubType": {
+          "type": "string"
+        },
+        "supportedChannels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dedicatedIp": {
+          "type": "string"
+        },
+        "brandedDomain": {
+          "type": "string"
+        },
+        "enableMunchkinTracking": {
+          "type": "boolean"
+        },
+        "preFillFormFieldsWithProfileInfo": {
+          "type": "boolean"
+        },
+        "subDomain": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "munchkinTrackingEnabled": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "isMobileEnabled": {
+          "type": "boolean"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "schemaVersion": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "publishedUrl": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "title": "ContentWaveSettings"
+    },
+    "ContentWaveMetaTags": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "robots": {
+          "type": "string"
+        },
+        "customHeadHtml": {
+          "type": "string"
+        },
+        "facebookOgTags": {
+          "type": "string"
+        }
+      },
+      "title": "ContentWaveMetaTags"
+    },
+    "ContentWavePublishConfigs": {
+      "type": "object",
+      "properties": {
+        "publishUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ContentWavePublishConfigs"
+    },
+    "ContentWaveData": {
+      "type": "object",
+      "properties": {
+        "html": {
+          "$ref": "#/definitions/HtmlDataDTO"
+        },
+        "text": {
+          "$ref": "#/definitions/TextDataDTO"
+        },
+        "content": {
+          "type": "string"
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentWaveDataToken"
+          }
+        },
+        "simulatedContent": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "expiryDate": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "smartListId": {
+          "type": "string"
+        },
+        "pqlListHtml": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pqlListText": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "customCss": {
+          "type": "string"
+        },
+        "elements": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "modifications": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "title": "ContentWaveData"
+    },
+    "ContentWaveDataToken": {
+      "type": "object",
+      "properties": {
+        "mainTokenStr": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "optionString": {
+          "type": "string"
+        }
+      },
+      "title": "ContentWaveDataToken"
+    },
+    "ContentWaveThumbnail": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "ContentWaveThumbnail"
+    },
+    "ContentWaveAssociatedState": {
+      "type": "object",
+      "properties": {
+        "contentId": {
+          "type": "string"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "title": "ContentWaveAssociatedState"
+    },
+    "ContentWaveAppData": {
+      "type": "object",
+      "properties": {
+        "journeyIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "editorType": {
+          "type": "string"
+        },
+        "editorContent": {
+          "type": "string"
+        },
+        "workspaceId": {
+          "type": "string"
+        },
+        "folderId": {
+          "type": "string"
+        },
+        "programId": {
+          "type": "string"
+        },
+        "programName": {
+          "type": "string"
+        },
+        "programType": {
+          "type": "string"
+        },
+        "isSalesEmail": {
+          "type": "boolean"
+        },
+        "leadIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ContentWaveAppData"
+    },
+    "ContentWaveEditorContext": {
+      "type": "object",
+      "properties": {
+        "dynamicContent": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "title": "ContentWaveEditorContext"
+    },
+    "ContentWaveErrorPosition": {
+      "type": "object",
+      "properties": {
+        "line": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "column": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ContentWaveErrorPosition"
+    },
+    "ContentWaveError": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "dynamicMessage": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "errorMessage": {
+          "type": "string"
+        },
+        "errorPosition": {
+          "$ref": "#/definitions/ContentWaveErrorPosition"
+        }
+      },
+      "title": "ContentWaveError"
     }
   }
 }
