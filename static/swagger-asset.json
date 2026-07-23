@@ -1532,7 +1532,7 @@
           "Email Templates"
         ],
         "summary": "Get Email Templates",
-        "description": "Returns a list of email template records accessible in the target instance. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns a list of email template records accessible in the target instance. Required Permissions: Read-Only Assets, Read-Write Assets. Note: This endpoint is not applicable to Email Templates (New) assets. If you are looking for an equivalent endpoint for Email Templates (New), refer to the Filter Email Templates endpoint: GET /rest/asset/v2/emailtemplate/filter.",
         "operationId": "getEmailTemplatesUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1668,7 +1668,7 @@
           "Emails"
         ],
         "summary": "Get Emails",
-        "description": "Returns a list of emails matching the given filter parameters. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns a list of emails matching the given filter parameters. Required Permissions: Read-Only Assets, Read-Write Assets. Note: This endpoint is not applicable to Emails (New) assets. If you are looking for an equivalent endpoint for Emails (New), refer to the Filter Emails endpoint: GET /rest/asset/v2/email/filter.",
         "operationId": "getEmailUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -6551,7 +6551,7 @@
           "Snippets"
         ],
         "summary": "Get Snippets",
-        "description": "Retrieves a list of accessible snippets from the target instance. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Retrieves a list of accessible snippets from the target instance. Required Permissions: Read-Only Assets, Read-Write Assets. Note: This endpoint is not applicable to Fragments (New) assets. If you are looking for an equivalent endpoint for Fragments (New), refer to the Filter Fragments endpoint: GET /rest/asset/v2/fragment/filter.",
         "operationId": "getSnippetUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -7202,7 +7202,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7252,7 +7258,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailTemplateNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7302,7 +7314,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/FragmentNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7352,7 +7370,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7402,7 +7426,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailTemplateNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7452,7 +7482,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/FragmentNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7498,14 +7534,14 @@
             "type": "string"
           },
           {
-            "name": "folderIds",
+            "name": "folderType",
             "in": "query",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "type": "string",
+            "enum": [
+              "Folder",
+              "Program"
+            ]
           },
           {
             "name": "status",
@@ -7532,12 +7568,6 @@
             "format": "int32"
           },
           {
-            "name": "createdBy",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "createdAtEnd",
             "in": "query",
             "required": false,
@@ -7545,12 +7575,6 @@
           },
           {
             "name": "createdAtStart",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "modifiedBy",
             "in": "query",
             "required": false,
             "type": "string"
@@ -7630,7 +7654,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveFilterResponse"
+              "$ref": "#/definitions/EmailFilterResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7676,14 +7706,14 @@
             "type": "string"
           },
           {
-            "name": "folderIds",
+            "name": "folderType",
             "in": "query",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "type": "string",
+            "enum": [
+              "Folder",
+              "Program"
+            ]
           },
           {
             "name": "status",
@@ -7710,12 +7740,6 @@
             "format": "int32"
           },
           {
-            "name": "createdBy",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "createdAtEnd",
             "in": "query",
             "required": false,
@@ -7723,12 +7747,6 @@
           },
           {
             "name": "createdAtStart",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "modifiedBy",
             "in": "query",
             "required": false,
             "type": "string"
@@ -7802,7 +7820,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveFilterResponse"
+              "$ref": "#/definitions/EmailTemplateFilterResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -7848,14 +7872,14 @@
             "type": "string"
           },
           {
-            "name": "folderIds",
+            "name": "folderType",
             "in": "query",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "type": "string",
+            "enum": [
+              "Folder",
+              "Program"
+            ]
           },
           {
             "name": "status",
@@ -7882,12 +7906,6 @@
             "format": "int32"
           },
           {
-            "name": "createdBy",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "createdAtEnd",
             "in": "query",
             "required": false,
@@ -7895,12 +7913,6 @@
           },
           {
             "name": "createdAtStart",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "modifiedBy",
             "in": "query",
             "required": false,
             "type": "string"
@@ -7980,7 +7992,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveFilterResponse"
+              "$ref": "#/definitions/FragmentFilterResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8030,7 +8048,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8080,7 +8104,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailTemplateNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8130,7 +8160,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/FragmentNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8180,7 +8216,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/UsedByResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8230,7 +8272,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/UsedByResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8280,7 +8328,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/UsedByResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8325,7 +8379,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8370,7 +8430,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailTemplateNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8415,7 +8481,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/FragmentNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8463,11 +8535,18 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
       }
+      
     },
     "/rest/asset/v2/emailtemplate/{id}/delete": {
       "post": {
@@ -8511,7 +8590,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8559,7 +8644,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8616,7 +8707,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8673,7 +8770,13 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/EmailTemplateNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8730,7 +8833,508 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfContentWaveResponse"
+              "$ref": "#/definitions/FragmentNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/email/bulk/get": {
+      "post": {
+        "tags": [
+          "Emails (New)"
+        ],
+        "summary": "Bulk Get Emails",
+        "description": "Retrieves multiple email assets by their IDs in a single request; each asset is returned in full, including its content. Maximum 20 assets per request. Required Permissions: Read-Only Assets, Access Design Studio, Access Email.",
+        "operationId": "bulkGetUsingPOST_email",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkGetRequest",
+            "description": "bulkGetRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkGetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EmailNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/emailtemplate/bulk/get": {
+      "post": {
+        "tags": [
+          "Email Templates (New)"
+        ],
+        "summary": "Bulk Get Email Templates",
+        "description": "Retrieves multiple email templates by their IDs in a single request; each asset is returned in full, including its content. Maximum 20 assets per request. Required Permissions: Read-Only Assets, Access Design Studio, Access Email Template.",
+        "operationId": "bulkGetUsingPOST_emailtemplate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkGetRequest",
+            "description": "bulkGetRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkGetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EmailTemplateNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/fragment/bulk/get": {
+      "post": {
+        "tags": [
+          "Fragments (New)"
+        ],
+        "summary": "Bulk Get Fragments",
+        "description": "Retrieves multiple fragments by their IDs in a single request; each asset is returned in full, including its content. Maximum 20 assets per request. Required Permissions: Read-Only Assets, Access Design Studio, Access Snippet.",
+        "operationId": "bulkGetUsingPOST_fragment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkGetRequest",
+            "description": "bulkGetRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkGetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FragmentNewResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/email/bulk/delete": {
+      "post": {
+        "tags": [
+          "Emails (New)"
+        ],
+        "summary": "Bulk Delete Emails",
+        "description": "Deletes multiple email assets by their IDs in a single request. Maximum 20 assets per request. Required Permissions: Read-Write Assets, Access Design Studio, Delete Email.",
+        "operationId": "bulkDeleteUsingPOST_email",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkDeleteRequest",
+            "description": "bulkDeleteRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/emailtemplate/bulk/delete": {
+      "post": {
+        "tags": [
+          "Email Templates (New)"
+        ],
+        "summary": "Bulk Delete Email Templates",
+        "description": "Deletes multiple email templates by their IDs in a single request. Maximum 20 assets per request. Required Permissions: Read-Write Assets, Access Design Studio, Delete Email Template.",
+        "operationId": "bulkDeleteUsingPOST_emailtemplate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkDeleteRequest",
+            "description": "bulkDeleteRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/fragment/bulk/delete": {
+      "post": {
+        "tags": [
+          "Fragments (New)"
+        ],
+        "summary": "Bulk Delete Fragments",
+        "description": "Deletes multiple fragments by their IDs in a single request. Maximum 20 assets per request. Required Permissions: Read-Write Assets, Access Design Studio, Delete Snippet.",
+        "operationId": "bulkDeleteUsingPOST_fragment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkDeleteRequest",
+            "description": "bulkDeleteRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/email/bulk/usedby": {
+      "post": {
+        "tags": [
+          "Emails (New)"
+        ],
+        "summary": "Bulk Get Emails Used By",
+        "description": "Returns, for each of the specified emails, whether it is used and the number of places it is used (count) — not the referencing assets themselves. Maximum 50 assets per request. Required Permissions: Read-Only Assets, Access Design Studio.",
+        "operationId": "bulkUsedByUsingPOST_email",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkUsedByRequest",
+            "description": "bulkUsedByRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkUsedByRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BulkUsedByResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/emailtemplate/bulk/usedby": {
+      "post": {
+        "tags": [
+          "Email Templates (New)"
+        ],
+        "summary": "Bulk Get Email Templates Used By",
+        "description": "Returns, for each of the specified email templates, whether it is used and the number of places it is used (count) — not the referencing assets themselves. Maximum 50 assets per request. Required Permissions: Read-Only Assets, Access Design Studio.",
+        "operationId": "bulkUsedByUsingPOST_emailtemplate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkUsedByRequest",
+            "description": "bulkUsedByRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkUsedByRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BulkUsedByResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v2/fragment/bulk/usedby": {
+      "post": {
+        "tags": [
+          "Fragments (New)"
+        ],
+        "summary": "Bulk Get Fragments Used By",
+        "description": "Returns, for each of the specified fragments, whether it is used and the number of places it is used (count) — not the referencing assets themselves. Maximum 50 assets per request. Required Permissions: Read-Only Assets, Access Design Studio.",
+        "operationId": "bulkUsedByUsingPOST_fragment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "Token for Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-app-type",
+            "in": "header",
+            "description": "Application type header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "bulkUsedByRequest",
+            "description": "bulkUsedByRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BulkUsedByRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BulkUsedByResponse"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -8738,6 +9342,58 @@
     }
   },
   "definitions": {
+    "BulkGetRequest": {
+      "type": "object",
+      "required": [
+        "assetIds"
+      ],
+      "properties": {
+        "assetIds": {
+          "type": "array",
+          "description": "Set of asset IDs to retrieve. Maximum 20 per request.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "BulkGetRequest"
+    },
+    "BulkDeleteRequest": {
+      "type": "object",
+      "required": [
+        "assetIds"
+      ],
+      "properties": {
+        "assetIds": {
+          "type": "array",
+          "description": "Set of asset IDs to delete. Maximum 20 per request.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ignoreUsedBy": {
+          "type": "boolean",
+          "description": "If true, deletes assets even if they are referenced by other assets."
+        }
+      },
+      "title": "BulkDeleteRequest"
+    },
+    "BulkUsedByRequest": {
+      "type": "object",
+      "required": [
+        "assetIds"
+      ],
+      "properties": {
+        "assetIds": {
+          "type": "array",
+          "description": "Asset IDs to query. Maximum 50 per request.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "BulkUsedByRequest"
+    },
     "CreateProgramRequest": {
       "type": "object",
       "required": [
@@ -14891,9 +15547,6 @@
         "description": {
           "type": "string"
         },
-        "appType": {
-          "type": "string"
-        },
         "appData": {
           "$ref": "#/definitions/EmailAppDataDTO"
         },
@@ -14910,13 +15563,8 @@
           "$ref": "#/definitions/EmailSettingsDTO"
         },
         "templateId": {
-          "type": "string"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
+          "type": "string",
+          "description": "When provided, the template's content overwrites any data sent in the request."
         }
       },
       "title": "CreateEmailRequest"
@@ -14935,9 +15583,6 @@
         "description": {
           "type": "string"
         },
-        "appType": {
-          "type": "string"
-        },
         "appData": {
           "$ref": "#/definitions/AppDataDTO"
         },
@@ -14946,12 +15591,6 @@
         },
         "editorContext": {
           "$ref": "#/definitions/EditorContextDto"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
         }
       },
       "title": "CreateEmailTemplateRequest"
@@ -14971,9 +15610,6 @@
         "description": {
           "type": "string"
         },
-        "appType": {
-          "type": "string"
-        },
         "appData": {
           "$ref": "#/definitions/AppDataDTO"
         },
@@ -14985,12 +15621,6 @@
         },
         "settings": {
           "$ref": "#/definitions/FragmentSettingsDTO"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
         }
       },
       "title": "CreateFragmentRequest"
@@ -15063,9 +15693,6 @@
         "description": {
           "type": "string"
         },
-        "appType": {
-          "type": "string"
-        },
         "data": {
           "$ref": "#/definitions/DataDTO"
         },
@@ -15079,13 +15706,8 @@
           "$ref": "#/definitions/EmailSettingsDTO"
         },
         "templateId": {
-          "type": "string"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
+          "type": "string",
+          "description": "When provided, the template's content overwrites both the email's existing content and any data sent in the request."
         }
       },
       "title": "UpdateEmailRequest"
@@ -15100,20 +15722,11 @@
         "description": {
           "type": "string"
         },
-        "appType": {
-          "type": "string"
-        },
         "data": {
           "$ref": "#/definitions/DataDTO"
         },
         "editorContext": {
           "$ref": "#/definitions/EditorContextDto"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
         }
       },
       "title": "UpdateEmailTemplateRequest"
@@ -15128,9 +15741,6 @@
         "description": {
           "type": "string"
         },
-        "appType": {
-          "type": "string"
-        },
         "data": {
           "$ref": "#/definitions/DataDTO"
         },
@@ -15139,12 +15749,6 @@
         },
         "settings": {
           "$ref": "#/definitions/UpdateFragmentSettingsDTO"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
         }
       },
       "title": "UpdateFragmentRequest"
@@ -15209,293 +15813,9 @@
       },
       "title": "CloneNewAsset"
     },
-    "ResponseOfContentWaveResponse": {
+    "ContentMetadataDTO": {
       "type": "object",
-      "properties": {
-        "requestId": {
-          "type": "string"
-        },
-        "success": {
-          "type": "boolean"
-        },
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContentWaveResponse"
-          }
-        },
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "errors": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContentWaveError"
-          }
-        },
-        "pageDetails": {
-          "$ref": "#/definitions/ContentWavePageDetails"
-        }
-      },
-      "title": "ResponseOfContentWaveResponse"
-    },
-    "ResponseOfContentWaveFilterResponse": {
-      "type": "object",
-      "properties": {
-        "requestId": {
-          "type": "string"
-        },
-        "success": {
-          "type": "boolean"
-        },
-        "result": {
-          "$ref": "#/definitions/ContentWaveFilterResponse"
-        },
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "errors": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContentWaveError"
-          }
-        }
-      },
-      "title": "ResponseOfContentWaveFilterResponse"
-    },
-    "ContentWaveFilterResponse": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContentWaveResponse"
-          }
-        },
-        "totalItems": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "currentPage": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "ContentWaveFilterResponse"
-    },
-    "ContentWavePageDetails": {
-      "type": "object",
-      "properties": {
-        "totalItems": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "pageSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "currentPage": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "ContentWavePageDetails"
-    },
-    "ContentWaveResponse": {
-      "type": "object",
-      "properties": {
-        "mailingDefId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "id": {
-          "type": "string"
-        },
-        "contentWaveId": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "appType": {
-          "type": "string"
-        },
-        "journeyIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "headers": {
-          "$ref": "#/definitions/ContentWaveHeaders"
-        },
-        "metadata": {
-          "$ref": "#/definitions/ContentWaveMetadata"
-        },
-        "settings": {
-          "$ref": "#/definitions/ContentWaveSettings"
-        },
-        "metaTags": {
-          "$ref": "#/definitions/ContentWaveMetaTags"
-        },
-        "publishConfigs": {
-          "$ref": "#/definitions/ContentWavePublishConfigs"
-        },
-        "data": {
-          "$ref": "#/definitions/ContentWaveData"
-        },
-        "thumbnail": {
-          "$ref": "#/definitions/ContentWaveThumbnail"
-        },
-        "status": {
-          "type": "string"
-        },
-        "state": {
-          "type": "string"
-        },
-        "virtualId": {
-          "type": "string"
-        },
-        "associatedStates": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContentWaveAssociatedState"
-          }
-        },
-        "version": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "appData": {
-          "$ref": "#/definitions/ContentWaveAppData"
-        },
-        "channel": {
-          "type": "string"
-        },
-        "contentType": {
-          "type": "string"
-        },
-        "templateId": {
-          "type": "string"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "count": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "used": {
-          "type": "boolean"
-        },
-        "accessZoneId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "editorContext": {
-          "$ref": "#/definitions/ContentWaveEditorContext"
-        },
-        "previewUrl": {
-          "type": "string"
-        },
-        "isWorkflowAssociated": {
-          "type": "string"
-        },
-        "scriptEngine": {
-          "type": "string"
-        },
-        "conditionalContentType": {
-          "type": "string"
-        },
-        "imsOrg": {
-          "type": "string"
-        },
-        "webConfigId": {
-          "type": "string"
-        },
-        "themeId": {
-          "type": "string"
-        },
-        "smartCampaignId": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "ContentWaveResponse"
-    },
-    "ContentWaveHeaders": {
-      "type": "object",
-      "properties": {
-        "subject": {
-          "type": "string"
-        },
-        "fromEmail": {
-          "type": "string"
-        },
-        "fromName": {
-          "type": "string"
-        },
-        "replyEmail": {
-          "type": "string"
-        },
-        "ccEmails": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "preheader": {
-          "type": "string"
-        },
-        "pqlListFromEmail": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          }
-        },
-        "pqlListFromName": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          }
-        },
-        "pqlListSubject": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          }
-        },
-        "pqlListReplyEmail": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "ContentWaveHeaders"
-    },
-    "ContentWaveMetadata": {
-      "type": "object",
+      "description": "Audit information for the asset.",
       "properties": {
         "createdBy": {
           "type": "string"
@@ -15520,246 +15840,13 @@
         },
         "modifiedByAepId": {
           "type": "string"
-        },
-        "contentCreationMethod": {
-          "type": "string"
         }
       },
-      "title": "ContentWaveMetadata"
+      "title": "ContentMetadataDTO"
     },
-    "ContentWaveSettings": {
+    "AssociatedStateDTO": {
       "type": "object",
-      "properties": {
-        "isOperational": {
-          "type": "boolean"
-        },
-        "isWebPageView": {
-          "type": "boolean"
-        },
-        "isTextOnly": {
-          "type": "boolean"
-        },
-        "disableOpenTracking": {
-          "type": "boolean"
-        },
-        "enableUrlTracking": {
-          "type": "boolean"
-        },
-        "apiConfigId": {
-          "type": "string"
-        },
-        "smsType": {
-          "type": "string"
-        },
-        "senderNumber": {
-          "type": "string"
-        },
-        "executionField": {
-          "type": "string"
-        },
-        "fragmentType": {
-          "type": "string"
-        },
-        "fragmentSubType": {
-          "type": "string"
-        },
-        "supportedChannels": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "dedicatedIp": {
-          "type": "string"
-        },
-        "brandedDomain": {
-          "type": "string"
-        },
-        "enableMunchkinTracking": {
-          "type": "boolean"
-        },
-        "preFillFormFieldsWithProfileInfo": {
-          "type": "boolean"
-        },
-        "subDomain": {
-          "type": "string"
-        },
-        "path": {
-          "type": "string"
-        },
-        "munchkinTrackingEnabled": {
-          "type": "boolean"
-        },
-        "url": {
-          "type": "string"
-        },
-        "isMobileEnabled": {
-          "type": "boolean"
-        },
-        "locale": {
-          "type": "string"
-        },
-        "schemaVersion": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "theme": {
-          "type": "string"
-        },
-        "publishedUrl": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        }
-      },
-      "title": "ContentWaveSettings"
-    },
-    "ContentWaveMetaTags": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "keywords": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "robots": {
-          "type": "string"
-        },
-        "customHeadHtml": {
-          "type": "string"
-        },
-        "facebookOgTags": {
-          "type": "string"
-        }
-      },
-      "title": "ContentWaveMetaTags"
-    },
-    "ContentWavePublishConfigs": {
-      "type": "object",
-      "properties": {
-        "publishUrls": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "ContentWavePublishConfigs"
-    },
-    "ContentWaveData": {
-      "type": "object",
-      "properties": {
-        "html": {
-          "$ref": "#/definitions/HtmlDataDTO"
-        },
-        "text": {
-          "$ref": "#/definitions/TextDataDTO"
-        },
-        "content": {
-          "type": "string"
-        },
-        "tokens": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ContentWaveDataToken"
-          }
-        },
-        "simulatedContent": {
-          "type": "string"
-        },
-        "source": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        },
-        "expiryDate": {
-          "type": "string"
-        },
-        "imageUrl": {
-          "type": "string"
-        },
-        "smartListId": {
-          "type": "string"
-        },
-        "pqlListHtml": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          }
-        },
-        "pqlListText": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string"
-          }
-        },
-        "customCss": {
-          "type": "string"
-        },
-        "elements": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
-        },
-        "variants": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "modifications": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        }
-      },
-      "title": "ContentWaveData"
-    },
-    "ContentWaveDataToken": {
-      "type": "object",
-      "properties": {
-        "mainTokenStr": {
-          "type": "string"
-        },
-        "domain": {
-          "type": "string"
-        },
-        "key": {
-          "type": "string"
-        },
-        "optionString": {
-          "type": "string"
-        }
-      },
-      "title": "ContentWaveDataToken"
-    },
-    "ContentWaveThumbnail": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        }
-      },
-      "title": "ContentWaveThumbnail"
-    },
-    "ContentWaveAssociatedState": {
-      "type": "object",
+      "description": "A version/state of the asset (e.g. draft or approved).",
       "properties": {
         "contentId": {
           "type": "string"
@@ -15771,21 +15858,13 @@
           "type": "string"
         }
       },
-      "title": "ContentWaveAssociatedState"
+      "title": "AssociatedStateDTO"
     },
-    "ContentWaveAppData": {
+    "EmailAppDataResponseDTO": {
       "type": "object",
+      "description": "Location and program context of the email. Program fields are only present when the email lives under a program.",
       "properties": {
-        "journeyIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "editorType": {
-          "type": "string"
-        },
-        "editorContent": {
           "type": "string"
         },
         "workspaceId": {
@@ -15802,45 +15881,486 @@
         },
         "programType": {
           "type": "string"
-        },
-        "isSalesEmail": {
+        }
+      },
+      "title": "EmailAppDataResponseDTO"
+    },
+    "EmailSettingsResponseDTO": {
+      "type": "object",
+      "properties": {
+        "isOperational": {
           "type": "boolean"
         },
-        "leadIds": {
+        "isWebPageView": {
+          "type": "boolean"
+        },
+        "isTextOnly": {
+          "type": "boolean"
+        },
+        "disableOpenTracking": {
+          "type": "boolean"
+        },
+        "enableUrlTracking": {
+          "type": "boolean"
+        }
+      },
+      "title": "EmailSettingsResponseDTO"
+    },
+    "ThumbnailDTO": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Thumbnail image, typically a base64-encoded data URI."
+        }
+      },
+      "title": "ThumbnailDTO"
+    },
+    "EmailContentDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/definitions/EmailHeadersDTO"
+        },
+        "metadata": {
+          "$ref": "#/definitions/ContentMetadataDTO"
+        },
+        "settings": {
+          "$ref": "#/definitions/EmailSettingsResponseDTO"
+        },
+        "status": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "virtualId": {
+          "type": "string"
+        },
+        "associatedStates": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/AssociatedStateDTO"
+          }
+        },
+        "appData": {
+          "$ref": "#/definitions/EmailAppDataResponseDTO"
+        },
+        "templateId": {
+          "type": "string"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "editorContext": {
+          "$ref": "#/definitions/EditorContextDto"
+        },
+        "scriptEngine": {
+          "type": "string"
+        }
+      },
+      "title": "EmailContentDTO"
+    },
+    "EmailTemplateContentDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/ContentMetadataDTO"
+        },
+        "status": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "virtualId": {
+          "type": "string"
+        },
+        "associatedStates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AssociatedStateDTO"
+          }
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "appData": {
+          "$ref": "#/definitions/AppDataDTO"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "scriptEngine": {
+          "type": "string"
+        }
+      },
+      "title": "EmailTemplateContentDTO"
+    },
+    "FragmentContentDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/ContentMetadataDTO"
+        },
+        "settings": {
+          "$ref": "#/definitions/FragmentSettingsDTO"
+        },
+        "thumbnail": {
+          "$ref": "#/definitions/ThumbnailDTO"
+        },
+        "status": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "virtualId": {
+          "type": "string"
+        },
+        "associatedStates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AssociatedStateDTO"
+          }
+        },
+        "appData": {
+          "$ref": "#/definitions/AppDataDTO"
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "editorContext": {
+          "$ref": "#/definitions/EditorContextDto"
+        },
+        "scriptEngine": {
+          "type": "string"
+        },
+        "themeId": {
+          "type": "string"
+        }
+      },
+      "title": "FragmentContentDTO"
+    },
+    "EmailDetailDTO": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/EmailContentDTO"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/DataDTO"
+            }
+          }
+        }
+      ],
+      "title": "EmailDetailDTO"
+    },
+    "EmailTemplateDetailDTO": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/EmailTemplateContentDTO"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/DataDTO"
+            }
+          }
+        }
+      ],
+      "title": "EmailTemplateDetailDTO"
+    },
+    "FragmentDetailDTO": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/FragmentContentDTO"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/DataDTO"
+            }
+          }
+        }
+      ],
+      "title": "FragmentDetailDTO"
+    },
+    "EmailFilterResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PageDetailsDTO"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EmailContentDTO"
+              }
+            }
+          }
+        }
+      ],
+      "title": "EmailFilterResult"
+    },
+    "EmailTemplateFilterResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PageDetailsDTO"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EmailTemplateContentDTO"
+              }
+            }
+          }
+        }
+      ],
+      "title": "EmailTemplateFilterResult"
+    },
+    "FragmentFilterResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PageDetailsDTO"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FragmentContentDTO"
+              }
+            }
+          }
+        }
+      ],
+      "title": "FragmentFilterResult"
+    },
+    "EmailFilterResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/EmailFilterResult"
+        }
+      },
+      "title": "EmailFilterResponse"
+    },
+    "EmailTemplateFilterResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/EmailTemplateFilterResult"
+        }
+      },
+      "title": "EmailTemplateFilterResponse"
+    },
+    "FragmentFilterResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/FragmentFilterResult"
+        }
+      },
+      "title": "FragmentFilterResponse"
+    },
+    "EmailNewResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmailDetailDTO"
           }
         }
       },
-      "title": "ContentWaveAppData"
+      "title": "EmailNewResponse"
     },
-    "ContentWaveEditorContext": {
+    "EmailTemplateNewResponse": {
       "type": "object",
       "properties": {
-        "dynamicContent": {
-          "type": "object",
-          "additionalProperties": true
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmailTemplateDetailDTO"
+          }
         }
       },
-      "title": "ContentWaveEditorContext"
+      "title": "EmailTemplateNewResponse"
     },
-    "ContentWaveErrorPosition": {
+    "FragmentNewResponse": {
       "type": "object",
       "properties": {
-        "line": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FragmentDetailDTO"
+          }
+        }
+      },
+      "title": "FragmentNewResponse"
+    },
+    "DeleteResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteResponse"
+    },
+    "UsedByItemDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "appData": {
+          "$ref": "#/definitions/AppDataDTO"
+        },
+        "channel": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "externalId": {
+          "type": "string"
+        }
+      },
+      "title": "UsedByItemDTO"
+    },
+    "PageDetailsDTO": {
+      "type": "object",
+      "properties": {
+        "totalItems": {
           "type": "integer",
           "format": "int32"
         },
-        "column": {
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentPage": {
           "type": "integer",
           "format": "int32"
         }
       },
-      "title": "ContentWaveErrorPosition"
+      "title": "PageDetailsDTO"
     },
-    "ContentWaveError": {
+    "UsedByResponse": {
       "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UsedByItemDTO"
+          }
+        },
+        "pageDetails": {
+          "$ref": "#/definitions/PageDetailsDTO"
+        }
+      },
+      "title": "UsedByResponse"
+    },
+    "ContentWaveErrorDTO": {
+      "type": "object",
+      "description": "An entry in the errors array. The type field marks it as info, warning, or error \u2014 there is no separate warnings array; warnings appear here with type \"warning\".",
       "properties": {
         "key": {
           "type": "string"
@@ -15855,19 +16375,89 @@
           "type": "string"
         },
         "type": {
-          "type": "string"
+          "type": "string",
+          "description": "Severity of the entry: info, warning, or error."
         },
         "source": {
-          "type": "string"
+          "type": "string",
+          "description": "Origin of the entry, e.g. validation, template, fragment, message_render, asset_publish."
         },
         "errorMessage": {
           "type": "string"
         },
         "errorPosition": {
-          "$ref": "#/definitions/ContentWaveErrorPosition"
+          "type": "object",
+          "description": "Location in the content the entry refers to (for script/validation errors).",
+          "properties": {
+            "line": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "column": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         }
       },
-      "title": "ContentWaveError"
+      "title": "ContentWaveErrorDTO"
+    },
+    "BulkUsedByItemDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of places the asset is used."
+        },
+        "used": {
+          "type": "boolean",
+          "description": "Whether the asset is used by any other asset."
+        }
+      },
+      "title": "BulkUsedByItemDTO"
+    },
+    "BulkUsedByResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BulkUsedByItemDTO"
+          }
+        }
+      },
+      "title": "BulkUsedByResponse"
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContentWaveErrorDTO"
+          }
+        }
+      },
+      "title": "ErrorResponse"
     }
   }
 }
