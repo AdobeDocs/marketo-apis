@@ -7500,7 +7500,7 @@
           "Emails (New)"
         ],
         "summary": "List Emails",
-        "description": "Filters and lists email assets by the given criteria. Required Permissions: Read-Only Assets, Access Design Studio, Access Email.",
+        "description": "Filters and lists email assets by the given criteria. Required Permissions: Read-Only Assets, Access Design Studio, Access Email.\n\nNote: The totalItems value in the response includes A/B test variants in its count; however, the A/B test variant emails themselves are not returned in the result.",
         "operationId": "filterContentUsingGET_email",
         "produces": [
           "application/json"
@@ -7563,6 +7563,7 @@
           {
             "name": "pageSize",
             "in": "query",
+            "description": "Maximum value is 50.",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -7735,6 +7736,7 @@
           {
             "name": "pageSize",
             "in": "query",
+            "description": "Maximum value is 50.",
             "required": false,
             "type": "integer",
             "format": "int32"
@@ -7901,6 +7903,7 @@
           {
             "name": "pageSize",
             "in": "query",
+            "description": "Maximum value is 50.",
             "required": false,
             "type": "integer",
             "format": "int32"
