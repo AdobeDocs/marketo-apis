@@ -1532,7 +1532,7 @@
           "Email Templates"
         ],
         "summary": "Get Email Templates",
-        "description": "Returns a list of email template records accessible in the target instance. Required Permissions: Read-Only Assets, Read-Write Assets. Note: This endpoint is not applicable to Email Templates (New) assets. If you are looking for an equivalent endpoint for Email Templates (New), refer to the Filter Email Templates endpoint: GET /rest/asset/v2/emailtemplate/filter.",
+        "description": "Returns a list of email template records accessible in the target instance. Required Permissions: Read-Only Assets, Read-Write Assets.\n\nNote: Email templates created with the new email designer may appear in this API's response, but some of the fields may be null or incomplete. For complete and reliable details of these assets, use the Email Templates (New) APIs; refer to the <a href=\"https://developer.adobe.com/marketo-apis/api/asset#operation/filterContentUsingGET_emailtemplate\">List Email Templates</a> endpoint.",
         "operationId": "getEmailTemplatesUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1668,7 +1668,7 @@
           "Emails"
         ],
         "summary": "Get Emails",
-        "description": "Returns a list of emails matching the given filter parameters. Required Permissions: Read-Only Assets, Read-Write Assets. Note: This endpoint is not applicable to Emails (New) assets. If you are looking for an equivalent endpoint for Emails (New), refer to the Filter Emails endpoint: GET /rest/asset/v2/email/filter.",
+        "description": "Returns a list of emails matching the given filter parameters. Required Permissions: Read-Only Assets, Read-Write Assets.\n\nNote: Emails created with the new email designer may appear in this API's response, but some of the fields may be null or incomplete. For complete and reliable details of these assets, use the Emails (New) APIs; refer to the <a href=\"https://developer.adobe.com/marketo-apis/api/asset#operation/filterContentUsingGET_email\">List Emails</a> endpoint.",
         "operationId": "getEmailUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -6551,7 +6551,7 @@
           "Snippets"
         ],
         "summary": "Get Snippets",
-        "description": "Retrieves a list of accessible snippets from the target instance. Required Permissions: Read-Only Assets, Read-Write Assets. Note: This endpoint is not applicable to Fragments (New) assets. If you are looking for an equivalent endpoint for Fragments (New), refer to the Filter Fragments endpoint: GET /rest/asset/v2/fragment/filter.",
+        "description": "Retrieves a list of accessible snippets from the target instance. Required Permissions: Read-Only Assets, Read-Write Assets.\n\nNote: Fragments created with the new email designer may appear in this API's response, but some of the fields may be null or incomplete. For complete and reliable details of these assets, use the Fragments (New) APIs; refer to the <a href=\"https://developer.adobe.com/marketo-apis/api/asset#operation/filterContentUsingGET_fragment\">List Fragments</a> endpoint.",
         "operationId": "getSnippetUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
