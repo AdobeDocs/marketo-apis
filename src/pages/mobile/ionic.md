@@ -5,23 +5,23 @@ description: "Step-by-step guide to integrate the Marketo Cordova Plugin with Io
 
 # Ionic
 
-This topic describes how to integrate the Marketo Cordova Plugin. Ionic capacitor is not currently supported.
+Integrate the Marketo Cordova Plugin with an Ionic app. Ionic Capacitor is not currently supported.
 
 ## Prerequisites
 
-1. [Add an application in Marketo Admin](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/mobile-marketing/admin/add-a-mobile-app) (obtain your application Secret Key and Munchkin Id).
-1. Setup Push Notifications ([iOS](push-notifications.md) | [Android](push-notifications.md) ).
-1. Install [Ionic](https://ionicframework.com/getting-started/) & [Cordova CLI](https://cordova.apache.org/docs/en/latest/guide/cli/).
+1. [Add an application in Marketo Admin](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/mobile-marketing/admin/add-a-mobile-app) and obtain the application Secret Key and Munchkin Id.
+1. Set up push notifications for [iOS](push-notifications.md) or [Android](push-notifications.md).
+1. Install [Ionic](https://ionicframework.com/getting-started/) and the [Cordova CLI](https://cordova.apache.org/docs/en/latest/guide/cli/).
 
 ## Installation Instructions
 
 ### Setup Marketo Ionic Plugin
 
-1. Assuming the Cordova CLI is installed, go to your Ionic application directory and run the following command to add the Marketo Plugin into your application:
+1. Go to the Ionic application directory and run the following command to add the Marketo Plugin:
 
    `$ ionic plugin add https://github.com/Marketo/PhoneGapPlugin.git --variable APPLICATION_SECRET_KEY="YOUR_APPLICATION_SECRET"`
 
-1. To confirm that the plugin has been added to the application, run following command:
+1. Run the following command to confirm that the plugin was added:
 
    `$ ionic plugin list com.marketo.plugin 0.X.0 "MarketoPlugin"`
 
@@ -31,13 +31,13 @@ This topic describes how to integrate the Marketo Cordova Plugin. Ionic capacito
 
    `$ ionic plugin remove com.marketo.plugin`
 
-1. To readd the plugin, run the following command:
+1. To add the plugin again, run the following command:
 
    `$ ionic plugin add https://github.com/Marketo/PhoneGapPlugin.git --variable APPLICATION_SECRET_KEY="YOUR_APPLICATION_SECRET"`
 
 ### Enable Push Notifications in xCode
 
-1. Turn on push notification capability in xCode project.![Notification Capability](assets/notification-capability.png)
+1. Turn on the push notification capability in the xCode project.![Notification Capability](assets/notification-capability.png)
 
 ### Track Push Notifications
 
@@ -63,9 +63,9 @@ sharedInstance.trackPushNotfication(launchOptions)
 
 ### Initialize Marketo Framework
 
-To ensure that the Marketo framework is initiated on app startup, add the following code under the `onDeviceReady` function in your main JavaScript file.
+To initialize the Marketo framework when the app starts, add the following code under the `onDeviceReady` function in the main JavaScript file.
 
-You must pass `ionicCordova` as framework type for Ionic Cordova Apps.
+Pass `ionicCordova` as the framework type for Ionic Cordova apps.
 
 #### Syntax
 
@@ -88,14 +88,14 @@ marketo.onStart(
 
 #### Parameters
 
-- Success Callback : function to execute if Marketo framework initializes successfully.
-- Failure Callback : function to execute if Marketo framework fails to initialize.
-- MUNCHKIN ID : Munchkin ID received from Marketo at time of registration.
-- SECRET KEY : Secret Key received from Marketo at time of registration.
+- Success Callback: Function to run if the Marketo framework initializes successfully.
+- Failure Callback: Function to run if the Marketo framework fails to initialize.
+- MUNCHKIN ID: Munchkin ID received from Marketo during registration.
+- SECRET KEY: Secret Key received from Marketo during registration.
 
 ### Initialize Marketo Push Notification
 
-To make sure that Marketo push notification gets initiated add the following code after the initialized function in your main JavaScript file.
+To initialize Marketo push notifications, add the following code after the initialize function in the main JavaScript file.
 
 #### Syntax
 
@@ -110,11 +110,11 @@ marketo.initializeMarketoPush(
 
 #### Parameters
 
-- Success Callback : function to execute if Marketo push notification initializes successfully.
-- Failure Callback : function to execute if Marketo push notification fails to initialize.
-- GCM_PROJECT_ID : GCM Project ID found in [Google Developers Console](https://accounts.google.com/ServiceLogin?service=cloudconsole&passive=1209600&osid=1&continue=https://console.cloud.google.com/apis/dashboard&followup=https://console.cloud.google.com/apis/dashboard) after creating app.
+- Success Callback: Function to run if Marketo push notification initializes successfully.
+- Failure Callback: Function to run if Marketo push notification fails to initialize.
+- GCM_PROJECT_ID: GCM Project ID found in [Google Developers Console](https://accounts.google.com/ServiceLogin?service=cloudconsole&passive=1209600&osid=1&continue=https://console.cloud.google.com/apis/dashboard&followup=https://console.cloud.google.com/apis/dashboard) after creating the app.
 
-The token can also be unregistered on logout.
+You can also unregister the token at logout.
 
 ```javascript
 marketo.uninitializeMarketoPush(
@@ -125,7 +125,7 @@ marketo.uninitializeMarketoPush(
 
 ## Associate Lead
 
-You can create a Marketo Lead by calling the associateLead function.
+Call the associateLead function to create a Marketo lead.
 
 ### Syntax
 
@@ -139,9 +139,9 @@ marketo.associateLead(
 
 ### Parameters
 
-- Success Callback : function to execute if Marketo framework associates the lead successfully.
-- Failure Callback : function to execute if Marketo framework fails to associate the lead.
-- Lead Data : lead data in JSON string format.
+- Success Callback: Function to run if the Marketo framework associates the lead successfully.
+- Failure Callback: Function to run if the Marketo framework fails to associate the lead.
+- Lead Data: Lead data in JSON string format.
 
 ### Example
 
@@ -168,7 +168,7 @@ marketo.associateLead(
 
 ## Report Action
 
-You can report any user performed action by calling the `reportaction` function.
+Call the `reportaction` function to report a user action.
 
 ### Syntax
 
@@ -183,10 +183,10 @@ marketo.reportaction(
 
 ### Parameters
 
-- Success Callback : function to execute if Marketo framework reports action successfully.
-- Failure Callback : function to execute if Marketo framework fails to report action.
-- Action Name : action name.
-- Action Data : action data in JSON string format.
+- Success Callback: Function to run if the Marketo framework reports the action successfully.
+- Failure Callback: Function to run if the Marketo framework fails to report the action.
+- Action Name: Action name.
+- Action Data: Action data in JSON string format.
 
 ### Example
 
@@ -209,7 +209,7 @@ marketo.reportaction(
 
 ## Session Reporting
 
-Bind the "pause" and "resume" event types as shown below to report Start and Stop events. This is used to track time spent in your mobile application. Note: this is required in Android.
+Bind the "pause" and "resume" event types to report Start and Stop events. These events track time spent in the mobile application and are required on Android.
 
 ```javascript
 //Add the following code in your www/js/index.js
@@ -240,6 +240,9 @@ There are three ways to create leads from a hybrid app:
 1. Marketo REST API
 1. Form Submit
 
-Depending on the method used, a newly created lead is recognized by different triggers and filters. Leads created using the MME SDK or REST API appear in the "Lead Created" triggers and filters. Leads created by form submissions appear in the "Fills Out Form" triggers and filters.
+The triggers and filters that recognize a new lead depend on the creation method:
 
-The best practice is to remain consistent with the method used by the Web app when creating leads. If you already have a Web app that uses form submission as the mechanism to create leads, then use that same mechanism when creating leads in your hybrid app. If you already have a Web app that uses our REST API as the mechanism to create leads, then use that same mechanism when creating leads in your hybrid app. In cases where you use neither form submission nor REST API as a mechanism to create leads in your Web app, you can consider using the MME SDK to create leads in Marketo.
+- Leads created with the MME SDK or REST API appear in the "Lead Created" triggers and filters.
+- Leads created by form submission appear in the "Fills Out Form" triggers and filters.
+
+Use the same lead-creation method in the hybrid app and web app. If the web app uses form submission or the REST API, use that method in the hybrid app. If the web app uses neither method, consider using the MME SDK to create leads in Marketo.

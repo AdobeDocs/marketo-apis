@@ -13,7 +13,7 @@ The Adobe Marketo Engage APIs allow you to directly call Adobe's servers to perf
 
 This documentation provides instructions for Marketo APIs.
 
-Marketo APIs include REST, SOAP, Javascript, and User Management APIs, plus code for working with mobile devices and email templates.
+Marketo APIs include REST, JavaScript, and User Management APIs, plus code for working with mobile devices and email templates.
 
 The REST API allows for remote execution of many of the system's capabilities. From creating programs to bulk lead import, there are a large number of options which allow fine-grained control of a Marketo instance.
 
@@ -62,12 +62,6 @@ The [Mobile SDK](mobile/mobile.md) lets you integrate Marketo lead tracking, pus
 ### Webhooks
 
 [Webhooks](webhooks/webhooks.md) let you trigger real-time HTTP callbacks to external services from Marketo Smart Campaign flow steps.
-
-<DiscoverBlock slots="heading, text" width="33%"/>
-
-### SOAP API
-
-The [SOAP API](soap-api/soap-api.md) is deprecated and will reach end of life on July 31, 2026. New integrations should use the REST API.
 
 ## API Reference
 

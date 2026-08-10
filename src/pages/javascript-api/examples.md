@@ -5,11 +5,11 @@ description: "Marketo Forms 2.0 JavaScript examples to hide or redirect on submi
 
 # Examples
 
-Below you can find a set of demonstrative Forms 2.0 web form examples.
+These examples demonstrate common Forms 2.0 web form workflows.
 
 ## Hide Form After Successful Submission
 
-This example does not take the visitor to the follow up page or reload the current page.
+This example keeps the visitor on the current page after a successful submission. It does not open the follow-up page or reload the current page.
 
 ```javascript
 MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function(form) {
@@ -25,7 +25,7 @@ MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function(form
 
 ## Take Visitor to User-Defined URL
 
-This example takes the visitor to a URL determined by JavaScript after successful submission, instead of to the configured thank you page.
+This example sends the visitor to a URL defined in JavaScript after a successful submission. The JavaScript URL replaces the configured thank-you page.
 
 ```javascript
 MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function(form) {
@@ -52,7 +52,7 @@ MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function(form
 
 ## Read Form Field Values on Form Submit
 
-This example reads form fields on form submit.
+This example reads the form field values when the form is submitted.
 
 ```javascript
 MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function(form) {
@@ -70,7 +70,7 @@ MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function(form
 
 ## Form Submit on Non-Form Click Event
 
-This example submits a form based on a click event on some other element or event that is not part of the form.
+This example submits a form when the visitor selects an element outside the form.
 
 ```javascript
 // Load the form normally
@@ -88,7 +88,7 @@ btn.onclick = function() {
 
 ## Prevent a User From Submitting a Form
 
-For the purpose of this example, you must click the click counter button at least three times before the submit button on the form will function.
+In this example, the visitor must select the click counter button at least three times before the form's submit button works.
 
 ```javascript
 MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function (form) {
@@ -130,7 +130,7 @@ MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function (for
 
 ## Show Form in LightBox
 
-This example shows the form in a lightbox style dialog if the url contains a parameter `lightboxForm=true`.
+This example displays the form in a lightbox-style dialog when the URL contains the `lightboxForm=true` parameter.
 
 ```javascript
 MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function (form) {
@@ -142,7 +142,7 @@ MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function (for
 
 ## Show Custom Error Message
 
-This example shows a custom error message on submit based on custom business logic.
+This example applies custom business logic during submission and displays a custom error message when the values do not meet the required condition.
 
 ```javascript
 MktoForms2.loadForm("//app-ab00.marketo.com", "785-UHP-775", 1057, function (form) {

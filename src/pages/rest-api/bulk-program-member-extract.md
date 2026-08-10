@@ -7,15 +7,15 @@ description: "Use Marketo Bulk Program Member Extract REST APIs to export large 
 
 [Bulk Program Member Extract Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Program-Members)
 
-The Bulk Program Member Extract set of REST APIs provides a programmatic interface for retrieving large sets of program member records out of Marketo. This is the recommended interface for use cases which require continuous interchange of data between Marketo and one or more external systems, for ETL, data warehousing, and archival purposes.
+The Bulk Program Member Extract REST APIs retrieve large sets of program member records from Marketo. Use these APIs for continuous data exchange between Marketo and external systems, ETL, data warehousing, and archiving.
 
 ## Permissions
 
-The Bulk Program Member Extract APIs require that the owning API user have a role with one or both of the Read-Only Lead, or Read-Write Lead permissions.
+The API user must have a role with the Read-Only Lead permission, the Read-Write Lead permission, or both.
 
 ## Describe
 
-[Describe Program Member](https://developer.adobe.com/marketo-apis/api/mapi#tag/Program-Members/operation/describeProgramMemberUsingGET2) is the primary source of truth for whether fields are available for use, and metadata about those fields. The `name` attribute contains the REST API name.
+Use [Describe Program Member](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeProgramMemberUsingGET2) to determine which fields are available and retrieve their metadata. The `name` attribute contains the REST API field name.
 
 ```http
 GET /rest/v1/programs/members/describe.json
@@ -206,110 +206,112 @@ GET /rest/v1/programs/members/describe.json
 
 ## Filters
 
-Program Members support various filter options. Multiple filter types can be specified for a job, in which case they are ANDed together. You must specify either the `programId` or the `programIds` filter. All other filters are optional. The `updatedAt` filter requires additional infrastructure components which have not yet been rolled out to all subscriptions.
+Program member exports support multiple filter options. When a job specifies multiple filter types, the API combines them with an AND operation.
 
-\<table>
-  \<tbody>
-    \<tr>
-      \<td>Filter Type\</td>
-      \<td>Data Type\</td>
-      \<td>Notes\</td>
-    \</tr>
-    \<tr>
-      \<td>programId\</td>
-      \<td>Integer\</td>
-      \<td>Accepts the id of a program. Jobs return all accessible records which are members of the program at the time that the job begins processing.Retrieve program ids using the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs) endpoint.Cannot be used with programIds filter.\</td>
-    \</tr>
-    \<tr>
-      \<td>programIds\</td>
-      \<td>Array[Integer]\</td>
-      \<td>Accepts an array of up to 10 program ids. Jobs return all accessible records which are members of the programs at the time that the job begins processing.An additional field "programId" is added to the export file as the first field. This field identifies the program that a program membership record was extracted from.Retrieve program ids using the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs) endpoint.Cannot be used with programId filter.\</td>
-    \</tr>
-    \<tr>
-      \<td>isExhausted\</td>
-      \<td>Boolean\</td>
-      \<td>Accepts a boolean used to filter program membership records for [people who have exhausted content](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/email-marketing/drip-nurturing/using-engagement-programs/people-who-have-exhausted-content).\</td>
-    \</tr>
-    \<tr>
-      \<td>nurtureCadence\</td>
-      \<td>String\</td>
-      \<td>Accepts a string used to filter program membership records for a given nurture cadence.Permissible values are:
-        \<ul>
-          \<li>pause - cadence is paused\</li>
-          \<li>norm - cadence is normal\</li>
-        \</ul>\</td>
-    \</tr>
-    \<tr>
-      \<td>statusNames\</td>
-      \<td>Array[String]\</td>
-      \<td>Accepts an array of program member status names. Multiple status names are ORed together.Jobs with this filter type return all accessible records whose program member status matches any of the specified status names. Both default and user-defined status names may be used.If the statusNames filter is used with `programIds` filter, then each program is checked for membership records whose status matches any of the status names. If a status name is not found in any of the programs, "1003, Invalid Data" error is returned.
-        \<table>
-          \<tbody>
-            \<tr>
-              \<td>Attended\</td>
-              \<td>Attended On-demand\</td>
-              \<td>Bounced\</td>
-            \</tr>
-            \<tr>
-              \<td>Clicked\</td>
-              \<td>Contacted\</td>
-              \<td>Converted\</td>
-            \</tr>
-            \<tr>
-              \<td>Engaged\</td>
-              \<td>Filled-out Form\</td>
-              \<td>Influenced\</td>
-            \</tr>
-            \<tr>
-              \<td>Invited\</td>
-              \<td>Member\</td>
-              \<td>No Show\</td>
-            \</tr>
-            \<tr>
-              \<td>Not in Program\</td>
-              \<td>On List\</td>
-              \<td>Opened\</td>
-            \</tr>
-            \<tr>
-              \<td>Registered\</td>
-              \<td>Registering\</td>
-              \<td>Registration Error\</td>
-            \</tr>
-            \<tr>
-              \<td>Sent\</td>
-              \<td>Subscribed\</td>
-              \<td>Unsubscribed\</td>
-            \</tr>
-            \<tr>
-              \<td>Viewed\</td>
-              \<td>Visited\</td>
-              \<td>Visited Booth\</td>
-            \</tr>
-            \<tr>
-              \<td>Waitlisted\</td>
-              \<td>Web Content\</td>
-              \<td>\</td>
-            \</tr>
-          \</tbody>
-        \</table>\</td>
-    \</tr>
-    \<tr>
-      \<td>updatedAt*\</td>
-      \<td>Date Range\</td>
-      \<td>Accepts a JSON object with the members startAt and endAt. startAt accepts a datetime representing the low-watermark, and endAt accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Datetimes should be in an ISO-8601 format, without milliseconds.Jobs with this filter type return all accessible records which were most recently updated within the date range.\</td>
-    \</tr>
-  \</tbody>
-\</table>
+Every job must specify either `programId` or `programIds`. All other filters are optional. The `updatedAt` filter requires infrastructure that is not available in all subscriptions.
 
-Filter type is unavailable for some subscriptions. If unavailable for your subscription, you receive an error when calling the Create Export Program Member Job endpoint ("1035, Unsupported filter type for target subscription"). Customers may contact Marketo Support to have this functionality enabled in their subscription.
+table
+  tbody
+    tr
+      tdFilter Type/td
+      tdData Type/td
+      tdNotes/td
+    /tr
+    tr
+      tdprogramId/td
+      tdInteger/td
+      tdAccepts the id of a program. Jobs return all accessible records which are members of the program at the time that the job begins processing.Retrieve program ids using the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs) endpoint.Cannot be used with programIds filter./td
+    /tr
+    tr
+      tdprogramIds/td
+      tdArray[Integer]/td
+      tdAccepts an array of up to 10 program ids. Jobs return all accessible records which are members of the programs at the time that the job begins processing.An additional field "programId" is added to the export file as the first field. This field identifies the program that a program membership record was extracted from.Retrieve program ids using the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs) endpoint.Cannot be used with programId filter./td
+    /tr
+    tr
+      tdisExhausted/td
+      tdBoolean/td
+      tdAccepts a boolean used to filter program membership records for [people who have exhausted content](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/email-marketing/drip-nurturing/using-engagement-programs/people-who-have-exhausted-content)./td
+    /tr
+    tr
+      tdnurtureCadence/td
+      tdString/td
+      tdAccepts a string used to filter program membership records for a given nurture cadence.Permissible values are:
+        ul
+          lipause - cadence is paused/li
+          linorm - cadence is normal/li
+        /ul/td
+    /tr
+    tr
+      tdstatusNames/td
+      tdArray[String]/td
+      tdAccepts an array of program member status names. Multiple status names are ORed together.Jobs with this filter type return all accessible records whose program member status matches any of the specified status names. Both default and user-defined status names may be used.If the statusNames filter is used with `programIds` filter, then each program is checked for membership records whose status matches any of the status names. If a status name is not found in any of the programs, "1003, Invalid Data" error is returned.
+        table
+          tbody
+            tr
+              tdAttended/td
+              tdAttended On-demand/td
+              tdBounced/td
+            /tr
+            tr
+              tdClicked/td
+              tdContacted/td
+              tdConverted/td
+            /tr
+            tr
+              tdEngaged/td
+              tdFilled-out Form/td
+              tdInfluenced/td
+            /tr
+            tr
+              tdInvited/td
+              tdMember/td
+              tdNo Show/td
+            /tr
+            tr
+              tdNot in Program/td
+              tdOn List/td
+              tdOpened/td
+            /tr
+            tr
+              tdRegistered/td
+              tdRegistering/td
+              tdRegistration Error/td
+            /tr
+            tr
+              tdSent/td
+              tdSubscribed/td
+              tdUnsubscribed/td
+            /tr
+            tr
+              tdViewed/td
+              tdVisited/td
+              tdVisited Booth/td
+            /tr
+            tr
+              tdWaitlisted/td
+              tdWeb Content/td
+              td/td
+            /tr
+          /tbody
+        /table/td
+    /tr
+    tr
+      tdupdatedAt*/td
+      tdDate Range/td
+      tdAccepts a JSON object with the members startAt and endAt. startAt accepts a datetime representing the low-watermark, and endAt accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Datetimes should be in an ISO-8601 format, without milliseconds.Jobs with this filter type return all accessible records which were most recently updated within the date range./td
+    /tr
+  /tbody
+/table
+
+Some subscriptions do not support this filter type. If it is unavailable, the Create Export Program Member Job endpoint returns `1035, Unsupported filter type for target subscription`. Contact Marketo Support to request this functionality for your subscription.
 
 ## Options
 
-The Create Export Program Member Job endpoint provides several formatting options. These options give the user the ability to:
+The Create Export Program Member Job endpoint provides options to:
 
-- Specify the fields to include within the exported file
-- Rename column headers of these fields
-- Specify the format of the exported file
+- Specify the fields to include in the export file.
+- Rename the exported column headers.
+- Specify the export file format.
 
 | Parameter | Data Type | Required | Notes |
 | --- | --- | --- | --- |
@@ -319,7 +321,7 @@ The Create Export Program Member Job endpoint provides several formatting option
 
 ## Creating a Job
 
-The parameters for the job are defined before kicking off the export using the [Create Export Program Member Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Program-Members/operation/createExportProgramMembersUsingPOST) endpoint. We must define the `filter` containing the program id, and the `fields` that are needed for export. Optionally we can define the `format` of the file, and the `columnHeaderNames`.
+Use the [Create Export Program Member Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/createExportProgramMembersUsingPOST) endpoint to define the export job. Specify a `filter` that contains the program ID and the `fields` to export. You can also specify `format` and `columnHeaderNames`.
 
 ```http
 POST /bulk/v1/program/members/export/create.json
@@ -363,7 +365,7 @@ POST /bulk/v1/program/members/export/create.json
 }
 ```
 
-This returns a status response indicating that the job has been created. The job has been defined and created, but it hasn't yet been kicked off. To do so, the [Enqueue Export Program Member Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Program-Members/operation/enqueueExportProgramMembersUsingPOST) endpoint must be called using the `exportId` from the creation status response:
+The response confirms that the job is created, but the export does not start automatically. Pass the returned `exportId` to the [Enqueue Export Program Member Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/enqueueExportProgramMembersUsingPOST) endpoint to start the job:
 
 ```http
 POST /bulk/v1/program/members/export/{exportId}/enqueue.json
@@ -385,13 +387,15 @@ POST /bulk/v1/program/members/export/{exportId}/enqueue.json
 }
 ```
 
-This will respond with an initial `status` of "Queued" after which it will be set to "Processing" when there is an available export slot.
+The enqueue response initially returns a `Queued` status. When an export slot becomes available, the status changes to `Processing`.
 
 ## Polling Job Status
 
-Note: Status can only be retrieved for jobs which were created by the same API user.
+You can retrieve the status only for jobs created by the same API user.
 
-Since this is an asynchronous endpoint, after creating the job we must poll its status to determine its progress. Poll using the [Get Export Program Member Job Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads/operation/getExportLeadsStatusUsingGET) endpoint. The status is only updated once every 60 seconds, so a polling frequency lower than this is not advised, and in nearly all cases is still excessive. The status field may respond with any one of: Created, Queued, Processing, Canceled, Completed, Failed.
+Because the export runs asynchronously, use the [Get Export Program Member Job Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getExportLeadsStatusUsingGET) endpoint to poll its progress. The status updates only once every 60 seconds, so do not poll more frequently.
+
+The status can be `Created`, `Queued`, `Processing`, `Canceled`, `Completed`, or `Failed`.
 
 ```http
 GET /bulk/v1/program/members/export/{exportId}/status.json
@@ -414,7 +418,7 @@ GET /bulk/v1/program/members/export/{exportId}/status.json
 }
 ```
 
-The status endpoint responds indicating that the job is still processing, so the file is not yet available for retrieval. Once the job `status` changes to "Completed" it is available for download.
+This response shows that the job is still processing, so the file is not available. When the job status changes to `Completed`, the file is ready to download.
 
 ```json
 {
@@ -439,9 +443,9 @@ The status endpoint responds indicating that the job is still processing, so the
 
 ## Retrieving Your Data
 
-To retrieve the file of a completed program member export, simply call the [Get Export Program Member File](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Program-Members/operation/getExportProgramMembersFileUsingGET) endpoint with your `exportId`.
+To retrieve a completed program member export, pass the `exportId` to the [Get Export Program Member File](https://developer.adobe.com/marketo-apis/api/mapi#operation/getExportProgramMembersFileUsingGET) endpoint.
 
-The response contains a file formatted in the way that the job was configured. The endpoint responds with the contents of the file. If a requested program member field is empty (contains no data), then `null` is placed in the corresponding field in the export file.
+The endpoint returns the file in the format configured for the job. If a requested program member field contains no data, the corresponding export field contains `null`.
 
 ```http
 GET /bulk/v1/program/members/export/{exportId}/file.json
@@ -463,11 +467,11 @@ Jory,Cassel,jcas@housestark.com,2020-01-08T18:10:26Z,PMCF Program,On List,1799,f
 Septa,Mordane,smor@housestark.com,2020-01-08T18:10:26Z,PMCF Program,On List,1800,false,Lead01_Value,Lead02_Value,PM01_Value,PM02_Value
 ```
 
-To support partial and resumption-friendly retrieval of extracted data, the file endpoint optionally supports the HTTP header Range of the type bytes. If the header is not set, the whole of the contents will be returned. You can read more about using the Range header with Marketo [Bulk Extract](bulk-extract.md).
+For partial or resumable retrieval, the file endpoint supports the optional HTTP `Range` header with a range type of `bytes`. If you do not set the header, the endpoint returns the entire file. For more information, see [Bulk Extract](bulk-extract.md).
 
 ## Canceling a Job
 
-If a job was configured incorrectly, or becomes unnecessary, it can be easily canceled using the [Cancel Export Program Member Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Program-Members/operation/cancelExportProgramMembersUsingPOST) endpoint:
+To cancel a job that is configured incorrectly or is no longer needed, call the [Cancel Export Program Member Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/cancelExportProgramMembersUsingPOST) endpoint:
 
 ```http
 POST /bulk/v1/program/members/export/{exportId}/cancel.json
@@ -488,4 +492,4 @@ POST /bulk/v1/program/members/export/{exportId}/cancel.json
 }
 ```
 
-This responds with a `status` indicating that the job has been canceled.
+The response status indicates that the job is canceled.

@@ -5,7 +5,7 @@ description: "Configure section-level Marketo dynamic content via REST APIs usin
 
 # Dynamic Content
 
-Marketo facilitates the usage of dynamic content through lead segmentation on multiple asset types:
+Use lead segmentations to provide dynamic content in these asset types:
 
 - Emails
 - Landing Pages
@@ -13,13 +13,17 @@ Marketo facilitates the usage of dynamic content through lead segmentation on mu
 
 ## Overview
 
-Dynamic content is implemented at the section level, by designating specific variations of a section to be served to a lead based on their qualification in a segment within a chosen segmentation. If a piece of content is configured to serve dynamic content based on a certain segmentation, then a lead seeing that content is served the content variation which matches the segment that they fall in, or the Default content, if they do not qualify for a segment.
+Dynamic content operates at the section level. Each section can provide variations for segments in a selected segmentation.
+
+When a lead views the asset, Marketo displays the variation for the lead's segment. If the lead does not qualify for a segment, Marketo displays the default content.
 
 ## Example
 
-To demonstrate, let's look at an email example, where we have a Region (US) segmentation, and want to display an event promotion only for leads who fall in the Southwest segment, which includes California, Nevada, Utah, Colorado, Arizona, and New Mexico leads. To do this, we make an editable section in our email with id "Q1-promotion-banner" into a DynamicContent section. To do this, we must use the [Update Email Content Section](https://developer.adobe.com/marketo-apis/api/asset#tag/Emails/operation/updateEmailComponentContentUsingPOST) endpoint for our email. The `value` parameter is used to specify the Id of the segmentation.
+This example uses a Region (US) segmentation to display an event promotion to leads in the Southwest segment. The segment includes leads from California, Nevada, Utah, Colorado, Arizona, and New Mexico.
 
-Note: Both Emails and Landing Pages follow this pattern. Snippets have a different pattern, detailed in the Snippets API documentation.
+Use the [Update Email Content Section](https://developer.adobe.com/marketo-apis/api/asset#operation/updateEmailComponentContentUsingPOST) endpoint to change the editable section with ID `Q1-promotion-banner` to a `DynamicContent` section. The `value` parameter specifies the segmentation ID.
+
+Emails and landing pages follow this pattern. Snippets use the different pattern described in the Snippets API documentation.
 
 The following example sets the section to be a Dynamic Content section, segmented by segmentation 1001.
 
@@ -45,9 +49,9 @@ type=DynamicContent&value=1001
 }
 ```
 
-To add content for individual segments, we must call the [Update Email Dynamic Content Section](https://developer.adobe.com/marketo-apis/api/asset#tag/Emails/operation/updateEmailDynamicContentUsingPOST) endpoint for the specific section.
+Call the [Update Email Dynamic Content Section](https://developer.adobe.com/marketo-apis/api/asset#operation/updateEmailDynamicContentUsingPOST) endpoint to add content for a segment in a specific section.
 
-The following example sets the section to show our special banner image for leads in the Southwest segment instead of the default. If we wanted to create more variations for more segments, then we would call this endpoint again for each segment and section.
+The following request displays a special banner instead of the default content for leads in the Southwest segment. To create more variations, call the endpoint for each segment and section.
 
 ```http
 POST /rest/asset/v1/email/{id}/dynamicContent/{dynamicContentId}.json
@@ -73,11 +77,13 @@ segment=Southwest&type=HTML&value=<img src='//www.example.com/SuperSpecialBanner
 
 ## Segmentation
 
-Segmentation is the core of Marketo dynamic content. A segmentation is a user-defined list of individual sets of rules which are evaluated from top to bottom against the entire lead database. A lead may only be a member of one segment in each segmentation, and will be a member of the first one that it qualifies for in each segmentation. If it does not qualify for a segment, then it will be a member of the Default segment, and will receive the default content for any given piece of dynamic content using that segmentation.
+A segmentation is a user-defined list of rule sets that Marketo evaluates from top to bottom against the lead database. A lead can belong to only one segment in each segmentation. The lead joins the first segment for which it qualifies.
+
+If the lead does not qualify for another segment, it joins the Default segment and receives the segmentation's default content.
 
 ### List
 
-Segmentations have a list endpoint that returns a response with a list of available segmentations.
+Use the list endpoint to retrieve available segmentations.
 
 ```http
 GET /rest/asset/v1/segmentation.json
@@ -124,7 +130,7 @@ GET /rest/asset/v1/segmentation.json
 }
 ```
 
-Segmentations also have an endpoint that returns a response with a list of segments from a parent segmentation.
+Use the segments endpoint to retrieve the segments in a parent segmentation.
 
 ```http
 GET /rest/asset/v1/segmentation/1001/segments.json

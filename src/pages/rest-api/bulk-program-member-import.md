@@ -7,34 +7,47 @@ description: "Learn how to import program members in bulk via Marketo REST API u
 
 [Bulk Program Member Import Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members)
 
-For large amounts of program member records, program members can be imported asynchronously with the [bulk API](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members). This allows you to import a list of records into Marketo using a flat file with the delimiters (comma, tab, or semi-colon). The file can contain any number of records, so long as the file totals less than 10MB in size. The record operation is "insert or update" only.
+Use the [bulk API](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members) to import large numbers of program member records asynchronously. Provide the records in a comma-, tab-, or semicolon-delimited flat file that is less than 10 MB.
+
+Bulk program member import supports only the "insert or update" record operation.
 
 ## Processing Limits
 
-You are allowed to submit more than one bulk import request, with limitations. Each request is added as a job to a FIFO queue to be processed. A maximum of two jobs are processed at the same time. A maximum of ten jobs are allowed in the queue at any given time (including the 2 currently being processed). If you exceed the ten job maximum, then a "1016, Too many imports" error is returned.
+Each bulk import request is added as a job to a first-in, first-out (FIFO) queue. The following limits apply:
+
+- A maximum of two jobs can be processed concurrently.
+- A maximum of 10 jobs can be in the queue, including the two jobs being processed.
+
+If you exceed the 10-job maximum, the API returns a `1016, Too many imports` error.
 
 ## Import File
 
-The first row of the file must be a header which lists the corresponding REST API names as fields to map the values of each row into. REST API names can be retrieved using [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/describeUsingGET_2) and/or [Describe Program Member](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/describeProgramMemberUsingGET) endpoints. Records can contain lead fields, custom lead fields, and custom program member fields.
+The first row of the file must be a header that lists the REST API field names to which the values in each row map. Retrieve these names using the [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeUsingGET_2) and [Describe Program Member](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeProgramMemberUsingGET) endpoints.
 
-A typical file would follow this basic pattern:
+Records can contain lead fields, custom lead fields, and custom program member fields.
+
+A typical file follows this pattern:
 
 ```text
 email,firstName,lastName
 test@example.com,John,Doe
 ```
 
-The call itself is made using the `multipart/form-data` content-type.
-
-This request type can be difficult to implement, so it is highly recommended that you use an existing library implementation.
+Send the request using the `multipart/form-data` content type. Use an existing library implementation to construct the multipart request.
 
 ## Creating a Job
 
-The [Import Program Members](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members/operation/importProgramMemberUsingPOST) endpoint reads a file containing program member records and adds them to a program with a given status. The records can contain both lead fields and program member custom fields. All records must include the email field, which is used for deduplication purposes.
+The [Import Program Members](https://developer.adobe.com/marketo-apis/api/mapi#operation/importProgramMemberUsingPOST) endpoint reads program member records from a file and adds them to a program with a specified status. Records can contain lead fields and custom program member fields.
+
+Every record must include the email field, which is used for deduplication.
 
 The `programId` path parameter specifies the program to which the members are added.
 
-There are three required query parameters. The `format` parameter specifies the import file format (CSV, TSV, or SSV), the `programMemberStatus` parameter specifies the program status for the members that are being added to the program, and the `file` parameter contains the name of the import file that contains program member records.
+The request requires three query parameters:
+
+- `format`: The import file format (`CSV`, `TSV`, or `SSV`).
+- `programMemberStatus`: The program status assigned to the imported members.
+- `file`: The name of the file that contains the program member records.
 
 ```http
 POST /bulk/v1/program/{programId}/members/import.json?format=csv&programMemberStatus=On List
@@ -78,15 +91,17 @@ Lancel,Lannister,Lancel@Lannister.com,Lannister,House Lannister,0
 }
 ```
 
-Notice in the response to our call that there is a `batchId` and a `status` field for the record in the result array. Since this endpoint is asynchronous, it can return a status of Queued, Importing, or Failed. You must retain the `batchId` to get the status of the import job, and to retrieve failures and/or warnings upon completion. The `batchId` remains valid for seven days.
+Because the endpoint is asynchronous, the response contains `batchId` and `status` fields. The status can be `Queued`, `Importing`, or `Failed`.
 
-Using the example above, a simple way to call the endpoint is to use cURL from the command line:
+Retain the `batchId` to check the import status and retrieve failures or warnings after completion. The `batchId` remains valid for seven days.
+
+The following command-line cURL request submits the example job:
 
 ```bash
 curl -i -F format='csv' -F programMemberStatus='On List' -F file='@Lead-House-Lannister.csv' -F access_token='<Access Token>' <REST API Endpoint Base URL>/bulk/v1/program/{programId}/members/import.json
 ```
 
-Where the import file "Lead-House-Lannister.csv" contains the following:
+In this example, the `Lead-House-Lannister.csv` import file contains the following data:
 
 ```text
 firstName,lastName,email,title,company,leadScore
@@ -102,7 +117,7 @@ Lancel,Lannister,Lancel@Lannister.com,Lannister,House Lannister,0
 
 ## Polling Job Status
 
-Once the import job has been created, you must query its status. It is best practice to poll the import job every 5-30 seconds. Do this by passing the `batchId` path parameter to the [Get Import Program Member Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members/operation/getImportProgramMemberStatusUsingGET) endpoint.
+After creating the import job, poll it every 5–30 seconds. Pass the `batchId` path parameter to the [Get Import Program Member Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportProgramMemberStatusUsingGET) endpoint.
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/status.json
@@ -126,21 +141,21 @@ GET /bulk/v1/program/members/import/{batchId}/status.json
 }
 ```
 
-This response shows a completed import. The status can be one of: Complete, Queued, Importing, Failed.
+This response shows a completed import. The status can be `Complete`, `Queued`, `Importing`, or `Failed`.
 
-If the job has completed, you have a listing of the number of rows processed, failed, or with warnings. The message parameter may also give the failure message if status is Failed.
+When the job is complete, the response lists the numbers of rows processed, failed, and processed with warnings. The `message` parameter can also provide a failure message when the status is `Failed`.
 
 ## Failures
 
-Failures are indicated by the `numOfRowsFailed` attribute in [Get Import Program Member Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members/operation/getImportProgramMemberStatusUsingGET) response. If numOfRowsFailed is greater than zero, then that value indicates the number of failures that occurred.
+The `numOfRowsFailed` attribute in the [Get Import Program Member Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportProgramMemberStatusUsingGET) response indicates the number of failed rows. A value greater than zero means that failures occurred.
 
-Use the Get Import Program Member Failures endpoint to retrieve records and causes of failed rows by passing the `batchId` path parameter.
+Pass the `batchId` path parameter to the Get Import Program Member Failures endpoint to retrieve the failed records and their causes.
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/failures.json
 ```
 
-The endpoint responds with a file indicating which rows failed, along with a message indicating why the record failed. The format of the file is the same as specified in `format` parameter during job creation. An additional field is appended to each record with a description of the failure.
+The endpoint returns a file that identifies each failed row and explains why the record failed. The file uses the format specified by the `format` parameter during job creation. An additional field on each record describes the failure.
 
 For example, suppose that you import the following file with an invalid lead score:
 
@@ -149,7 +164,7 @@ firstName,lastName,email,title,company,leadScore
 Aerys,Targaryen,Aerys@Targaryen.com,Targaryen,House Targaryen,TEXT_VALUE_IN_INTEGER_FIELD
 ```
 
-When you check the job status, you see `numOfRowsFailed` is 1 which indicates that a failure occurred:
+The job status returns `numOfRowsFailed` as 1, indicating that a failure occurred:
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/status.json
@@ -173,7 +188,7 @@ GET /bulk/v1/program/members/import/{batchId}/status.json
 }
 ```
 
-Then retrieve the failures file for additional details about the failure:
+Retrieve the failure file for more information:
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/failures.json
@@ -186,15 +201,15 @@ Aerys,Targaryen,Aerys@Targaryen.com,Targaryen,House Targaryen,TEXT_VALUE_IN_INTE
 
 ## Warnings
 
-Warnings are indicated by the `numOfRowsWithWarning` attribute in [Get Import Program Member Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members/operation/getImportProgramMemberStatusUsingGET) response. If `numOfRowsWithWarning` is greater than zero, then that value indicates the number of warnings that occurred.
+The `numOfRowsWithWarning` attribute in the [Get Import Program Member Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportProgramMemberStatusUsingGET) response indicates the number of rows with warnings. A value greater than zero means that warnings occurred.
 
-Use the [Get Import Program Member Warnings](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Program-Members/operation/getImportProgramMemberWarningsUsingGET) endpoint to retrieve records and causes of warning rows by passing the `batchId` path parameter.
+Pass the `batchId` path parameter to the [Get Import Program Member Warnings](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportProgramMemberWarningsUsingGET) endpoint to retrieve the affected records and their causes.
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/warnings.json
 ```
 
-The endpoint responds with a file indicating which rows produced warnings, along with a message indicating why the record produced a warning. The format of the file is the same as specified in `format` parameter during job creation. An additional field is appended to each record with a description of the warning.
+The endpoint returns a file that identifies each row with a warning and explains why the warning occurred. The file uses the format specified by the `format` parameter during job creation. An additional field on each record describes the warning.
 
 For example, suppose that you import the following file with an invalid email address:
 
@@ -203,7 +218,7 @@ firstName,lastName,email,title,company,leadScore
 Aerys,Targaryen,INVALID_EMAIL,Targaryen,House Targaryen,0
 ```
 
-When you check the job status, you see `numOfRowsWithWarning` is 1 which indicates that a warning occurred:
+The job status returns `numOfRowsWithWarning` as 1, indicating that a warning occurred:
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/status.json
@@ -227,7 +242,7 @@ GET /bulk/v1/program/members/import/{batchId}/status.json
 }
 ```
 
-You then retrieve the warnings file for additional details about the warning:
+Retrieve the warning file for more information:
 
 ```http
 GET /bulk/v1/program/members/import/{batchId}/warnings.json

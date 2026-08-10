@@ -7,17 +7,17 @@ description: "Use Marketo REST APIs to query, create, update, and delete static 
 
 [Static Lists Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists)
 
-Marketo offers a set of REST APIs for performing CRUD operations on static lists. These APIs follow the standard interface pattern for asset APIs providing Query, Create, Update, and Delete options.
+Use the Static Lists REST APIs to query, create, update, and delete static lists.
 
 For Lead Database operations on list members, see [List Membership](list-membership.md).
 
 ## Query
 
-Querying static lists follows the standard query types for assets of [by id](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByNameUsingGET), and [browse](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListsUsingGET).
+Query static lists [by ID](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByNameUsingGET), or by [browsing](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListsUsingGET).
 
 ### By Id
 
-[Query by id](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByIdUsingGET) takes a single static list `id` as a path parameter and returns a single static list record.
+[Query by ID](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByIdUsingGET) takes one static-list `id` path parameter and returns the matching record.
 
 ```http
 GET /rest/asset/v1/staticList/{id}.json
@@ -46,7 +46,7 @@ GET /rest/asset/v1/staticList/{id}.json
 
 #### By Name
 
-[Query by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByNameUsingGET) takes a static list `name` as a parameter and returns a single static list record. An exact string match is performed against all static list names in the instance, and returns a result for the static list matching that name.
+[Query by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByNameUsingGET) takes a static-list `name` parameter. The endpoint performs an exact match against static-list names and returns the matching record.
 
 ```http
 GET /rest/asset/v1/staticList/byName.json?name=Foundation Seed List
@@ -75,7 +75,9 @@ GET /rest/asset/v1/staticList/byName.json?name=Foundation Seed List
 
 #### Browse
 
-Static lists can also be [retrieved in batches](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListsUsingGET). The `folder` parameter can be used to specify the parent folder under which the query will be performed and is formatted as a JSON object containing `id` and `type`. Like other bulk asset retrieval endpoints, `offset` and `maxReturn` are optional parameters that can be used for paging. The `earliestUpdatedAt` and `latestUpdatedAt` parameters allow you to set low and high datetime watermarks for returning static lists created or updated within the given range. Datetime values must be valid ISO-8601 strings and should not include milliseconds.
+Use the browse endpoint to [retrieve static lists in batches](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListsUsingGET). The optional `folder` parameter scopes the query to a parent folder. Pass the folder as a JSON object containing `id` and `type`.
+
+Use `offset` and `maxReturn` for pagination. Use `earliestUpdatedAt` and `latestUpdatedAt` as low and high date-time boundaries. These parameters return lists created or updated within the range. Use ISO-8601 values without milliseconds.
 
 ```http
 GET /rest/asset/v1/staticLists.json?folder={"id":13,"type":"Folder"}
@@ -126,7 +128,9 @@ GET /rest/asset/v1/staticLists.json?folder={"id":13,"type":"Folder"}
 
 ## Create and Update
 
-[Creating a static list](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/createStaticListUsingPOST) is executed with an `application/x-www-form-urlencoded` POST with two required parameters. The `folder` parameter is used to specify the parent folder under which the static list will be created and is formatted as a JSON object containing `id` and `type`. The `name` parameter is used to name the static list and must be unique. Optionally the `description` parameter may be used to describe the static list.
+Send an `application/x-www-form-urlencoded` POST request to [create a static list](https://developer.adobe.com/marketo-apis/api/asset#operation/createStaticListUsingPOST). The `folder` and `name` parameters are required.
+
+Pass `folder` as a JSON object containing `id` and `type`. The `name` must be unique. The optional `description` parameter describes the list.
 
 ```http
 POST /rest/asset/v1/staticLists.json
@@ -161,7 +165,7 @@ folder={"id":1034,"type":"Program"}&name=My Static List
 }
 ```
 
-[Updating a static list](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/updateStaticListUsingPOST) is done through a separate endpoint with two optional parameters. The `description` parameter may be used to update the static list description. The `name` parameter may be used to update the static list name and must be unique.
+Use the update endpoint to [change a static list](https://developer.adobe.com/marketo-apis/api/asset#operation/updateStaticListUsingPOST). The optional `description` parameter changes the description. The optional `name` parameter changes the name and must be unique.
 
 ```http
 POST /rest/asset/v1/staticList/{id}.json
@@ -199,7 +203,7 @@ description=This is a static list used for testing
 
 ## Delete
 
-[Deleting a static list](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/deleteStaticListByIdUsingPOST) takes a single static list `id` as a path parameter. Deletions cannot be made to static lists that are in use by an import or export operation, or are in use by other assets.
+To [delete a static list](https://developer.adobe.com/marketo-apis/api/asset#operation/deleteStaticListByIdUsingPOST), pass its `id` as a path parameter. You cannot delete a list used by an import, export, or another asset.
 
 ```http
 POST /rest/asset/v1/staticList/{id}/delete.json

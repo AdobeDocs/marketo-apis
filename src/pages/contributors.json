@@ -1,0 +1,59 @@
+{
+  "total": 7,
+  "offset": 0,
+  "limit": 7,
+  "data": [
+    {
+      "page": "/",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4",
+        "https://avatars.githubusercontent.com/u/19309840?v=4",
+        "https://avatars.githubusercontent.com/u/23483039?v=4"
+      ],
+      "lastUpdated": "5/12/2026"
+    },
+    {
+      "page": "/api/asset",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4"
+      ],
+      "lastUpdated": "11/6/2024"
+    },
+    {
+      "page": "/api/data-ingestion",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4"
+      ],
+      "lastUpdated": "5/11/2026"
+    },
+    {
+      "page": "/api/identity",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4"
+      ],
+      "lastUpdated": "11/6/2024"
+    },
+    {
+      "page": "/api/mapi",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4"
+      ],
+      "lastUpdated": "11/6/2024"
+    },
+    {
+      "page": "/api/user",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4"
+      ],
+      "lastUpdated": "11/6/2024"
+    },
+    {
+      "page": "/config",
+      "avatars": [
+        "https://avatars.githubusercontent.com/u/45772453?v=4"
+      ],
+      "lastUpdated": "5/12/2026"
+    }
+  ],
+  ":type": "sheet"
+}

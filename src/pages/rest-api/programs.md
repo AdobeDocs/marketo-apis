@@ -7,7 +7,7 @@ description: "Marketo Programs guide for the Asset REST API covering types, chan
 
 [Programs Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs)
 
-Programs are a core organizational component of Marketo Marketing Activities. They can be a parent to most types of assets, and allow for tracking of membership and success of leads within the context of individual marketing initiatives. Programs can be parents to all type of records except for LP, Email Templates, and Files.
+Programs organize Marketo Marketing Activities and track lead membership and success for individual marketing initiatives. A program can contain most asset types except landing pages, email templates, and files.
 
 ## Program Types
 
@@ -19,19 +19,21 @@ There are five core types of programs within Marketo:
 - Engagement
 - Email
 
-Engagement programs may be parents to each other type of program, while Default, Event and Event with Webinar may only be parents to Email programs.
+Engagement programs can contain every other program type. Default, Event, and Event with Webinar programs can contain only Email programs.
 
-Programs always have a channel, They derive the possible set up Program Member Statuses from the channel which they were created with, which can be retrieved with the Get Channels API. A program may also have a set of associated tags. Tags are customizable fields which can be configured to be optional or required for any given type of program, which will have a value selected from a list configured in Marketo Admin.
+Every program has a channel. The channel defines the available Program Member Statuses and can be retrieved with the Get Channels API.
+
+A program can also have tags. Tags are customizable fields that can be optional or required for a program type. Each tag uses a value from a list configured in Marketo Admin.
 
 ## Query
 
-Programs follow the standard pattern for asset queries with an additional option to query by tag type and values. Available tags and values can be retrieved with [Get Tag Types](https://developer.adobe.com/marketo-apis/api/asset#tag/Tags/operation/getTagTypesUsingGET).
+Query programs by ID, name, browsing, or tag type and value. Use [Get Tag Types](https://developer.adobe.com/marketo-apis/api/asset#operation/getTagTypesUsingGET) to retrieve available tags and values.
 
 ### By Id
 
-The [Get Program by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Sales-Persons/operation/describeUsingGET_5) endpoint requires an `id` path parameter.
+The [Get Program by Id](https://developer.adobe.com/marketo-apis/api/asset#operation/getProgramByIdUsingGET) endpoint requires an `id` path parameter.
 
-The Program Id can be obtained from the URL of the program in the UI, where the URL will resemble `https://app-\*\*\*.marketo.com/#PG1001A1`. In this URL, the `id` is 1001. It will always be between the first set of letters in the URL and the second set of letters.
+You can obtain the program ID from its UI URL, such as `https://app-\*\*\*.marketo.com/#PG1001A1`. In this example, the ID is `1001`, between the first and second sets of letters.
 
 ```http
 GET /rest/asset/v1/program/{id}.json
@@ -75,7 +77,7 @@ GET /rest/asset/v1/program/{id}.json
 
 ### By Name
 
-The [Get Program by Name](https://developer.adobe.com/marketo-apis/api/asset) endpoint requires a `name` query parameter. Optional boolean query parameters are `includeTags` and `includeCosts` which are used to return program tags and program costs respectively.
+The [Get Program by Name](https://developer.adobe.com/marketo-apis/api/asset) endpoint requires a `name` query parameter. Set the optional Boolean parameters `includeTags` and `includeCosts` to return tags and costs, respectively.
 
 ```http
 GET /rest/asset/v1/program/byName.json?name=TestProgramName&includeTags=true
@@ -119,13 +121,13 @@ GET /rest/asset/v1/program/byName.json?name=TestProgramName&includeTags=true
 
 ### Browse
 
-The [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Sales-Persons/operation/describeUsingGET_5) endpoint allows you to browse for programs.
+Use the [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#operation/browseProgramsUsingGET) endpoint to browse programs.
 
-The optional `status` parameter allows you to filter on program status. This parameter only applies to Engagement and Email programs. The possible values are "on" and "off" for Engagement programs, and "unlocked" for Email programs.
+The optional `status` parameter filters Engagement and Email programs by status. Valid values are `on` and `off` for Engagement programs and `unlocked` for Email programs.
 
-The optional `maxReturn` parameter controls the number of programs to return (maximum is 200, default is 20). The optional `offset` parameter used for paging results (default is 0).
+The optional `maxReturn` parameter controls the number of programs returned. The default is 20, and the maximum is 200. Use the optional `offset` parameter for pagination; its default is 0.
 
-Note that tags associated with a program are not returned by this endpoint. Program tags can be retrieved by using either [Get Programs by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/getProgramByIdUsingGET) or [Get Programs by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/getProgramByNameUsingGET).
+This endpoint does not return program tags. Retrieve tags with [Get Programs by ID](https://developer.adobe.com/marketo-apis/api/asset#operation/getProgramByIdUsingGET) or [Get Programs by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getProgramByNameUsingGET).
 
 ```http
 GET /rest/asset/v1/programs.json
@@ -180,7 +182,7 @@ GET /rest/asset/v1/programs.json
 
 ### By Date Range
 
-The `earliestUpdatedAt` and `latestUpdatedAt` parameters to our [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Sales-Persons/operation/describeUsingGET_5) endpoint allow you to set low and high datetime watermarks for returning programs which were either updated or initially created within the given range.
+Use the `earliestUpdatedAt` and `latestUpdatedAt` parameters with [Get Programs](https://developer.adobe.com/marketo-apis/api/asset#operation/browseProgramsUsingGET) to set low and high date-time boundaries. The endpoint returns programs created or updated within the range.
 
 ```http
 GET /rest/asset/v1/programs.json?earliestUpdatedAt=2017-01-01T00:00:00-05:00&latestUpdatedAt=2017-01-30T00:00:00-05:00
@@ -271,9 +273,9 @@ GET /rest/asset/v1/programs.json?earliestUpdatedAt=2017-01-01T00:00:00-05:00&lat
 
 ### By Tag Type
 
-The [Get Programs by Tag](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/getProgramListByTagUsingGET) endpoint retrieves a list of list of programs matching the tag type and tag values provided.
+The [Get Programs by Tag](https://developer.adobe.com/marketo-apis/api/asset#operation/getProgramListByTagUsingGET) endpoint returns programs that match the specified tag type and value.
 
-There are two required parameters, `tagType` which is the type of tag to filter on, and `tagValue` which is the tag value to filter on.  There is an optional integer `maxReturn` parameter that controls the number of programs to return (maximum is 200, default is 20), and an optional integer `offset` parameter used for paging results (default is 0).  Results are returned in random order.
+The `tagType` and `tagValue` parameters are required. The optional integer `maxReturn` controls the number of programs returned; the default is 20, and the maximum is 200. Use the optional integer `offset` for pagination; its default is 0. Results are returned in random order.
 
 ```http
 GET /rest/asset/v1/program/byTag.json?tagType=Presenter&tagValue=Dennis
@@ -313,7 +315,9 @@ GET /rest/asset/v1/program/byTag.json?tagType=Presenter&tagValue=Dennis
 
 ## Create and Update
 
-[Creating](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/createProgramUsingPOST) and [updating](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/updateProgramUsingPOST) programs follows the standard asset pattern and has `folder`, `name`, `type` and `channel` as required parameters, with `description`, `costs` and `tags` being optional. Channel and type may only be set at program creation. Only description, name, `tags` and `costs` may be updated after creation, with an additional `costsDestructiveUpdate` parameter allowed. Passing `costsDestructiveUpdate` as true will cause all existing costs to be cleared and replaced with any costs included in the call. Note that tags may be required for some program types in some subscriptions, but this is configuration-dependent and should first be checked with Get Tags to see if there are instance-specific requirements.
+[Creating](https://developer.adobe.com/marketo-apis/api/asset#operation/createProgramUsingPOST) a program requires `folder`, `name`, `type`, and `channel`. The optional parameters are `description`, `costs`, and `tags`. Some subscriptions require tags for specific program types. Use Get Tags to check instance requirements.
+
+When [updating](https://developer.adobe.com/marketo-apis/api/asset#operation/updateProgramUsingPOST), you can change only the description, name, `tags`, and `costs`. You can set the channel and type only during creation. Setting `costsDestructiveUpdate` to `true` clears all existing costs and replaces them with costs included in the request.
 
 When creating or updating an Email Program, a `startDate` and `endDate` may also be passed as a UTC date/time:
 
@@ -372,7 +376,7 @@ name=API Test Program&folder={"id":1035,"type":"Folder"}&description=Sample API 
 
 ### Update
 
-When updating program costs, to append new costs, simply add them to your `costs` array. To perform a destructive update, pass your new costs, along with the parameter `costsDestructiveUpdate` set to `true`. To clear all costs from a program, do not pass a `costs` parameter, and just pass `costsDestructiveUpdate` set to `true`.
+To append program costs, add them to the `costs` array. To replace existing costs, pass the new costs and set `costsDestructiveUpdate` to `true`. To clear all costs, omit `costs` and set `costsDestructiveUpdate` to `true`.
 
 ```http
 POST /rest/asset/v1/program/{id}.json
@@ -435,7 +439,9 @@ description=This is an updated description&name=Updated Program Name&costs=[{"st
 
 ## Approval
 
-Email Programs may be approved or unapproved remotely, which will cause the program to run at the given startDate and conclude at the given endDate. Both of these must be set to approve the program, as well as having a valid and approved email and smart list configured via the UI.
+You can approve or unapprove Email Programs remotely. An approved program runs at its `startDate` and ends at its `endDate`.
+
+Before approval, set both dates and configure a valid, approved email and smart list in the UI.
 
 ### Approve
 
@@ -479,9 +485,11 @@ POST /rest/asset/v1/program/{id}/unapprove.json
 
 ## Clone
 
-[Cloning programs](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/cloneProgramUsingPOST) follows the standard asset pattern the new name and folder as required parameters and an optional description.  The `name` parameter must be globally unique and cannot exceed 255 characters.  The `folder` parameter is the parent folder.  The `folder` parameter type attribute must be set to "Folder", and the target folder must be in same workspace as program that is being cloned.
+[Cloning programs](https://developer.adobe.com/marketo-apis/api/asset#operation/cloneProgramUsingPOST) requires a new name and parent folder. The description is optional. The `name` must be globally unique and cannot exceed 255 characters.
 
-Programs containing certain types of assets may not be cloned via this API, including Push Notifications, In-App Messages, Reports, and Social Assets. In-App programs may not be cloned via this API.
+Set the `folder` parameter's type attribute to `Folder`. The target folder must be in the same workspace as the source program.
+
+You cannot use this API to clone In-App programs or programs containing push notifications, in-app messages, reports, or social assets.
 
 ```http
 POST /rest/asset/v1/program/{id}/clone.json

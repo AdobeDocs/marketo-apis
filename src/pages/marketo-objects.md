@@ -5,33 +5,47 @@ description: "Guide to using Marketo Velocity with Leads, Opportunities, and Cus
 
 # Marketo Objects
 
-Marketo's Velocity implementation can operate on data from several sources within Marketo: Leads, Opportunities, Custom Objects, Mobile App, Mobile App Installation.
+Marketo's Velocity implementation can use data from these Marketo sources:
+
+- Leads
+- Opportunities
+- Custom Objects
+- Mobile App
+- Mobile App Installation
 
 ## Loading Fields
 
-To load a field for use in a script, that field must be checked under the corresponding list in the script token editor.
+To use a field in a script, select the field under the corresponding list in the script token editor.
 
-If you do not load a field and it is referenced within the script, then script execution fails at runtime. You can drag and drop fields from the field menu into the script. This enables them for loading, and adds a reference to the field at the cursor.
+If a script references a field that is not loaded, the script fails at runtime. Drag a field from the field menu into the script to load it and add a reference at the cursor.
 
 ## Opportunity and Custom Object Lists
 
-When retrieving from Opportunities or Custom Objects, only the 10 most recently updated objects of a type are loaded. The number of Custom Objects available can be increased by following the steps described here. These are given as a list, with the name of `<objectName>List` and are ordered from most to least recently updated record. So, to access the Amount field from the opportunity which was most recently updated, you would use the following:
+For Opportunities and Custom Objects, Marketo loads only the 10 most recently updated objects of each type. You can increase the number of available Custom Objects by following the steps described here.
+
+Marketo provides the objects in a list named `objectNameList`, ordered from the most recently updated record to the least recently updated record. To access the Amount field from the most recently updated opportunity, use:
 
 `${OpportunityList.get(0).Amount}`
 
-In this example, you reference the OpportunityList object, use the get method to access the record indexed at 0, and then retrieve the Amount property from the returned object. If you drag a field from an Opportunity or Custom Object into the editor, it will automatically retrieve the field from the record indexed at 0.
+This example references the OpportunityList object, uses the get method to access the record at index 0, and retrieves the Amount property from that record.
+
+When you drag an Opportunity or Custom Object field into the editor, Marketo automatically retrieves the field from the record at index 0.
 
 ## SFDC Custom Object Relationships
 
-To be available for use, an SFDC custom object must have only one relationship to the Marketo lead. Objects are often linked through both the contact and account, so it is important to only sync objects to Marketo with the lead/contact relationship enabled.
+To use an SFDC custom object, the object must have only one relationship to the Marketo lead. Objects are often linked through both the contact and account. Sync only objects that have the lead/contact relationship enabled.
 
 ## Trigger Objects
 
-When a campaign is triggered via the Added to Opportunity, Opportunity is Updated, or Added to `<Custom Object Name>` triggers, a special variable becomes available in Script Tokens executed within the context of the trigger campaign: `$TriggerObject`(not supported for `<Custom Object Name>` is Updated trigger).  If a token using a `$TriggerObject` reference is used in a batch campaign, the email send will fail, as this object is not available in batch campaigns of any kind.  This is a reference to the object which triggered the campaign. The object contains all of the data which the record has when accessed via a different variable name.
+When a campaign uses the Added to Opportunity, Opportunity is Updated, or Added to `Custom Object Name` trigger, the `$TriggerObject` variable is available to Script Tokens that run in the trigger campaign. This variable is not supported for the `Custom Object Name` is Updated trigger.
 
-For example, if a campaign was triggered via a Custom Object for a product order, then the order to which lead was added is exposed in the `$TriggerObject` variable. 
+This variable references the object that triggered the campaign. It contains the same record data that is available when you access the object through another variable name.
 
-Here's a sample script for an order follow-up email:
+Do not use a token that references `$TriggerObject` in a batch campaign. The object is not available in batch campaigns, and the email send fails.
+
+For example, if a Custom Object for a product order triggers a campaign, the `$TriggerObject` variable exposes the order to which the lead was added.
+
+The following example shows a script for an order follow-up email:
 
 ```html
 <div>
@@ -48,8 +62,8 @@ Here's a sample script for an order follow-up email:
 </div>
 ```
 
-The advantage of using the `$TriggerObject` variable is that you do not need to dedicate any code to determine which of the available objects that you want to pull your local data from.  The object is determined by the triggering action. This is the most explicit way of choosing an object to reference and should be used whenever available and appropriate.
+The triggering action determines the object. You do not need additional code to determine which available object contains the local data. Use `$TriggerObject` when it is available and appropriate because it explicitly identifies the object to reference.
 
-Note: When using the `$TriggerObject`, fields must be checked in the editing pane for the object to be made available to the script.
+Note: When you use `$TriggerObject`, select the object's fields in the editing pane to make them available to the script.
 
-Note 2: The `$TriggerObject` only works for "Added" triggers and not for "Updated" triggers.
+Note 2: `$TriggerObject` works only for "Added" triggers, not for "Updated" triggers.

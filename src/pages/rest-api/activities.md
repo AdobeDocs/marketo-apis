@@ -5,19 +5,21 @@ description: "Use the Marketo Engage Activities REST API to list activity types,
 
 # Activities
 
-Marketo permits a huge variety of activity types related to lead records.  Nearly every change, action or flow step is recorded against a lead's activity log and can be retrieved via the API or leveraged in Smart List and Smart Campaign filters and triggers.  Activities are always related back to the lead record via the leadId, corresponding to the Id field of the record, and also has a unique id of its own.
+Marketo supports many activity types related to lead records. Nearly every change, action, or flow step is recorded in a lead's activity log. You can retrieve these activities through the API or use them in Smart List and Smart Campaign filters and triggers.
 
-There are a very large number of potential activity types, which may vary from subscription to subscription, and have unique definitions for each. While every activity has its own unique `id`, `leadId` and `activityDate`, the `primaryAttributeValueId` and `primaryAttributeValue` values vary in their meaning.
+Each activity has a unique `id` and connects to a lead record through `leadId`, which corresponds to the record's Id field. Every activity also has an `activityDate`.
 
-Marketo also permits the creation of Custom Activity Types through the Custom Activities Metadata API. Adding custom activities is done through the Add Custom Activities API.
+Available activity types vary by subscription, and each type has its own definition. The meaning of `primaryAttributeValueId` and `primaryAttributeValue` depends on the activity type.
+
+Use the Custom Activities Metadata API to create Custom Activity Types. Use the Add Custom Activities API to add custom activity records.
 
 Most activities will be purged after some period of time.
 
 ## Describe
 
-To retrieve a list of available types and their definitions for an instance, you can use the [Get Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getAllActivityTypesUsingGET) endpoint.
+Use the [Get Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#operation/getAllActivityTypesUsingGET) endpoint to retrieve the available activity types and their definitions for an instance.
 
-```http
+```
 GET /rest/v1/activities/types.json
 ```
 
@@ -64,19 +66,26 @@ GET /rest/v1/activities/types.json
 }
 ```
 
-Real world responses include far more definitions. In this example, the type shown is a "Fill Out Form", which has a primary attribute of "Webform ID", which refers back to the Marketo ID of the form that was filled out, and can be used to relate back to that particular asset in Marketo. Additionally, there are definitions for each of the possible attributes of a particular activity record of this type and their data types. Note that if the field is empty, then that particular attribute is omitted from an individual activity record.
+Actual responses include more definitions. This example shows the "Fill Out Form" activity type. Its primary attribute, "Webform ID," refers to the Marketo ID of the submitted form and links the activity to that asset.
+
+The response also defines each possible attribute for the activity type and its data type. If a field is empty, that attribute is omitted from the individual activity record.
 
 ## Query
 
-To retrieve activities from Marketo, call the [Get Lead Activities](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getLeadActivitiesUsingGET) endpoint. You need to first retrieve a paging token for the datetime that you want to begin retrieving activities from. You then pass the paging token in the `nextPageToken` query parameter. In addition, you pass up to ten activity type Ids in the `activityTypeIds` query parameter as a comma-separated list.
+Use the [Get Lead Activities](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadActivitiesUsingGET) endpoint to retrieve activities. First, retrieve a paging token for the datetime where activity retrieval should begin. Pass that token in the `nextPageToken` query parameter.
 
-You can optionally include either a `listId` query parameter to narrow your search to only those records included in a specific static list, or a `leadIds` query parameter and search for activities from only a specified set of leads. You can pass up to 30 `leadIds` as a comma separated list.
+Pass up to ten activity type Ids as a comma-separated list in the `activityTypeIds` query parameter.
+
+Optionally, narrow the query with one of these parameters:
+
+- `listId` limits results to records in a specific static list.
+- `leadIds` limits results to activities for up to 30 leads, supplied as a comma-separated list.
 
 <InlineAlert slots="text" variant="warning" />
 
-Beginning 2026-12-30, calls to the `Get Lead Activities` and `Get Lead Changes` endpoints which includes the `listId` parameter will fail (error code 1003) if the target lists contain 10,000 or more leads. To avoid service disruptions, ensure that calls are properly scoped to avoid this limit.
+Beginning 2026-12-30, calls to the `Get Lead Activities` and `Get Lead Changes` endpoints which includes the `listId` parameter will fail (error code 1003) if the target lists contain 10,000 or more leads. To avoid service disruptions, ensure that calls are properly scoped to avoid this limit. See the [Migration guide](migration.md).
 
-```http
+```
 GET /rest/v1/activities.json?activityTypeIds=1&nextPageToken=WQV2VQVPPCKHC6AQYVK7JDSA3I3LCWXH3Y6IIZ7YSGQLXHCPVE5Q====
 ```
 
@@ -122,24 +131,24 @@ GET /rest/v1/activities.json?activityTypeIds=1&nextPageToken=WQV2VQVPPCKHC6AQYVK
 }
 ```
 
-For the first call, use the Get Paging Token API to get `nextPageToken`. For subsequent calls to this endpoint, use the `nextPageToken returned` from the response. This endpoint always returns `the nextPageToken`.
+For the first call, use the Get Paging Token API to obtain `nextPageToken`. For each subsequent call, pass the `nextPageToken` returned by the previous response. This endpoint always returns `nextPageToken`.
 
-If the `moreResult` attribute is true, this means more results are available. Continue to call this endpoint until the `moreResult` attribute returns false, which means there are no results available. The `nextPageToken` returned from this API should always be reused for the next iteration of this call.
+If `moreResult` is true, more results are available. Continue calling the endpoint with the returned `nextPageToken` until `moreResult` is false.
 
-In some cases, this API may respond with fewer than 300 activity items, but also have the `moreResult` attribute set to true.  This indicates that there are more activities that can be returned and that the endpoint can be queried for more recent activities by including the returned `nextPageToken` in a subsequent call.
+The API can return fewer than 300 activity items while setting `moreResult` to true. In this case, include the returned `nextPageToken` in another call to retrieve more recent activities.
 
-Note that within each result array item, the `id` integer attribute is being replaced by the `marketoGUID` string attribute as unique identifier.
+Within each result array item, the `marketoGUID` string attribute is replacing the `id` integer attribute as the unique identifier.
 
 ### Data value changes
 
-For Data Value Change activities, a specialized version of the activities API is provided. The [Get Lead Changes](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getLeadChangesUsingGET) endpoint only returns activities of Data Value Change records to lead fields. The interface is the same as the Get Lead Activities API with two differences:
+Use the [Get Lead Changes](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadChangesUsingGET) endpoint to retrieve Data Value Change records for lead fields. Its interface differs from the Get Lead Activities API in two ways:
 
-* There is no `activityTypeIds` parameter, since the endpoint only returns Data Value Change and New Lead activities.
-* The `fields` query parameter is required, where you can pass a comma-separated list of fields to indicate which fields you want to retrieve changes for.
+- The endpoint has no `activityTypeIds` parameter because it returns only Data Value Change and New Lead activities.
+- The required `fields` query parameter accepts a comma-separated list of fields whose changes you want to retrieve.
 
 <InlineAlert slots="text" variant="warning" />
 
-Beginning 2026-12-30, calls to the `Get Lead Activities` and `Get Lead Changes` endpoints which includes the `listId` parameter will fail (error code 1003) if the target lists contain 10,000 or more leads. To avoid service disruptions, ensure that calls are properly scoped to avoid this limit.
+Beginning 2026-12-30, calls to the `Get Lead Activities` and `Get Lead Changes` endpoints which includes the `listId` parameter will fail (error code 1003) if the target lists contain 10,000 or more leads. To avoid service disruptions, ensure that calls are properly scoped to avoid this limit. See the [Migration guide](migration.md).
 
 ```http
 GET /rest/v1/activities/leadchanges.json?nextPageToken=GIYDAOBNGEYS2MBWKQYDAORQGA5DAMBOGAYDAKZQGAYDALBQ&fields=firstName,lastName,department
@@ -185,13 +194,13 @@ GET /rest/v1/activities/leadchanges.json?nextPageToken=GIYDAOBNGEYS2MBWKQYDAORQG
 }
 ```
 
-Each activity in the response has a fields array, including a list of changes in the activity, which will specify the `id` and `name` of the field changed, as well as the new and old values relative to the change.
+Each activity in the response has a fields array that lists its changes. Each change specifies the field's `id` and `name`, along with the new and old values.
 
-Note that within each result array item, the `id` integer attribute is being replaced by the `marketoGUID` string attribute as unique identifier.
+Within each result array item, the `marketoGUID` string attribute is replacing the `id` integer attribute as the unique identifier.
 
 ### Deleted leads
 
-There is also a special endpoint [Get Deleted Leads](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getDeletedLeadsUsingGET) for retrieving deleted activities from Marketo.
+Use the [Get Deleted Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/getDeletedLeadsUsingGET) endpoint to retrieve deleted lead activities from Marketo.
 
 ```http
 GET /rest/v1/activities/deletedleads.json?nextPageToken=GIYDAOBNGEYS2MBWKQYDAORQGA5DAMBOGAYDAKZQGAYDALBQ
@@ -228,26 +237,30 @@ GET /rest/v1/activities/deletedleads.json?nextPageToken=GIYDAOBNGEYS2MBWKQYDAORQ
 }
 ```
 
-Note that within each result array item, the `id` integer attribute is being replaced by the `marketoGUID` string attribute as unique identifier.
+Within each result array item, the `marketoGUID` string attribute is replacing the `id` integer attribute as the unique identifier.
 
 ### Page through results
 
-By default, the endpoints mentioned in this section return 300 activity items at a time.  If the `moreResult` attribute is true, more results are available. Call the endpoint until the `moreResult` attribute returns false, which means that there are no more results available. The `nextPageToken` returned from this endpoint should always be reused for the next iteration of this call.
+By default, the endpoints in this section return 300 activity items at a time. If `moreResult` is true, more results are available. Pass the returned `nextPageToken` in each subsequent call until `moreResult` is false.
 
-In some cases, this endpoint may respond with fewer than 300 activity items, but also have the `moreResult` attribute set to true.  This indicates that there are additional activities that can be returned and that the endpoint can be queried for more recent activities by including the returned `nextPageToken` in a subsequent call. Note that the `nextPageToken` needs to be URL Encoded in the request.
+An endpoint can return fewer than 300 activity items while setting `moreResult` to true. In this case, include the returned `nextPageToken` in another call to retrieve more recent activities. URL-encode `nextPageToken` in the request.
 
 ## Custom Activity Types
 
-Custom Activities function just like standard activities, except the schema is managed by third-parties, and not by Marketo. Instances of custom activities are linked to lead records through the `leadId` just as standard activities, but both primary and secondary attributes are arbitrarily defined. When a custom activity type is approved, a corresponding Smart List trigger and filter are created, so that leads can be processed based on current or historical custom activity data.
+Custom Activities work like standard activities, but third parties manage their schemas. Custom activity records link to lead records through `leadId`, and their primary and secondary attributes are user-defined.
 
-* Maximum number of Custom Activities: 10
-* Maximum number of attributes per Custom Activity: 20
+When a custom activity type is approved, Marketo creates a corresponding Smart List trigger and filter. You can then process leads based on current or historical custom activity data.
 
-Retrieving custom activity data is done in the same way as standard activities, through the [Get Lead Activities](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getLeadActivitiesUsingGET) API.
+- Maximum Custom Activities: 10
+- Maximum attributes per Custom Activity: 20
+
+Retrieve custom activity data through the [Get Lead Activities](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadActivitiesUsingGET) API, the same way that you retrieve standard activities.
 
 ## Query Types
 
-In addition to the standard Get Activity Types endpoint, the [Get Custom Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getCustomActivityTypeUsingGET) and [Describe Custom Activity Type](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/describeCustomActivityTypeUsingGET) endpoints returns details about the activity types provisioned in the Marketo instance, and metadata regarding the attributes for a given type. The normal [Get Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getAllActivityTypesUsingGET) still returns metadata regarding custom activities, but does not indicate whether a given type is custom.
+Use [Get Custom Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#operation/getCustomActivityTypeUsingGET) to retrieve details about the types provisioned in a Marketo instance. Use [Describe Custom Activity Type](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeCustomActivityTypeUsingGET) to retrieve attribute metadata for a specific type.
+
+The standard [Get Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#operation/getAllActivityTypesUsingGET) endpoint also returns custom activity metadata, but it does not identify whether a type is custom.
 
 ### Get types
 
@@ -277,7 +290,7 @@ GET /rest/v1/activities/external/types.json
 
 ### Describe types
 
-For type descriptions you must pass `apiName` as a path parameter. By default you get the approved version of the activity. You can optionally pass the `draft=true` parameter to retrieve the draft version of the activity.
+To describe a type, pass `apiName` as a path parameter. By default, the endpoint returns the approved version of the activity. To retrieve the draft version, pass the optional `draft=true` parameter.
 
 ```http
 GET /rest/v1/activities/external/type/{apiName}/describe.json
@@ -325,25 +338,23 @@ GET /rest/v1/activities/external/type/{apiName}/describe.json
 
 ## Create type
 
-Each custom activity type requires a display name, API name, trigger name, filter name, and primary attribute.
+Each custom activity type requires a display name, API name, trigger name, filter name, and primary attribute. Use the following guidelines to keep types consistent with Marketo conventions and avoid naming collisions:
 
-To ensure consistency of your types with Marketo conventions, and to avoid collisions, it is important to follow a few guidelines when creating your types:
+- **Display Name:** Briefly describe what an activity record represents, such as "Send Email" or "Change Data Value." Use the infinitive form, such as "Attend Event." Display names accept alphanumeric characters, spaces, and underscores and must contain at least one letter.
 
-**Display Name:** The display name of the activity type should briefly describe what an activity record represents, such as "Send Email", or "Change Data Value". These names should typically be in the infinitive form, that is "Attend Event".  Display names accept alphanumeric characters, spaces and underscores. Display names must contain at least one letter.
+- **API Name:** Use alphanumeric characters, with a maximum length of 255. If you are a LaunchPoint partner, prepend a representative namespace to activity type API names to avoid collisions with customer-provisioned types. Use lowercase or camelCase to distinguish API names from other strings.
 
-**API Name:** The API name is comprised of alphanumeric characters (maximum length of 255). If you are a LaunchPoint partner, you should prepend a representative namespace to your activity type API names. This is to avoid collisions with customer-provisioned types.  The convention is to use all lowercase or camelCase to help distinguish between other text strings.
+- **Description:** For activities with non-obvious behavior, explain what the activity type represents in relation to the lead.
 
-**Description:** For activities that may have non-obvious behavior should include a description of what the activity type represents with relation to the lead.
+- **Trigger Name:** Provide a unique, human-readable name in the third-person present tense, such as "Attends an Event." LaunchPoint partners should include their company name, such as "Attends Webinar – Acme Company."
 
-**Trigger Name:** Each activity type must have a unique, human-readable trigger name. Trigger names should be in the third-person present tense, such as "Attends an Event". LaunchPoint partners should include their company name in the activity, such as "Attends Webinar – Acme Company."
+- **Filter Name:** Provide a unique, human-readable name in the third-person past tense, such as "Attended an Event." LaunchPoint partners should include their company name, such as "Attended Webinar – Acme Company."
 
-**Filter Name:**  Each activity type must have a unique, human-readable filter name. Filter names should be in the third-person past tense, such as "Attended an Event". LaunchPoint partners should include their company name in the activity, that is "Attended Webinar – Acme Company."
+- **Primary Attribute:** Select the most significant field for the activity type. For an "Attended Event" activity, this field is the event name. The primary attribute appears by default as a parameter in every trigger or filter for the activity type. Its value also appears in a person's activity log without requiring drill-down into the activity.
 
-**Primary Attribute:** The primary attribute of a custom activity should be the most significant field for the activity type. For example, for an "Attended Event" activity this would be the name of the event. Primary attributes are included as parameters by default in every instance of a trigger or filter for that activity type, and the value is displayed in the activity log of a person record without requiring drill-down into the activity.
+A new custom activity type is created as a draft. Approve the type before adding activity records of that type. Updates apply to the draft version and must be approved before they appear in the live version. After a custom activity type is approved and in use, the preceding fields cannot be changed.
 
-When a custom activity is created, it is created as a draft, and must be approved before it can be used to add activity records of that type. All updates are implicitly applied to the draft version of the type. To reflect the changes in the live version of the type, it must be approved. When a custom activity type is approved and in use, no changes to the above fields may be made.
-
-When creating a type, the description parameter is optional, while all of the following parameters are required: `apiName`, `name`, `triggerName`, `filterName`, `primaryAttribute`.
+When creating a type, the description parameter is optional. The required parameters are `apiName`, `name`, `triggerName`, `filterName`, and `primaryAttribute`.
 
 ```http
 POST /rest/v1/activities/external/type.json
@@ -389,7 +400,7 @@ POST /rest/v1/activities/external/type.json
 
 ## Update Type
 
-Updating a type is very similar, except the apiName is the only required parameter as a path parameter.
+To update a type, pass the required apiName as a path parameter. Other fields can be supplied in the request body.
 
 ```http
 POST /rest/v1/activities/external/type/{apiName}.json
@@ -434,23 +445,25 @@ POST /rest/v1/activities/external/type/{apiName}.json
 
 ## Approve Type
 
-Types can be managed with the Approve Custom Activity Type, Discard Custom Activity Type Draft, and Delete Custom Activity Type, just like standard Marketo assets.
+Manage types with Approve Custom Activity Type, Discard Custom Activity Type Draft, and Delete Custom Activity Type, as you would standard Marketo assets.
 
 ## Custom Activity Type Attributes
 
-Each custom activity type can have from 0-20 secondary attributes. Secondary attributes may have any valid field type for a Marketo field. They are added, updated, and removed separately from the parent type, but may be edited while an activity type is in use and then approved. When fields are edited on a live type, then all activities of that type created after approval has the new secondary attribute set. Changes will not be applied retroactively to existing activities sharing that type.
+Each custom activity type can have 0–20 secondary attributes. A secondary attribute can use any valid Marketo field type. Add, update, and remove secondary attributes separately from the parent type.
 
-Be careful about the removal of attributes, as this will affect their availability for use in the corresponding filters.
+You can edit attributes while an activity type is in use and then approve the changes. Activities created after approval use the new secondary attribute set. Changes do not apply retroactively to existing activities of that type.
 
-Updates made to the secondary attribute list use the API name of each attribute as a primary key. The API Name for an attribute may not be changed, it must be deleted and added again with the desired API name.
+Removing attributes also removes their availability in the corresponding filters.
+
+Updates to the secondary attribute list use each attribute's API name as the primary key. To change an API Name, delete the attribute and add it again with the desired API name.
 
 Valid data types for attributes are: string, boolean, integer, float, link, email, currency, date, datetime, phone, text.
 
-When changing the primary attribute of an activity type, any existing primary attribute should be demoted by setting `isPrimary` to false first.
+Before changing the primary attribute of an activity type, demote the existing primary attribute by setting `isPrimary` to false.
 
 ### Create Attributes
 
-Creating an attribute takes a required `apiName` path parameter. Also required are the `name` and `dataType` parameters.`The description and` `isPrimary` parameters are optional.
+To create an attribute, pass the required `apiName` path parameter. The `name` and `dataType` parameters are also required. The description and `isPrimary` parameters are optional.
 
 ```http
 POST /rest/v1/activities/external/type/{apiName}/attributes/create.json
@@ -517,7 +530,7 @@ POST /rest/v1/activities/external/type/{apiName}/attributes/create.json
 
 ### Update attributes
 
-When performing updates to attributes, the `apiName` of the attribute is the primary key. The `apiName` parameter must exist for the update to succeed (that is, you cannot change the `apiName` parameter using update).
+When updating attributes, the attribute `apiName` is the primary key and must already exist. You cannot change `apiName` with an update.
 
 ```http
 POST /rest/v1/activities/external/type/{apiName}/attributes/update.json
@@ -584,7 +597,7 @@ POST /rest/v1/activities/external/type/{apiName}/attributes/update.json
 
 ### Delete Attributes
 
-Deleting an attribute takes a required `apiName` path parameter that is the custom activity API name.  Also required is an attribute parameter that is an array of attribute objects.  Each object must contain an `apiName` parameter that is the custom activity type API name.
+To delete an attribute, pass the required `apiName` path parameter for the custom activity. Also pass the required attribute parameter as an array of attribute objects. Each object must contain an `apiName` parameter for the custom activity type.
 
 ```http
 POST /rest/v1/activities/external/type/{apiName}/attributes/delete.json
@@ -622,13 +635,17 @@ POST /rest/v1/activities/external/type/{apiName}/attributes/delete.json
 
 ## Add Custom Activities
 
-Custom activities are write-once records of historical activities related to individual person records in Marketo. These activities have a schema that is managed by Marketo Admins or remotely via an API integration. Custom activities are added to lead records via the [Add Custom Activities](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/addCustomActivityUsingPOST) endpoint and related to each lead record via its `leadId` field. Custom activities can be viewed in the user interface via the lead's activity log, or retrieved via Get Lead Activities endpoint by specifying the custom activity's type ID.
+Custom activities are write-once records of historical activities for individual person records. Marketo Admins can manage their schema in Marketo, or an API integration can manage it remotely.
 
-Custom activities are appropriate for recording data that is related to a single person record and which does not need to be updated or overwritten. An example would be recording a person attending an event as an "Attended Event" activity. For records related to a person that may change, such as student enrollment, custom objects should be used instead, as they can be updated, where custom activities may not.
+Use the [Add Custom Activities](https://developer.adobe.com/marketo-apis/api/mapi#operation/addCustomActivityUsingPOST) endpoint to add custom activities to lead records. The `leadId` field associates each activity with a lead. View custom activities in the lead's activity log, or retrieve them through Get Lead Activities by specifying the custom activity type ID.
 
-The input member is an array of activity objects. A maximum of 300 activity records can be submitted at a time.
+Use custom activities for data related to one person that does not need to be updated or overwritten. For example, record event attendance as an "Attended Event" activity.
 
-The `leadId`, `activityDate`, `activityTypeId`, `primaryAttributeValue`, and attributes members are required. The attributes array must contain the non-primary attribute. This can be specified using either name (field name), or apiName (API name), and value that corresponds to the value that you are setting.
+Use custom objects for person-related records that can change, such as student enrollment. Custom objects can be updated, but custom activities cannot.
+
+The input member is an array of activity objects. You can submit a maximum of 300 activity records at a time.
+
+The `leadId`, `activityDate`, `activityTypeId`, `primaryAttributeValue`, and attributes members are required. The attributes array must contain the non-primary attribute. Specify it with either name (field name) or apiName (API name), and value for the value to set.
 
 ```http
 POST /rest/v1/activities/external.json
@@ -707,7 +724,7 @@ POST /rest/v1/activities/external.json
 
 ## Timeouts
 
-Activities endpoints have a timeout of 30s unless noted below.
+Activities endpoints have a timeout of 30s, except for the following endpoints:
 
-* Get Paging Token: 300s
-* Add Custom Activity: 90s
+- Get Paging Token: 300s
+- Add Custom Activity: 90s

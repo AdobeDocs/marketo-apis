@@ -7,11 +7,13 @@ description: "Marketo REST API guide for folders covering create, update, delete
 
 [Folders Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders)
 
-Folders are the core organizational asset in Marketo, and every other type of asset has at least one folder as a parent. This parent folder may be either a Folder which is purely organizational, or a Program, which has a functional relationship to other asset types and can also be the parent of other assets. Folders can be created, queried, updated, and deleted through the API, and also allow a list of their contents to be retrieved. Though Programs can be returned through querying the Folders API, creating, updating, and deleting programs must be performed through the Programs API.
+Folders are the core organizational assets in Marketo. Every other asset type has at least one parent that is either a Folder or a Program. A Folder is purely organizational, while a Program has a functional relationship to other asset types and can also contain assets.
+
+Use the Folders API to create, query, update, and delete folders or retrieve their contents. Folder queries can return Programs, but you must use the Programs API to create, update, or delete a Program.
 
 ## Query
 
-Querying folders follows the standard query types for assets of [by id](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/getFolderByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/getFolderByNameUsingGET), and [browsing](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/getFolderUsingGET).
+Folders support the standard asset query patterns: [by id](https://developer.adobe.com/marketo-apis/api/asset#operation/getFolderByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getFolderByNameUsingGET), and by [browsing](https://developer.adobe.com/marketo-apis/api/asset#operation/getFolderUsingGET).
 
 ### By Id
 
@@ -53,7 +55,11 @@ GET /rest/asset/v1/folder/{id}.json?type=Folder
 
 ```
 
-The type parameter is required and must be one of "Folder" or "Program."  The type dictates whether the lookup to the folder is done against a Folder ID or a Program ID. For this endpoint, only a single record is returned in the result Array. Note the `folderType` parameter in the response. This can indicate many different types of folders. Marketo Activities folders have either a type of Marketing Folder or Program, which can contain many different types of assets, while Design Studio folders have a type corresponding to the asset type which they can hold. For example, a folder with `folderType` of "Email" may contain only Emails, or other subfolders, which might have a `folderType` of Email or Email Template. Types may include:
+The `type` parameter is required and must be `Folder` or `Program`. It determines whether the endpoint looks up a Folder ID or a Program ID. The endpoint returns one record in the result array.
+
+The response `folderType` identifies what the folder can contain. Marketing Activities folders have a type of Marketing Folder or Program and can contain multiple asset types. Design Studio folders have a type that corresponds to the assets they can contain. For example, an Email folder can contain emails and subfolders with a folder type of Email or Email Template.
+
+Folder types include:
 
 - Email
 - Email Template
@@ -64,7 +70,13 @@ The type parameter is required and must be one of "Folder" or "Program."  The t
 
 ### By Name
 
-[Querying by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/getFolderByNameUsingGET) is also allowed. The query by name endpoint has name as the only required parameter. Name performs an exact string match against the name field of folders in the instance, and returns results for each folder matching that name. It also has the optional query parameters of "type" which can be Folder or Program, "root" the id of the folder to search through, or "workspace" the name of the workspace to search in. If the root parameter is set, the type parameter must also be set.
+The [query by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getFolderByNameUsingGET) endpoint requires `name`, which performs an exact match against folder names and returns every matching folder.
+
+The endpoint also accepts these optional parameters:
+
+- `type`: The folder type, either `Folder` or `Program`.
+- `root`: The ID of the folder to search. If you set `root`, you must also set `type`.
+- `workspace`: The name of the workspace to search.
 
 ```http
 GET /rest/asset/v1/folder/byName.json?name=Test%2010%20-%20deverly
@@ -104,21 +116,21 @@ GET /rest/asset/v1/folder/byName.json?name=Test%2010%20-%20deverly
 
 ```
 
-When searching by name, it is important to note that both Marketing Activities and Design Studio are their own root folders, so they can be retrieved by name, and used to traverse the rest of the folder hierarchy in a destination instance.
+Marketing Activities and Design Studio are root folders. Retrieve either root by name, and then use it to traverse the folder hierarchy in the destination instance.
 
 ### Browse
 
-Folders can also be [retrieved in bulk](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/getFolderUsingGET). The "root" parameter can be used to specify the parent folder under which the query will be performed and is formatted as a JSON object embedded as the value for the query parameter. Root has two members:
+You can also [retrieve folders in bulk](https://developer.adobe.com/marketo-apis/api/asset#operation/getFolderUsingGET). Use the `root` parameter to specify the parent folder under which to query. Pass `root` as an embedded JSON object with two members:
 
-1. id - The id of the folder or program.
-1. type - Either Folder or Program, depending on the type of the root folder to browser.
+1. `id`: The ID of the folder or program.
+1. `type`: Either `Folder` or `Program`, depending on the root folder type.
 
-If the root folder is not known, or the intent is to retrieve all folders in a given area, the root can be specified as the "Marketing Activities", "Design Studio", or "Lead Database" areas. The ids for each of these can be retrieved through the [Get Folder By Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/getFolderByNameUsingGET) API, and specifying the name of the desired area.
+If you do not know the root folder or want to retrieve all folders in an area, use the Marketing Activities, Design Studio, or Lead Database root. Retrieve the root ID by passing the area name to the [Get Folder By Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getFolderByNameUsingGET) API.
 
-Like other bulk asset retrieval endpoints, offset and maxReturn are optional parameters for paging.   Other optional parameters are:
+As with other bulk asset retrieval endpoints, use the optional `offset` and `maxReturn` parameters for pagination. Other optional parameters are:
 
-- workSpace - The name of the workspace to filter to.
-- maxDepth - The maximum number of levels to traverse in the folder hierarchy. If set to 0, only the folder specified in root is returned. If not specified, the default value is 2.
+- `workSpace`: The name of the workspace to filter by.
+- `maxDepth`: The maximum number of levels to traverse in the folder hierarchy. A value of 0 returns only the folder specified by `root`. The default is 2.
 
 ```http
 GET /rest/asset/v1/folders.json?root={"id":14,"type":"Folder"}
@@ -201,13 +213,21 @@ GET /rest/asset/v1/folders.json?root={"id":14,"type":"Folder"}
 
 ## Response Structure
 
-Much of the folder response structure is self-explanatory, but a few fields are worth noting individually. The `folderId` and parent fields are JSON objects which include the explicit id and type of the folder itself. This type is the one which is used in queries, root, and parent parameters by the API to ensure proper delineation between Folder and Program types of folders. `folderType` reflects the usage of the folder, which may be one of "Marketing Folder," "Program," "Email," "Email Template," Landing Page," Landing Page Template," "Snippet,", "Image", "Zone", or "File."  The types Marketing Folder and Program indicate that they exist in Marketing Activities and can contain multiple types of assets. The other types indicate that they may contain only that type of asset, subfolders, and the template version of that type, if applicable. The type Zone represents root-level folders found in Marketing Activities.
+The `folderId` and `parent` fields are JSON objects that contain the folder ID and type. The API uses this type in query, `root`, and `parent` parameters to distinguish Folder and Program folder types.
 
-The path of a folder shows its hierarchy in the folder tree, similar to a Unix-style path. The first entry in the path will always be Marketing Activities or Design Studio. If the target instance has workspaces, then the second entry in the path will be the name of the owning workspace. The `url` field shows the explicit URL of the asset in the designated instance. This is not a universal link, and must be authenticated as a user to work properly. `isSystem` indicates whether the folder is a system folder. If this is set to true, then the folder itself is read-only, though folders can be created as children of it.
+The `folderType` field describes how the folder is used. Its value can be Marketing Folder, Program, Email, Email Template, Landing Page, Landing Page Template, Snippet, Image, Zone, or File. Marketing Folder and Program exist in Marketing Activities and can contain multiple asset types. The other folder types contain only the corresponding asset type, subfolders, and the template version of that asset type when applicable. Zone represents a root-level folder in Marketing Activities.
+
+The folder `path` shows its hierarchy as a Unix-style path. The first entry is always Marketing Activities or Design Studio. If the instance has workspaces, the second entry is the owning workspace name.
+
+The `url` field contains the asset URL for the designated instance. It is not a universal link and requires user authentication. The `isSystem` field indicates whether the folder is a read-only system folder. You can create child folders under a system folder.
 
 ## Create and Update
 
-[Creating folders](https://developer.adobe.com/marketo-apis/api/asset#tag/Folders/operation/createFolderUsingPOST) is simple and is executed with an application/x-www-form-urlencoded POST that has two required parameters, "name," a string, and "parent," the parent to create the folder in, which is an embedded JSON object with two members, id, and type, either Folder or Program, depending on the type of the target folder. Optionally "description," a string, can also be included and may be up to 2000 characters.
+To [create a folder](https://developer.adobe.com/marketo-apis/api/asset#operation/createFolderUsingPOST), send an `application/x-www-form-urlencoded` POST request with these parameters:
+
+- `name`: Required string containing the folder name.
+- `parent`: Required embedded JSON object containing `id` and `type`. The type is `Folder` or `Program`, depending on the parent.
+- `description`: Optional string of up to 2000 characters.
 
 ```http
 POST /rest/asset/v1/folders.json
@@ -255,7 +275,9 @@ parent={"id":416,"type":"Folder"}&name=Test 10 - deverly&description=This is a t
 
 ```
 
-Updates to folders are made through a separate endpoint, and description, name, and `isArchive` are optional parameters for update. If `isArchive` is changed by an update, this results in the folder being archived, if changed to true, or unarchived, if changed to false, in the Marketo UI. Programs cannot be updated with this API.
+Use the update endpoint to change the optional `description`, `name`, or `isArchive` parameters. Setting `isArchive` to `true` archives the folder in the Marketo UI. Setting it to `false` removes the folder from the archive.
+
+You cannot update Programs with this API.
 
 ```http
 POST /rest/asset/v1/folder/{id}.json
@@ -304,7 +326,7 @@ type=Folder&description=This is a test (update 01)
 
 ### Delete
 
-Deletions can be made against single folders if they are empty, meaning that they contain no assets or subfolders. If a folder is of type Program, or has the isSystem field set to true, it cannot be deleted with this API.
+You can delete a single folder only when it contains no assets or subfolders. You cannot use this API to delete a Program or a folder whose `isSystem` field is `true`.
 
 ```http
 POST /rest/asset/v1/folder/{id}/delete.json

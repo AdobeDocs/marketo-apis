@@ -5,49 +5,49 @@ description: "Set up Rich Media Recommendation using Marketo Predictive Content 
 
 # Rich Media Recommendation
 
-The following tags and API calls must be set up on the page that you want to display the Rich Media Recommendation template.
+To display a Rich Media Recommendation template, add the required tags and API calls to the page.
 
-1. In the Page Header
-    1. Have the RTP tag installed
-    1. Add the GET call to the page to populate the recommendations
-    1. Add the SET call to configure the template
-1. In the Page Body
-    1. Place the template tag (div class) in the location where you want the template to appear
+1. In the page header:
+    1. Install the RTP tag.
+    1. Add the GET call that populates the recommendations.
+    1. Add the SET call that configures the template.
+1. In the page body:
+    1. Place the template tag (div class) where you want the template to appear.
 
-More information is available [here](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/predictive-content/enabling-predictive-content/enable-predictive-content-for-web-rich-media).
+For more information, see [Enable Predictive Content for Web Rich Media](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/predictive-content/enabling-predictive-content/enable-predictive-content-for-web-rich-media).
 
 ## Template Tag
 
 | Attribute | Optional/Required | Description |
 | --- | --- | --- |
-| class | Required | Specify that this div HTML element is RTP recommendation div. |
-| data-rtp-template-id | Required | The template id. This determines the alignment of your recommendation. Use "template1" for horizontal alignment, "template2" for vertical alignment, or "template3" for vertical alignment that includes only title and description. The script injects the matching template into this `div.Permissible` values: template1, template2, template3. |
+| class | Required | Identifies the div HTML element as an RTP recommendation div. |
+| data-rtp-template-id | Required | Determines the recommendation alignment. Use "template1" for horizontal alignment, "template2" for vertical alignment, or "template3" for vertical alignment with only a title and description. The script injects the matching template into this `div`. Permissible values: template1, template2, template3. |
 
 ### Examples
 
-To display your recommendations in horizontal alignment, use "template1".
+Use "template1" to display recommendations horizontally.
 
 ```html
 <div class="RTP_RCMD2" data-rtp-template-id="template1"></div>
 ```
 
-To display your recommendations in vertical alignment, use "template2".
+Use "template2" to display recommendations vertically.
 
 ```html
 <div class="RTP_RCMD2" data-rtp-template-id="template2"></div>
 ```
 
-To display your recommendations in vertical alignment with title and description only, use "template3".
+Use "template3" to display recommendations vertically with only a title and description.
 
 ```html
 <div class="RTP_RCMD2" data-rtp-template-id="template3"></div>
 ```
 
-See screenshots of template alignments [here](#example_of_rich_media_recommendation_template_1).
+See the [template alignment examples](#example_of_rich_media_recommendation_template_1).
 
 ## Populate Recommendation
 
-This method populates all the rich media `<divs>` on the page with recommendations.
+This method populates all rich media `divs` on the page with recommendations.
 
 ### Usage
 
@@ -61,9 +61,9 @@ This method populates all the rich media `<divs>` on the page with recommendatio
 
 ## Change Template Configuration
 
-This method changes the default configuration for template.
+This method changes the default template configuration.
 
-Note: When using this method it must be called before calling rtp('get','rcmd', 'richmedia');
+Call this method before calling rtp('get','rcmd', 'richmedia');
 
 ### Usage
 
@@ -79,7 +79,7 @@ Note: When using this method it must be called before calling rtp('get','rcmd', 
 
 ### Examples
 
-This code snippet changes the title text for a template.
+This example changes the title text for a template.
 
 ```javascript
 rtp("set", "rcmd", "richmedia","template1",
@@ -89,7 +89,7 @@ rtp("set", "rcmd", "richmedia","template1",
 );
 ```
 
-This code snippet shows setting categories with multiple configurations for a template.
+This example sets categories and multiple configuration properties for a template.
 
 ```javascript
 rtp("set", "rcmd", "richmedia",
@@ -110,9 +110,11 @@ rtp("set", "rcmd", "richmedia",
 );
 ```
 
-NOTE: Use "category" to filter content that is displayed in the outcome of predictive content recommendations. To apply predictive content to all enabled content pieces, leave the "category" empty. If you want to recommend only specific content for the output in the Rich Media template, add a category for the content in the Set content page and associate that category within the recommendation template code. Categorizing relevant content according to sections of your website (products or solutions).
+Use "category" to filter the content displayed in predictive content recommendations. To use predictive content for all enabled content, leave "category" empty.
 
-This code snippet shows setting multiple template configurations for a template.
+To recommend only specific content in the Rich Media template, add a category for the content on the Set content page. Then associate that category with the recommendation template code. For example, categorize relevant content by the product or solution sections of your website.
+
+This example sets multiple configuration properties for a template.
 
 ```javascript
 rtp("set", "rcmd", "richmedia",
@@ -142,11 +144,11 @@ rtp("set", "rcmd", "richmedia",
 | rcmd.cta.text | "rcmd.cta.text" : "Push" | Changes the button text. The text is the same for all the buttons. |
 | category | "category" : ["one category"] | Changes the recommendation category this template supports. The template displays only recommendations with one of the categories set by this configuration. |
 
-Note: The configuration support can change per template.
+Configuration support can vary by template.
 
 #### Basic Example
 
-This example has one template with three recommendations. Copy this example into an HTML page, and then replace the RTP tag with your tag.
+This example displays three recommendations in one template. Copy the example into an HTML page, and then replace the RTP tag with your tag.
 
 ```html
 <!DOCTYPE>
@@ -178,7 +180,7 @@ rtp('get','rcmd', 'richmedia');
 
 #### Advanced Example
 
-This example has one template with three recommendations. The template title is "RECOMMENDED CONTENT" and the button text will be "Read More". Copy this example into an HTML page, and then replace the RTP tag with your tag.
+This example displays three recommendations in one template. The template title is "RECOMMENDED CONTENT" and the button text is "Read More". Copy the example into an HTML page, and then replace the RTP tag with your tag.
 
 ```html
 <!DOCTYPE>
@@ -222,16 +224,24 @@ rtp('get','rcmd', 'richmedia');
 
 #### Example of Rich Media Recommendation Template #1
 
-**Name**: template1 **Description**: Horizontal content including image, title, and description and call to action button.
+**Name**: template1
+
+**Description**: Horizontal content that includes an image, title, description, and call-to-action button.
 
 ![Rich Media template](assets/rich-media-template1.png)
 
 #### Example of Rich Media Recommendation Template #2
 
-**Name**: template2 **Description**: Vertical content including image, title, and description and call to action button.
+**Name**: template2
+
+**Description**: Vertical content that includes an image, title, description, and call-to-action button.
 
 ![Rich Media template](assets/rich-media-template2.png)
 
 #### Example of Rich Media Recommendation Template #3
 
-**Name**: template3 **Description**: Vertical content including only title and description. On mouse hover, header changes color and is hyperlinked to content URL. Description also links to content without color change. ![Rich Media template](assets/rich-media-template3.png)
+**Name**: template3
+
+**Description**: Vertical content that includes only a title and description. On mouse hover, the header changes color and links to the content URL. The description also links to the content without changing color.
+
+![Rich Media template](assets/rich-media-template3.png)

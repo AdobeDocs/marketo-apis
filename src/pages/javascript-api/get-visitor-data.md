@@ -5,12 +5,12 @@ description: "Get real-time visitor identification using the RTP User Context AP
 
 # Get Visitor Data
 
-This method is used to get real-time visitor identification data.
+Use this method to get visitor identification data in real time.
 
-- You must become a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site prior to using the User Context API.
+- You must be a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site before using the User Context API.
 - RTP does not support Account Based Marketing named account lists. ABM lists and code only pertain to the uploaded account lists (CSV files) managed within RTP.
 
-If an error occurs, there will be an error message as part of the response JSON. If a 500 code is returned, contact support with the request you made.
+If an error occurs, the response JSON includes an error message. If the API returns a 500 code, contact support and provide the request that caused the error.
 
 | Parameter | Optional/Required | Type | Description |
 | --- | --- | --- | --- |
@@ -20,7 +20,7 @@ If an error occurs, there will be an error message as part of the response JSON.
 
 ## Examples
 
-Get visitor identification data:
+The following example gets visitor identification data.
 
 ```javascript
 function callbackFunction() {
@@ -31,7 +31,7 @@ rtp('get', 'visitor', callbackFunction);
 
 Response with Segment Match:
 
-Below is an example response that is returned in case the visitor matched real-time segments prior to the Get Visitor Data API call.
+The following response includes `matchedSegments` because the visitor matched real-time segments before the Get Visitor Data API call.
 
 ```json
 {
@@ -69,7 +69,7 @@ Below is an example response that is returned in case the visitor matched real-t
 
 Response without Segment Match:
 
-Below is an example response that is returned in case the visitor did not match any real-time segments prior to the Get Visitor Data API call.
+The following response does not include `matchedSegments` because the visitor did not match any real-time segments before the Get Visitor Data API call.
 
 ```json
 {

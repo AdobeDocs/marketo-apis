@@ -7,11 +7,11 @@ description: "Query tag types, get allowable values by name, update or delete pr
 
 [Tags Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Tags)
 
-Tags are user-defined fields for programs. Each tag may apply to one or more program types and can be either required or optional, depending on how the tag was defined. Tags may also provide a list of allowable values which must be selected from for use.
+Tags are user-defined fields for programs. A tag can apply to one or more program types and can be required or optional. A tag can also define a list of allowable values that users must select from.
 
 ## Query
 
-Tags are queried with the standard asset pattern, but do not have an endpoint for By Id. The list of allowable values for a tag is only returned when the tag is queried by name.
+Query tags with the standard asset pattern. Tags do not have a By Id endpoint. To retrieve the allowable values for a tag, query the tag by name.
 
 ### Get Tags
 
@@ -70,7 +70,11 @@ GET /rest/asset/v1/tagType/byName.json?name=AAA1 Required Tag Type
 
 ## Update
 
-The [Update Program Tag](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/updateProgramUsingPOST) endpoint allows you to update the value for a given tag type. The endpoint takes an `id` and `tagType` path parameters which specify the program id, and the tag type to update. A `tagValue` query parameter is used to specify the new value for the tag type. All parameters are required.
+Use the [Update Program Tag](https://developer.adobe.com/marketo-apis/api/asset#operation/updateProgramUsingPOST) endpoint to update the value for a tag type. All parameters are required:
+
+- The `id` path parameter specifies the program id.
+- The `tagType` path parameter specifies the tag type to update.
+- The `tagValue` query parameter specifies the new value.
 
 ```http
 POST /rest/asset/v1/program/{id}/tag/{tagType}.json?tagValue=David
@@ -90,11 +94,11 @@ POST /rest/asset/v1/program/{id}/tag/{tagType}.json?tagValue=David
 }
 ```
 
-Tags can be updated en masse using the [Update Program Metadata](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/updateProgramUsingPOST) endpoint. An example is available in the [Programs update section](programs.md#update).
+To update multiple tags, use the [Update Program Metadata](https://developer.adobe.com/marketo-apis/api/asset#operation/updateProgramUsingPOST) endpoint. See the example in the [Programs update section](programs.md#update).
 
 ## Delete
 
-The [Delete Program Tag](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/deleteProgramUsingPOST) endpoint allows you to delete a non-required tag type. The endpoint takes `id` and `tagType` path parameters which specify the program id, and the tag type to delete.
+Use the [Delete Program Tag](https://developer.adobe.com/marketo-apis/api/asset#operation/deleteProgramUsingPOST) endpoint to delete a non-required tag type. The `id` path parameter specifies the program id, and the `tagType` path parameter specifies the tag type to delete.
 
 ```http
 POST /rest/asset/v1/program/{id}/tag/{tagType}/delete.json

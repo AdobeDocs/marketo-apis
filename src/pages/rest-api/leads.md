@@ -7,19 +7,19 @@ description: "Explore Marketo Leads REST API features including Describe, query 
 
 [Leads Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads)
 
-The Marketo Lead's API provides a large set of capabilities for simple CRUD applications against lead records, as well as the ability to modify a lead's membership in static lists and programs, and initiate Smart Campaign processing for leads.
+The Marketo Leads API supports CRUD operations on lead records. You can also modify a lead's membership in static lists and programs and initiate Smart Campaign processing for leads.
 
 ## Describe
 
-One of the key capabilities of the Leads API is the Describe method. Use Describe Leads to retrieve a full list of the fields available for interaction via both the REST API, as well as metadata for each:
+Use Describe Leads to retrieve the fields available through the REST API and the metadata for each field:
 
-* Data type
-* REST API names
-* Length (if applicable)
-* Read-Only
-* Friendly label
+- Data type
+- REST API name
+- Length, if applicable
+- Read-only status
+- Friendly label
 
-Describe is the primary source of truth for whether fields are available for use, and metadata about those fields.
+Describe is the primary source of truth for field availability and metadata.
 
 ### Request
 
@@ -51,13 +51,18 @@ GET /rest/v1/leads/describe.json
 }
 ```
 
-Normally, responses include a much larger set of fields in the result array, but we are omitting them for demonstration purposes. Each item in the result array corresponds to a field available on the lead record and will have at minimum an id, a displayName, and a datatype. The rest and soap child objects may or may not be present for a given field, and its presence will indicate whether the field is valid for use in either the REST or SOAP APIs. The `readOnly` property indicates whether the field is read-only via the corresponding API (REST or SOAP). The length property indicates the max length of the field if present. The dataType property indicates the data type of the field.
+Actual responses include more fields in the result array. Each item represents a field available on the lead record and contains at least an id, a displayName, and a datatype.
+
+The REST child objects appear only when the field is valid for the corresponding API. The `readOnly` property indicates whether the corresponding API can update the field. When present, the length property gives the maximum field length, and the dataType property gives the field's data type.
 
 ## Query
 
-There are two primary methods for lead retrieval: the Get Lead by Id, and Get Leads by Filter Type methods. Get Lead by Id takes a single lead id as a path parameter and returns a single lead record.
+Use one of two primary methods to retrieve leads:
 
-Optionally you may pass a fields parameter containing a comma-separated list of field names to return. If the fields parameter is not included in this request, the following default fields are returned: `email`, `updatedAt`, `createdAt`, `lastName`, `firstName`, and `id`. When requesting a list of fields, if a particular field is requested, but not returned, the value is implied to be null.
+- Get Lead by Id takes one lead id as a path parameter and returns one lead record.
+- Get Leads by Filter Type finds records whose selected field matches one of the supplied values.
+
+For Get Lead by Id, optionally pass a fields parameter with a comma-separated list of field names to return. If the request omits fields, the response includes `email`, `updatedAt`, `createdAt`, `lastName`, `firstName`, and `id`. If a requested field is not returned, its value is implied to be null.
 
 ### Request
 
@@ -84,15 +89,15 @@ GET /rest/v1/lead/{id}.json
 }
 ```
 
-For this method, there will always be a single record in the first position of the result array.
+Get Lead by Id always returns one record in the first position of the result array.
 
-Get Leads by Filter Type will return the same type of records, but may return up to 300 per page. It requires the `filterType` and `filterValues` query parameters.
+Get Leads by Filter Type returns the same record type and can return up to 300 records per page. The `filterType` and `filterValues` query parameters are required.
 
-`filterType` accepts any Custom Field, or most of the commonly used fields. Call the `Describe2` endpoint to get a comprehensive list of searchable fields that are permissible for use in `filterType`. When searching by Custom Field, only the following data types are supported: `string`, `email`, `integer`. You can obtain field detail (description, type, and so on) using the aforementioned Describe method.
+`filterType` accepts any Custom Field and most commonly used fields. Call the `Describe2` endpoint to retrieve the searchable fields allowed for `filterType`. When searching by Custom Field, the supported data types are `string`, `email`, and `integer`. Use the Describe method to retrieve field details such as description and type.
 
-`filterValues` accepts up to 300 values in comma-separated format. The call searches for records where the lead's field matches one of the included `filterValues`. If the number of leads matching the lead filter is greater than 1,000 an error is returned: "1003, Too many results match the filter".
+`filterValues` accepts up to 300 comma-separated values. The call returns records where the selected lead field matches one of those values. If more than 1,000 leads match the filter, the API returns "1003, Too many results match the filter".
 
-If the total length of your GET request exceeds 8KB, an HTTP error is returned: "414, URI too long" (per RFC 7231). As a workaround, you may change your GET to POST, add the _method=GET parameter, and place a query string in the request body.
+If the total GET request exceeds 8KB, the API returns "414, URI too long" under RFC 7231. To work around this limit, change GET to POST, add the _method=GET parameter, and put the query string in the request body.
 
 ### Request
 
@@ -127,9 +132,9 @@ GET /rest/v1/leads.json?filterType=id&filterValues=318581,318592
 }
 ```
 
-This call searches for records matching the ids included in `filterValues`, and returns any matching records.
+This call returns records whose ids match the values in `filterValues`.
 
-If no records are found, the response indicates success but the result array will be empty.
+If no records match, the response indicates success and contains an empty result array.
 
 ### Response
 
@@ -141,19 +146,19 @@ If no records are found, the response indicates success but the result array wil
 }
 ```
 
-Both the Get Lead by Id and Get Leads by Filter Type will also accept a fields query parameter, which accepts a comma separated list of API fields. If this is included, then each record in the response will include those listed fields.  If it is omitted, then a default set of fields will be returned: `id`, `email`, `updatedAt`, `createdAt`, `firstName`, and `lastName`.
+Both Get Lead by Id and Get Leads by Filter Type accept a fields query parameter containing a comma-separated list of API fields. When fields is present, each response record includes the listed fields. If it is omitted, the response includes `id`, `email`, `updatedAt`, `createdAt`, `firstName`, and `lastName`.
 
 ## Adobe ECID
 
-When the Adobe Experience Cloud Audience Sharing feature is enabled, a cookie sync process occurs that associates Adobe Experience Cloud ID (ECID) with Marketo leads.  The lead retrieval methods mentioned above can be used to retrieve associated ECID values.  Do this by specifying `ecids` in the fields parameter. For example, `&fields=email,firstName,lastName,ecids`.
+When Adobe Experience Cloud Audience Sharing is enabled, cookie synchronization associates Adobe Experience Cloud ID (ECID) values with Marketo leads. To retrieve associated ECID values with the preceding lead retrieval methods, include `ecids` in the fields parameter. For example, `&fields=email,firstName,lastName,ecids`.
 
 ## Create and Update
 
-In addition to retrieving lead data, you can create, update and delete lead record via the API. Creating and updating leads share the same endpoint with the operation type being defined in the request, and up to 300 records can be created or updated at the same time.
+The Leads API can create, update, and delete lead records. Create and update operations use the same endpoint, with the operation type defined in the request. One request can create or update up to 300 records.
 
 <InlineAlert slots="text" variant="info" />
 
-Updating Company fields using [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/syncLeadUsingPOST) endpoint is not supported. Use [Sync Companies](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies/operation/syncCompaniesUsingPOST) endpoint instead.
+Updating Company fields using [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncLeadUsingPOST) endpoint is not supported. Use [Sync Companies](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncCompaniesUsingPOST) endpoint instead.
 
 <InlineAlert slots="text" variant="info" />
 
@@ -214,29 +219,40 @@ POST /rest/v1/leads.json
 }
 ```
 
-In this request, you see two important fields, `action` and `lookupField`.  `action` specifies the operation type of the request, and can be `createOrUpdate`, `createOnly`, `updateOnly`, or `createDuplicate`. If it is omitted, the action defaults to `createOrUpdate`.  The `lookupField` parameter specifies the key to use when action is either `createOrUpdate` or `updateOnly`. If `lookupField` is omitted, the default key is `email`.
+The request uses two important fields:
 
-By default, the default partition is used. Optionally, you may specify the `partitionName` parameter, which only works if action is `createOnly` or `createOrUpdate`. For `partitionName` to work as additional deduplication criteria, it must be part of source type in custom dedupe rules. During an update operation, if a lead does not exist in the specified partition, then an error is returned. If the API-only user does not have permission to access the specified partition, then an error is returned.
+- `action` specifies the operation type: `createOrUpdate`, `createOnly`, `updateOnly`, or `createDuplicate`. If omitted, it defaults to `createOrUpdate`.
+- `lookupField` specifies the key when action is `createOrUpdate` or `updateOnly`. If omitted, it defaults to `email`.
 
-The `id` field can only be included as a parameter when using the `updateOnly` action, as `id` is a system managed unique key.
+By default, the operation uses the default partition. The optional `partitionName` parameter works only when action is `createOnly` or `createOrUpdate`. To use `partitionName` as additional deduplication criteria, include it in the source type for custom dedupe rules.
 
-The request must also have an `input` parameter, which is an array of lead records. Each lead record is a JSON object with any number of lead fields. The keys included in a record should be unique for that record, and all JSON strings should be UTF-8 encoded. The `externalCompanyId` field may be used to link the lead record to a company record. The `externalSalesPersonId` field may be used to link the lead record to a sales person record.
+During an update, the API returns an error if the lead does not exist in the specified partition or if the API-only user cannot access that partition.
 
-Note: When performing lead upsert requests concurrently or in quick succession, duplicate records may result when making multiple requests with the same key value if a subsequent call with the same value is made before the first returns. This can be avoided either by using the `createOnly`, or `updateOnly` as appropriate, or by queuing calls and waiting for your call to return before making subsequent upsert calls with the same key.
+Because `id` is a system-managed unique key, include it only with the `updateOnly` action.
+
+The request must include an `input` parameter containing an array of lead records. Each lead record is a JSON object with any number of lead fields. Keys must be unique within each record, and all JSON strings must use UTF-8 encoding.
+
+Use `externalCompanyId` to link a lead record to a company record. Use `externalSalesPersonId` to link a lead record to a sales person record.
+
+Concurrent or closely timed upsert requests can create duplicate records when multiple requests use the same key value before the first request returns. To prevent duplicates, use `createOnly` or `updateOnly` as appropriate. Alternatively, queue calls and wait for each call to return before submitting another upsert with the same key.
 
 ## Fields
 
-The lead object contains standard fields and optionally custom fields. Standard fields are present in every Marketo Engage subscription whereas custom fields are created by the user as needed. Each field definition is comprised of a set of attributes that describe the field. Examples of attributes are display name, API name, and dataType. These attributes are known collectively as metadata.
+The lead object contains standard fields and optional custom fields. Standard fields exist in every Marketo Engage subscription, while users create custom fields as needed.
 
-The following endpoints allow you to query, create, and update fields on the lead object. These APIs require that the owning API user have a role with one or both of the Read-Write Schema Standard Field or Read-Write Schema Custom Field permissions.
+Each field definition contains metadata attributes such as display name, API name, and dataType.
+
+Use the following endpoints to query, create, and update fields on the lead object. The API user's role must have the Read-Write Schema Standard Field permission, the Read-Write Schema Custom Field permission, or both.
 
 ## Query Fields
 
-Querying lead fields is straightforward. You may query a single lead field by API name or query the set of all lead fields. Both standard fields and custom fields can be retrieved, depending on the role permissions being used. Hidden fields are also retrieved.
+Query one lead field by API name or query all lead fields. Depending on the role permissions, the response can include standard fields, custom fields, and hidden fields.
 
 ## By Name
 
-The Get Lead Field by Name endpoint retrieves metadata for a single field on the lead object. The required fieldApiName path parameter specifies the API name of the field. The response is like the Describe Lead endpoint but contains additional metadata such as the isCustom attribute, which denotes whether the field is a custom field.
+The Get Lead Field by Name endpoint retrieves metadata for one lead field. The required fieldApiName path parameter specifies the field's API name.
+
+The response resembles the Describe Lead response but includes additional metadata. For example, the isCustom attribute indicates whether the field is custom.
 
 ### Request
 
@@ -268,7 +284,9 @@ GET /rest/v1/leads/schema/fields/{fieldApiName}.json
 
 ## Browse
 
-The Get Lead Fields endpoint retrieves metadata for all fields on the lead object including. By default, a maximum of 300 records are returned. You can use the `batchSize` query parameter to reduce this number. If the `moreResult` attribute is true, this means more results are available. Continue to call this endpoint until the `moreResult` attribute returns false, which means there are no results available. The `nextPageToken` returned from this API should always be reused for the next iteration of this call.
+The Get Lead Fields endpoint retrieves metadata for all fields on the lead object. By default, it returns a maximum of 300 records. Use the `batchSize` query parameter to reduce this number.
+
+If `moreResult` is true, more results are available. Pass the returned `nextPageToken` in each subsequent call until `moreResult` is false.
 
 ### Request
 
@@ -410,12 +428,21 @@ GET /rest/v1/leads/schema/fields.json
 
 ## Create Fields
 
-The Create Lead Fields endpoint creates one or more custom fields on the lead object. This endpoint provides functionality that is comparable to what is available in the Marketo Engage UI. You can create a maximum of up to 100 custom fields using this endpoint.
-Carefully consider each field that you create in your production instance of Marketo Engage using the API.  Once a field has been created, you cannot delete it (you can only hide it). Proliferation of unused fields is a bad practice that will add clutter to your instance.
+The Create Lead Fields endpoint creates one or more custom fields on the lead object and provides functionality comparable to the Marketo Engage UI. You can create up to 100 custom fields with this endpoint.
 
-The required input parameter is an array of lead field objects. Each object contains one or more attributes. Required attributes are the `displayName`, `name`, and `dataType` which correspond to the UI display name of the field, the API name of the field, and the field type respectively.  Optionally you may specify `description`, `isHidden`, `isHtmlEncodingInEmail`, and `isSensitive`.
+Carefully consider each field before creating it in a production instance. After a field is created, you can hide it but cannot delete it. Unused fields add clutter to the instance.
 
-There are a few rules associated with name and `displayName` naming. The name attribute must be unique, start with a letter, and only contain letters, numbers, or underscore. The `displayName` must be unique, and cannot contain special characters.  A common naming convention is to apply camel case to `displayName` to produce name. For example, a `displayName` of "My Custom Field" would produce a name of "myCustomField".
+The required input parameter is an array of lead field objects. Each object requires these attributes:
+
+- `displayName` is the field's UI display name.
+- `name` is the field's API name.
+- `dataType` is the field type.
+
+Optional attributes are `description`, `isHidden`, `isHtmlEncodingInEmail`, and `isSensitive`.
+
+The name attribute must be unique, start with a letter, and contain only letters, numbers, or underscores. The `displayName` must be unique and cannot contain special characters.
+
+A common convention applies camel case to `displayName` to produce name. For example, a `displayName` of "My Custom Field" produces a name of "myCustomField".
 
 ### Request
 
@@ -465,88 +492,88 @@ POST /rest/v1/leads/schema/fields.json
 
 ## Update Field
 
-The Update Lead Field endpoint updates a single custom field on the lead object. For the most part, field update operations performed using the Marketo Engage UI are achievable using the API. There are a few differences summarized in the table below.
+The Update Lead Field endpoint updates one custom field on the lead object. Most field updates available in the Marketo Engage UI are also available through the API. The following table summarizes the differences.
 
-\<table>
-\<tbody>
-\<tr>
-\<td style="width: 26.5306%;" rowspan="2">\<strong>Attribute\</strong>\</td>
-\<td style="width: 35%;" colspan="2">\<strong>Standard Field\</strong>\</td>
-\<td style="width: 38.2654%;" colspan="2">\<strong>Custom Field\</strong>\</td>
-\</tr>
-\<tr>
-\<td style="width: 17.449%;">\<strong>Updatable by API?\</strong>\</td>
-\<td style="width: 17.551%;">\<strong>Updatable by UI?\</strong>\</td>
-\<td style="width: 19.3878%;">\<strong>Updatable by API?\</strong>\</td>
-\<td style="width: 18.8776%;">\<strong>Updatable by UI?\</strong>\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">dataType\</td>
-\<td style="width: 17.449%;">no\</td>
-\<td style="width: 17.551%;">no\</td>
-\<td style="width: 19.3878%;">no\</td>
-\<td style="width: 18.8776%;">yes\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">description\</td>
-\<td style="width: 17.449%;">yes\</td>
-\<td style="width: 17.551%;">yes\</td>
-\<td style="width: 19.3878%;">yes\</td>
-\<td style="width: 18.8776%;">yes\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">displayName\</td>
-\<td style="width: 17.449%;">no\</td>
-\<td style="width: 17.551%;">no\</td>
-\<td style="width: 19.3878%;">yes\</td>
-\<td style="width: 18.8776%;">yes\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">isCustom\</td>
-\<td style="width: 17.449%;">no\</td>
-\<td style="width: 17.551%;">no\</td>
-\<td style="width: 19.3878%;">no\</td>
-\<td style="width: 18.8776%;">no\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">isHidden\</td>
-\<td style="width: 17.449%;">no\</td>
-\<td style="width: 17.551%;">yes\</td>
-\<td style="width: 19.3878%;">yes (if created by API)\</td>
-\<td style="width: 18.8776%;">yes\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">isHtmlEncodingInEmail\</td>
-\<td style="width: 17.449%;">yes\</td>
-\<td style="width: 17.551%;">yes\</td>
-\<td style="width: 19.3878%;">yes\</td>
-\<td style="width: 18.8776%;">yes\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">isSensitive\</td>
-\<td style="width: 17.449%;">yes\</td>
-\<td style="width: 17.551%;">yes\</td>
-\<td style="width: 19.3878%;">yes\</td>
-\<td style="width: 18.8776%;">yes\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">length\</td>
-\<td style="width: 17.449%;">no\</td>
-\<td style="width: 17.551%;">no\</td>
-\<td style="width: 19.3878%;">no\</td>
-\<td style="width: 18.8776%;">no\</td>
-\</tr>
-\<tr>
-\<td style="width: 26.5306%;">name\</td>
-\<td style="width: 17.449%;">no\</td>
-\<td style="width: 17.551%;">no\</td>
-\<td style="width: 19.3878%;">no\</td>
-\<td style="width: 18.8776%;">no\</td>
-\</tr>
-\</tbody>
-\</table>
+table
+tbody
+tr
+td style="width: 26.5306%;" rowspan="2"strongAttribute/strong/td
+td style="width: 35%;" colspan="2"strongStandard Field/strong/td
+td style="width: 38.2654%;" colspan="2"strongCustom Field/strong/td
+/tr
+tr
+td style="width: 17.449%;"strongUpdatable by API?/strong/td
+td style="width: 17.551%;"strongUpdatable by UI?/strong/td
+td style="width: 19.3878%;"strongUpdatable by API?/strong/td
+td style="width: 18.8776%;"strongUpdatable by UI?/strong/td
+/tr
+tr
+td style="width: 26.5306%;"dataType/td
+td style="width: 17.449%;"no/td
+td style="width: 17.551%;"no/td
+td style="width: 19.3878%;"no/td
+td style="width: 18.8776%;"yes/td
+/tr
+tr
+td style="width: 26.5306%;"description/td
+td style="width: 17.449%;"yes/td
+td style="width: 17.551%;"yes/td
+td style="width: 19.3878%;"yes/td
+td style="width: 18.8776%;"yes/td
+/tr
+tr
+td style="width: 26.5306%;"displayName/td
+td style="width: 17.449%;"no/td
+td style="width: 17.551%;"no/td
+td style="width: 19.3878%;"yes/td
+td style="width: 18.8776%;"yes/td
+/tr
+tr
+td style="width: 26.5306%;"isCustom/td
+td style="width: 17.449%;"no/td
+td style="width: 17.551%;"no/td
+td style="width: 19.3878%;"no/td
+td style="width: 18.8776%;"no/td
+/tr
+tr
+td style="width: 26.5306%;"isHidden/td
+td style="width: 17.449%;"no/td
+td style="width: 17.551%;"yes/td
+td style="width: 19.3878%;"yes (if created by API)/td
+td style="width: 18.8776%;"yes/td
+/tr
+tr
+td style="width: 26.5306%;"isHtmlEncodingInEmail/td
+td style="width: 17.449%;"yes/td
+td style="width: 17.551%;"yes/td
+td style="width: 19.3878%;"yes/td
+td style="width: 18.8776%;"yes/td
+/tr
+tr
+td style="width: 26.5306%;"isSensitive/td
+td style="width: 17.449%;"yes/td
+td style="width: 17.551%;"yes/td
+td style="width: 19.3878%;"yes/td
+td style="width: 18.8776%;"yes/td
+/tr
+tr
+td style="width: 26.5306%;"length/td
+td style="width: 17.449%;"no/td
+td style="width: 17.551%;"no/td
+td style="width: 19.3878%;"no/td
+td style="width: 18.8776%;"no/td
+/tr
+tr
+td style="width: 26.5306%;"name/td
+td style="width: 17.449%;"no/td
+td style="width: 17.551%;"no/td
+td style="width: 19.3878%;"no/td
+td style="width: 18.8776%;"no/td
+/tr
+/tbody
+/table
 
-The required `fieldApiName` path parameter specifies the API name of the field to update. The required input parameter is an array that contains a single lead field object.  The field object contains one or more attributes.
+The required `fieldApiName` path parameter specifies the API name of the field to update. The required input parameter is an array containing one lead field object with one or more attributes.
 
 ### Request
 
@@ -585,11 +612,15 @@ POST /rest/v1/leads/schema/fields/{fieldApiName}.json
 
 ## Push Lead to Marketo
 
-Push Lead is an alternative for synching leads to Marketo, primarily designed to allow a greater degree of trigger-ability than the standard Sync Leads (similar in usage to a Marketo form). In addition to synchronization of lead fields, this endpoint allows for lead association based on cookie values, which are passed to the endpoint. This is done by passing the `mkt_tok` value generated by clicking through a Marketo email, or by passing a program name in the call. This endpoint also creates a single triggerable activity, which is associated to a program and/or campaign in Marketo. This allows triggering on lead capture events which are attributed to a specific campaign or program to kick off associated workflows from within Marketo.
+Push Lead is an alternative to Sync Leads and provides more triggering options, similar to a Marketo form. In addition to synchronizing lead fields, the endpoint can associate a lead based on a cookie value. Pass the `mkt_tok` value generated by a click from a Marketo email, or pass a program name in the call.
 
-The Push Lead interface is very similar to Sync Leads. All of the same primary keys are valid, and the same API names are used for fields (there is no action parameter because this is always an upsert operation). The `programName` and input parameters are required, and the `lookupField`, `source`, and `reason` parameters are optional. The input parameter is an array of lead objects. The resulting activity is attributed to the corresponding named program. The `source` and `reason` parameters are arbitrary string fields which can be added to the request to embed those values in the resulting activities. These may be used as constraints in the corresponding triggers (Lead is Pushed to Marketo) and filters (Lead Was Pushed to Marketo).
+The endpoint also creates one triggerable activity associated with a Marketo program, campaign, or both. Use this activity to start workflows from lead capture events attributed to a specific campaign or program.
 
-Note regarding anonymous activities. If you want to associate prior anonymous activities with the newly created lead, then do not specify cookies attribute in the lead object, and call Associate Lead following Push Lead. If you want to create a new lead with no activity history, then simply specify the cookies attribute in the lead object.
+Push Lead uses the same primary keys and field API names as Sync Leads. It has no action parameter because it always performs an upsert.
+
+The `programName` and input parameters are required. The input parameter is an array of lead objects, and the resulting activity is attributed to the named program. The `lookupField`, `source`, and `reason` parameters are optional. Add arbitrary strings in `source` and `reason` to include those values in the resulting activities. You can use the values as constraints in the corresponding triggers (Lead is Pushed to Marketo) and filters (Lead Was Pushed to Marketo).
+
+To associate prior anonymous activities with a newly created lead, omit the cookies attribute from the lead object and call Associate Lead after Push Lead. To create a lead without activity history, specify the cookies attribute in the lead object.
 
 ### Request
 
@@ -655,7 +686,7 @@ POST /rest/v1/leads/push.json
 }
 ```
 
-To pass the `mkt_tok` parameter, assign the value to the mktToken member within a lead record in the input parameter as follows.
+To pass the `mkt_tok` parameter, assign its value to the mktToken member in a lead record within the input parameter.
 
 ### Body
 
@@ -680,24 +711,28 @@ To pass the `mkt_tok` parameter, assign the value to the mktToken member within 
 
 ## Submit Form
 
-Submit Form is an alternative for synchronizing leads to Marketo and is designed to provide functionality that is equivalent to a Marketo Form submission. This allows triggering on lead capture events which are attributed to a specific campaign or program to kick off associated workflows from within Marketo.
+Submit Form is an alternative for synchronizing leads and provides functionality equivalent to a Marketo Form submission. Use it to start workflows from lead capture events attributed to a specific campaign or program.
 
 The Submit Form endpoint supports the following functionality:
 
-* Upserts a lead record using email field as the primary key
-* Creates a "Fill out Form" activity which is associated to a program and/or campaign
-* Allows lead association based on cookie value
-* Performs form field validation
+- Upserts a lead record using the email field as the primary key.
+- Creates a "Fill out Form" activity associated with a program, campaign, or both.
+- Associates a lead based on a cookie value.
+- Validates form fields.
 
-Submitting a form follows the standard lead database pattern. A single object record is passed in the required input member of the JSON body of a POST request. The required `formId` member contains the target Marketo form ID.
+Submit a form with the standard lead database pattern. Pass one object record in the required input member of the POST request's JSON body. The required `formId` member contains the target Marketo form ID.
 
-The optional `programId` can be used to specify the program to add the lead to, and/or specify the program to add program member custom fields to. If `programId` is provided, the lead is added to the program and any program member fields present in form are also added. Note that the specified program must be in the same workspace as the form. If form does not contain program member custom fields and `programId` is not provided, then lead is not added to a program. If form resides in a program and `programId` is not provided, that program is used when one or more program member custom fields are present in form.
+Use the optional `programId` to identify the program that receives the lead, program member custom fields, or both. If `programId` is present, the lead is added to the program along with any program member fields in the form. The program must be in the same workspace as the form.
 
-Within the input record, the `leadFormFields` object is required. This object contains one or more name/value pairs that correspond to the form fields to populate.  All fields specified must be defined within the specified form. The name is the REST API name for the field. Note that the `email` field is required.
+If the form does not contain program member custom fields and `programId` is omitted, the lead is not added to a program. If the form belongs to a program, contains one or more program member custom fields, and omits `programId`, the endpoint uses the form's program.
 
-The `visitorData` member object is optional and contains name/value pairs that correspond to page-visit data including `pageURL`, `queryString`, `leadClientIpAddress`, and `userAgentString`. Can be used to populate additional activity fields for filtering and triggering purposes.
+The required `leadFormFields` object contains one or more name/value pairs for fields to populate. Every field must be defined in the specified form, and each name must be the field's REST API name. The `email` field is required.
 
-The cookie member string is optional and allows you to associate a Munchkin cookie with a person record in Marketo. When a new lead is created, any prior anonymous activities are associated with that lead, unless the cookie value had previously been associated with another known record. If the cookie value was previously associated, then new activities are tracked against the record, but old activities will not be migrated away from the existing known record. To create a new lead with no activity history, simply omit the cookie member.
+The optional `visitorData` object contains page-visit data, including `pageURL`, `queryString`, `leadClientIpAddress`, and `userAgentString`. Use it to populate additional activity fields for filters and triggers.
+
+The optional cookie member associates a Munchkin cookie with a Marketo person record. When the endpoint creates a lead, it associates prior anonymous activities with that lead unless the cookie was previously associated with another known record.
+
+If the cookie was previously associated, new activities are tracked against the new record, but old activities remain with the existing known record. To create a lead without activity history, omit the cookie member.
 
 New leads are created in the primary partition for the workspace in which the form resides.
 
@@ -753,7 +788,7 @@ Content-Type: application/json
 }
 ```
 
-Here we can see the corresponding "Fill Out Form" activity details from within the Marketo Engage UI:
+The following image shows the corresponding "Fill Out Form" activity details in the Marketo Engage UI:
 
 ![Fill Out Form UI](assets/fill_out_form_activity_details.png)
 
@@ -763,7 +798,9 @@ Here we can see the corresponding "Fill Out Form" activity details from within t
 
 Beginning March 31, 2026, calls which include more than 25 IDs in the `leadIds` parameter of a Merge Leads API call will result in a 1080 error code, and the call will be skipped. Jobs requiring the merger of more than 25 records into one, should be split into multiple jobs to ensure the success of those calls. 
 
-Sometimes it is necessary to merge duplicate records and Marketo facilitates this through the Merge Leads API. Merging leads will combine their activity logs, program, campaign, and list memberships and CRM information, as well as merge all of their field values into a single record. Merge Leads takes a lead id as a path parameter, and either a single `leadId` as a query parameter, or a list of 25 or fewer comma-separated ids in the `leadIds` parameter
+Use the Merge Leads API to combine duplicate records into one record. A merge combines activity logs; program, campaign, and list memberships; CRM information; and field values.
+
+Pass the winning lead id as a path parameter. Pass either one `leadId` as a query parameter or up to 25 comma-separated ids in the `leadIds` parameter.
 
 
 ### Request
@@ -781,13 +818,15 @@ POST /rest/v1/leads/{id}/merge.json?leadId=1324
 }
 ```
 
-The lead specified in the path parameter is the winning lead, so if there are any fields in conflict between the records being merged, the value from the winner will be taken, except if the field in the winning record is empty and the corresponding field in the losing record is not. The leads specified in either `leadId` or `leadIds` parameter are the losing leads.
+The lead in the path parameter is the winning lead. When field values conflict, the merge uses the winner's value unless that value is empty and the losing record's value is not. The leads in the `leadId` or `leadIds` parameter are the losing leads.
 
-If you have an SFDC-sync enabled subscription, then you can also use the `mergeInCRM` parameter in your request. If set to true, the corresponding merge in your CRM will also be performed. If both leads are in SFDC and one is a CRM lead and the other is a CRM contact, then the winner is the CRM contact (regardless which lead is specified as winner). If one of the leads is in SFDC and the other is Marketo only, then the winner is the SFDC lead (regardless of which lead is specified as winner).
+For an SFDC-sync enabled subscription, use the `mergeInCRM` parameter to also perform the merge in the CRM. If both records are in SFDC and one is a CRM lead while the other is a CRM contact, the CRM contact wins regardless of the specified winner. If one record is in SFDC and the other exists only in Marketo, the SFDC lead wins regardless of the specified winner.
 
 ## Associate Web Activity
 
-Through Lead Tracking (Munchkin), Marketo records web activity for visitors to your Web Site and Marketo Landing Pages. These activities, Visits and Clicks, are recorded with a key which corresponds to a "_mkto_trk" cookie set in the lead's browser, and Marketo uses this to keep track of the same person's activities. Normally, association to lead records occurs when a lead clicks through from a Marketo email or fills out a Marketo form, but sometimes an association can be triggered by a different type of event, and you can use the Associate Lead endpoint to do so. The endpoint takes the known lead record's id as a path parameter and the "_mkto_trk" cookie value in the cookie query parameter.
+Lead Tracking (Munchkin) records Visits and Clicks for visitors to your website and Marketo Landing Pages. These activities use a key that corresponds to the "_mkto_trk" cookie in the lead's browser, allowing Marketo to track the same person's activities.
+
+Association with a lead record usually occurs when a lead follows a link from a Marketo email or submits a Marketo form. To associate a lead after another type of event, use the Associate Lead endpoint. Pass the known lead record id as a path parameter and the "_mkto_trk" cookie value in the cookie query parameter.
 
 ### Request
 
@@ -804,13 +843,14 @@ POST /rest/v1/leads/{id}/associate.json?cookie=id:287-GTJ-838%26token:_mch-marke
 }
 ```
 
-If a cookie is already associated with a known lead record, using this API on a different lead record causes new web activity to be recorded against that record, but will not move any existing web activity to the new record.
+If the cookie is already associated with a known lead, using this API for a different lead records new web activity against the new record. Existing web activity does not move to the new record.
 Membership
 
-Lead records can also be retrieved based on membership in a static list, or a program. Additionally, you can retrieve all static lists, programs, or smart campaigns that a lead is a member of.
+Retrieve lead records based on membership in a static list or program. You can also retrieve all static lists, programs, or smart campaigns that include a specific lead.
 
-The response structure and optional parameters are identical to those of Get Leads by Filter Type, though `filterType` and `filterValues` cannot be used with this API.
-To access the list id through the Marketo UI, navigate to the list. The list `id` is in the URL of the static list, `https://app-****.marketo.com/#ST1001A1`. In this example, 1001 is the `id` for the list.
+The response structure and optional parameters match Get Leads by Filter Type, but this API does not accept `filterType` or `filterValues`.
+
+To find the list id in the Marketo UI, navigate to the list and inspect its URL. In `https://app-****.marketo.com/#ST1001A1`, 1001 is the list `id`.
 
 ## Get Programs by Lead Id
 
@@ -853,7 +893,7 @@ GET /rest/v1/list/{listId}/leads.json?batchSize=3
 
 ## Get Lists by Lead Id
 
-The Get Lists by Lead Id endpoint takes a lead record `id` path parameter and returns all static list records that the lead is a member of.
+The Get Lists by Lead Id endpoint takes a lead record `id` path parameter and returns every static list that includes the lead.
 
 ### Request
 
@@ -891,11 +931,13 @@ GET /rest/v1/leads/{id}/listMembership.json?batchSize=3
 
 ## Programs
 
-Program membership can be retrieved in a similar fashion as lists. The same optional request parameters are available when calling the Get Leads by Program Id endpoint and pass the `programId` path parameter.
+Retrieve program membership in the same way as list membership. Get Leads by Program Id accepts the same optional request parameters and requires the `programId` path parameter.
 
-Optionally you may pass a fields parameter containing a comma-separated list of field names to return. If the fields parameter is not included in this request, the following default fields will be returned: `email`, `updatedAt`, `createdAt`, `lastName`, `firstName`, `membership`, and `id`. When requesting a list of fields, if a particular field is requested, but not returned, the value is implied to be null.
+Optionally, pass a fields parameter containing a comma-separated list of field names. If fields is omitted, the response includes `email`, `updatedAt`, `createdAt`, `lastName`, `firstName`, `membership`, and `id`. If a requested field is not returned, its value is implied to be null.
 
-The response structure is very similar, as each item in the result array is a lead, except that each record also has a child object called "membership". This membership object includes data about the lead's relationship to the program indicated in the call, always showing its `progressionStatus`, `acquiredBy`, `reachedSuccess`, and `membershipDate`. If the parent program is also an engagement program, then membership will have members `stream`, `nurtureCadence`, and `isExhausted` to indicate its position and activity in the engagement program.
+Each item in the result array is a lead with a child object called "membership." This object describes the lead's relationship to the requested program and always includes `progressionStatus`, `acquiredBy`, `reachedSuccess`, and `membershipDate`.
+
+If the parent program is an engagement program, membership also includes `stream`, `nurtureCadence`, and `isExhausted` to describe the lead's position and activity in that program.
 
 ### Request
 
@@ -969,7 +1011,7 @@ GET /rest/v1/leads/programs/{programId}.json?batchSize=3
 }
 ```
 
-The Get Programs by Lead Id endpoint takes a lead record id path parameter and returns all program records that the lead is a member of. The optional `filterType` and `filterValues` parameters allow you to filter on program Id.
+The Get Programs by Lead Id endpoint takes a lead record id path parameter and returns every program that includes the lead. Use the optional `filterType` and `filterValues` parameters to filter on program Id.
 
 ### Request
 
@@ -1000,7 +1042,7 @@ GET /rest/v1/leads/{id}/programMembership.json
 
 ## Smart Campaigns
 
-The Get Smart Campaigns by Lead Id endpoint takes a lead record id path parameter and returns all smart campaign records that the lead is a member of.
+The Get Smart Campaigns by Lead Id endpoint takes a lead record id path parameter and returns every smart campaign that includes the lead.
 
 ### Request
 
@@ -1038,7 +1080,7 @@ GET /rest/v1/leads/{id}/smartCampaignMembership.json?batchSize=3
 
 ## Delete
 
-Removing leads is straightforward using the Delete Leads endpoint.  Specify lead ids to delete using the id attributes in the body.  The maximum is 300 leads per request.  Use Content-Type: application/json header.
+Use the Delete Leads endpoint to remove lead records. Specify the lead ids in the body with id attributes. A request can delete up to 300 leads. Send the Content-Type: application/json header.
 
 ### Request
 
@@ -1082,22 +1124,22 @@ POST /rest/v1/leads/delete.json
 
 ## Relationships
 
-* Companies through externalCompanyId field on lead record
-* SalesPersons through externalSalesPersonId field on lead record
-* Programs through program membership
-* Lists through list membership
-* Activities through leadId field in the activity
-* Segmentation through individual segment fields on lead record
-* Partitions through leadPartitionId on lead record
+- Companies through the externalCompanyId field on the lead record
+- SalesPersons through the externalSalesPersonId field on the lead record
+- Programs through program membership
+- Lists through list membership
+- Activities through the leadId field in the activity
+- Segmentation through individual segment fields on the lead record
+- Partitions through the leadPartitionId field on the lead record
 
 ## Timeouts
 
-Leads Endpoints have a 30s timeout unless noted below:
+Leads endpoints have a 30s timeout, except for the following endpoints:
 
-* Sync Leads: 90s
-* Associate Lead: 60s
-* Merge Leads: 180s
-* Update Lead Partition: 60s
-* Push Lead to Marketo: 90s
-* Get Leads by Filter Type: 60s
-* Get Leads by List ID: 60s
+- Sync Leads: 90s
+- Associate Lead: 60s
+- Merge Leads: 180s
+- Update Lead Partition: 60s
+- Push Lead to Marketo: 90s
+- Get Leads by Filter Type: 60s
+- Get Leads by List ID: 60s

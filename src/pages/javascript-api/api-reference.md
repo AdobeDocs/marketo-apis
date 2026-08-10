@@ -5,13 +5,17 @@ description: "Use the Munchkin Javascript API to track page visits, link clicks,
 
 # Munchkin API Reference
 
-Munchkin provides several functions which can be called manually through Javascript. These can allow for customized tracking of browser events, such as video plays, or clicks on non-links.
+Munchkin provides JavaScript functions for customized tracking of browser events. For example, you can track video plays or clicks on elements that are not links.
 
 ## Functions
 
-The Munchkin API is comprised of the following functions: `init`, `createTrackingCookie`, `munchkinFunction`.
+The Munchkin API includes the following functions:
 
-\<a name="munchkin_init">\</a>
+- `init`
+- `createTrackingCookie`
+- `munchkinFunction`
+
+
 
 ### Munchkin.init()
 
@@ -28,7 +32,9 @@ Munchkin.init('299-BYM-827');
 
 ### Munchkin.createTrackingCookie()
 
-When called, this checks to see a `_mkto_trk` cookie exists in the browser, and if not, creates one. This is useful for tracking users during specific actions, such as registration or downloading an asset, if `cookieAnon` is set to false.
+`Munchkin.createTrackingCookie()` checks whether a `_mkto_trk` cookie exists in the browser. If the cookie does not exist, the function creates one.
+
+When `cookieAnon` is set to false, use this function to track users during specific actions, such as registering or downloading an asset.
 
 | Parameter Name | Optional/Required | Type | Description |
 | --- | --- | --- | --- |
@@ -40,7 +46,7 @@ Munchkin.createTrackingCookie(true);
 
 ### Munchkin.munchkinFunction()
 
-Used for generating custom tracking behaviors, such as video player plays and pauses, or page visits for non-standard navigation, such as hash codes.
+Use `Munchkin.munchkinFunction()` to create custom tracking behaviors. For example, track video player activity or page visits from nonstandard navigation such as hash changes.
 
 | Parameter Name | Optional/Required | Type | Description |
 | --- | --- | --- | --- |
@@ -49,7 +55,7 @@ Used for generating custom tracking behaviors, such as video player plays and pa
 
 #### visitWebPage
 
-Calling `munchkinFunction()` with `visitWebPage` sends a 'visit' activity for the current user to Marketo. You can customize the URL and `querystring` which are sent with the data object in the second argument.
+Calling `munchkinFunction()` with `visitWebPage` sends a 'visit' activity for the current user to Marketo. Use the data object in the second argument to customize the URL and `querystring`.
 
 | Data Property Name | Optional/Required | Type | Description |
 | --- | --- | --- | --- |
@@ -68,7 +74,7 @@ Munchkin.munchkinFunction('visitWebPage', {
 
 #### clickLink
 
-Calling `munchkinFunction()` with `clickLink` sends a click activity for the current user to Marketo. You can customize the click URL with the `href` property in the data object.
+Calling `munchkinFunction()` with `clickLink` sends a click activity for the current user to Marketo. Use the `href` property in the data object to customize the click URL.
 
 | Data Property Name | Optional/Required | Type | Description |
 | --- | --- | --- | --- |

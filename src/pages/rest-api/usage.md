@@ -7,7 +7,7 @@ description: "Monitor Marketo REST API usage and errors with daily and last-7-da
 
 [Usage Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Usage)
 
-The Usage APIs provide a summary of REST API consumption and error activity for your subscription. These endpoints are useful for monitoring integrations, tracking daily call volume, and identifying error trends over time.
+The Usage APIs summarize REST API consumption and error activity for your subscription. Use these endpoints to monitor integrations, track daily call volume, and identify error trends.
 
 Usage data includes a total count of API calls and a per-user breakdown. Error data includes a total count of errors and a breakdown by error code.
 
@@ -146,4 +146,4 @@ GET /rest/v1/stats/errors/last7days.json
 
 ## Notes
 
-Each of your API users is reported individually in the usage response. Splitting integrations across separate API users makes it easier to identify which service is consuming quota and producing errors.
+The usage response reports each API user separately. Assigning integrations to separate API users makes it easier to identify which service consumes quota and produces errors.

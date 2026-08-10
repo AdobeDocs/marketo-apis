@@ -7,13 +7,15 @@ description: "Use the Marketo Companies REST API to describe, query, and sync co
 
 [Companies Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies)
 
-Companies represent the organization to which lead records belong. Leads are added to a Company by populating their corresponding `externalCompanyId` field using [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/syncLeadUsingPOST) or [Bulk Lead Import](bulk-lead-import.md) endpoints. Once a lead has been added to a company, you cannot delete the lead from that company (unless you add the lead to a different company). Leads linked to a company record will directly inherit the values from a company record as though the values existed on the lead's own record.
+Companies represent the organizations to which lead records belong. To add a lead to a Company, populate its `externalCompanyId` field by using the [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncLeadUsingPOST) or [Bulk Lead Import](bulk-lead-import.md) endpoints.
 
-Company APIs are read-only access for subscriptions which have [SFDC Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/salesforce-sync/sfdc-sync-details/sfdc-sync-field-sync.html?lang=en) or [Microsoft Dynamics Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/microsoft-dynamics/microsoft-dynamics-sync-details/microsoft-dynamics-sync-user-sync.html?lang=en) are enabled.
+You cannot remove a lead from a company unless you add the lead to a different company. Leads linked to a company record inherit values from that record as though the values existed on the lead record.
+
+Company APIs provide read-only access for subscriptions that have [SFDC Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/salesforce-sync/sfdc-sync-details/sfdc-sync-field-sync.html?lang=en) or [Microsoft Dynamics Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/microsoft-dynamics/microsoft-dynamics-sync-details/microsoft-dynamics-sync-user-sync.html?lang=en) enabled.
 
 ## Describe
 
-Describing the company object gives you all the information you must interact with them.
+Describe the company object to retrieve the information required to interact with company records.
 
 ```http
 GET /rest/v1/companies/describe.json
@@ -91,11 +93,16 @@ GET /rest/v1/companies/describe.json
 
 ## Query
 
-The pattern for [querying companies](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies/operation/getCompaniesUsingGET) closely follows that of the leads API with the added restriction that the `filterType` parameter accepts the fields listed in the searchableFields array of the Describe Companies call, or dedupeFields.
+The pattern for [querying companies](https://developer.adobe.com/marketo-apis/api/mapi#operation/getCompaniesUsingGET) closely follows the Leads API. However, the `filterType` parameter accepts only fields listed in the searchableFields array of the Describe Companies response or dedupeFields.
 
-`filterType` and `filterValues` are required query parameters.  `fields`, `nextPageToken`, and `batchSize` are optional parameters.  The parameters function just like the corresponding parameters in the Leads and Opportunities APIs. When requesting a list of `fields`, if a particular field is requested, but not returned, the value is implied to be null.
+The query parameters are:
 
-If the fields parameter is omitted, the default set of fields returned is:
+- `filterType` and `filterValues`: Required parameters.
+- `fields`, `nextPageToken`, and `batchSize`: Optional parameters that function like the corresponding parameters in the Leads and Opportunities APIs.
+
+When you request a list of `fields`, a requested field that is not returned has an implied value of null.
+
+If you omit the fields parameter, the response returns these fields by default:
 
 - id
 - dedupeFields
@@ -129,7 +136,11 @@ GET /rest/v1/companies.json?filterType=id&filterValues=3433,5345
 
 ## Create and Update
 
-The [Sync Companies](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies/operation/syncCompaniesUsingPOST) endpoint accepts the required `input` parameter that contains an array of company objects. Just like opportunities, there are three modes for creating and updating companies: createOnly, updateOnly, and createOrUpdate.  Modes are specified in the `action` parameter of the request. Both the `dedupeBy` and `action` parameters are optional, and default to the dedupeFields and the createOrUpdate modes respectively.
+The [Sync Companies](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncCompaniesUsingPOST) endpoint accepts a required `input` parameter that contains an array of company objects.
+
+As with opportunities, the endpoint supports three create and update modes: createOnly, updateOnly, and createOrUpdate. Specify the mode in the request's `action` parameter.
+
+The `dedupeBy` and `action` parameters are optional. They default to dedupeFields and createOrUpdate, respectively.
 
 ```http
 POST /rest/v1/companies.json
@@ -177,17 +188,19 @@ Content-Type: application/json
 
 ### Fields
 
-The company object contains a set of fields. Each field definition is composed of a set of attributes that describe the field. Examples of attributes are display name, API name, and dataType. These attributes are known collectively as metadata.
+The company object contains fields defined by attributes such as display name, API name, and dataType. Together, these attributes are called metadata.
 
-The following endpoints allow you to query fields on the company object. These APIs require that the owning API user have a role with one or both of the `Read-Write Schema Standard Field` or `Read-Write Schema Custom Field` permissions.
+The following endpoints query fields on the company object. The API user must have a role with the `Read-Write Schema Standard Field` permission, the `Read-Write Schema Custom Field` permission, or both.
 
 ### Query Fields
 
-Querying company fields is straightforward. You may query a single company field by API name or query the set of all company fields.
+Query one company field by API name or retrieve all company fields.
 
 #### By Name
 
-The [Get Company Field by Name](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies/operation/getCompanyFieldByNameUsingGET) endpoint retrieves metadata for a single field on the company object. The required `fieldApiName` path parameter specifies the API name of the field. The response is like the Describe Company endpoint but contains additional metadata such as the `isCustom` attribute which denotes whether the field is a custom field.
+The [Get Company Field by Name](https://developer.adobe.com/marketo-apis/api/mapi#operation/getCompanyFieldByNameUsingGET) endpoint retrieves metadata for one field on the company object. The required `fieldApiName` path parameter specifies the field's API name.
+
+The response resembles the Describe Company response but includes additional metadata. For example, the `isCustom` attribute indicates whether the field is custom.
 
 ```http
 GET /rest/v1/companies/schema/fields/industry.json
@@ -216,7 +229,9 @@ GET /rest/v1/companies/schema/fields/industry.json
 
 #### Browse
 
-The [Get Company Fields](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies/operation/getCompanyFieldsUsingGET) endpoint retrieves metadata for all fields on the company object. By default, a maximum of 300 records are returned. You can use the `batchSize` query parameter to reduce this number. If the `moreResult` attribute is true, this means more results are available. Continue to call this endpoint until the moreResult attribute returns false, which means there are no results available. The `nextPageToken` returned from this API should always be reused for the next iteration of this call.
+The [Get Company Fields](https://developer.adobe.com/marketo-apis/api/mapi#operation/getCompanyFieldsUsingGET) endpoint retrieves metadata for all fields on the company object. By default, it returns a maximum of 300 records. Use the `batchSize` query parameter to reduce this number.
+
+If the `moreResult` attribute is true, more results are available. Continue calling the endpoint with the returned `nextPageToken` until `moreResult` is false.
 
 ```http
 GET /rest/v1/companies/schema/fields.json?batchSize=5
@@ -294,7 +309,9 @@ GET /rest/v1/companies/schema/fields.json?batchSize=5
 
 ### Delete
 
-The deletion criteria is specified in the `input` array, which contains a list of search values.  The deletion method is specified in the `deleteBy` parameter.  Permissible values are: dedupeFields, idField.  Default is dedupeFields.
+Specify deletion criteria as a list of search values in the `input` array. Specify the deletion method in the `deleteBy` parameter.
+
+The permitted values are dedupeFields and idField. The default is dedupeFields.
 
 ```text
 Content-Type: application/json
@@ -352,6 +369,6 @@ POST /rest/v1/companies/delete.json
 
 ## Timeouts
 
-- Companies endpoints have a timeout of 30s unless noted below
-  - Sync Companies: 60s
-  - Delete Companies: 60s
+- Companies endpoints have a timeout of 30s unless otherwise noted.
+- Sync Companies has a timeout of 60s.
+- Delete Companies has a timeout of 60s.

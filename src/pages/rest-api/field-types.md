@@ -5,7 +5,7 @@ description: "Comprehensive list of Marketo field types with definitions, exampl
 
 # Field Types
 
-Here is a description of field types in Marketo. Additional information about field types can be found [here](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/field-management/custom-field-type-glossary). Additional information about field type limits can be found [here](https://nation.marketo.com/t5/knowledgebase/marketo-field-limits-by-field-type/ta-p/251613).
+The following table describes the field types available in Marketo. For more information, see the [custom field type glossary](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/field-management/custom-field-type-glossary) and [Marketo field limits by field type](https://nation.marketo.com/t5/knowledgebase/marketo-field-limits-by-field-type/ta-p/251613).
 
 | Field Type | Description | Example |
 | --- | --- | --- |

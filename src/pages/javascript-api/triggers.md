@@ -5,7 +5,7 @@ description: "Use RTP triggers in Web Personalization to run functions on rtp st
 
 # Triggers
 
-Adds the capability to trigger functions on certain state of the global rtp object.
+Triggers run functions when the global `rtp` object reaches a specified state.
 
 You must be a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site before using the User Context API.
 
@@ -20,7 +20,7 @@ You must be a Web Personalization customer and have the [RTP tag deployed](https
 
 ### User Context Ready Trigger
 
-Sets a custom variable based on user location. This function is called when the "rtpUserContext" global object is ready.
+The `userContextReady` trigger calls a function when the global `rtpUserContext` object is ready. The following example sets a custom variable based on the user's location.
 
 ```javascript
 rtp('userContextReady', function() {

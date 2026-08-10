@@ -7,13 +7,15 @@ description: "Marketo REST guide to CRUD on named accounts for ABM, with describ
 
 [Named Accounts Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Named-Accounts)
 
-Marketo offers a set of APIs for performing CRUD operations on named accounts for use with Marketo ABM. These APIs follow the standard interface pattern for lead database APIs, providing Describe, Create/Update, Delete, and Query options.
+Marketo provides APIs for performing CRUD operations on named accounts for use with Marketo ABM. These APIs follow the standard Lead Database interface pattern and provide Describe, Create/Update, Delete, and Query options.
 
-Currently, the only ABM-related functions available via Marketo's APIs are the CRUD operations for named accounts; Leads cannot be linked to named accounts via any APIs.
+Currently, Marketo APIs support only CRUD operations for named accounts. You cannot link Leads to named accounts through the APIs.
 
 ## Describe
 
-Describing Named Accounts returns metadata related to the usage of named accounts via Marketo's APIs, including a list of valid searchable fields when querying, and a list of all fields available for API usage. The `idField` of a named account is always `marketoGUID`, and the only available `dedupeField`, and key for creation is the `name` field of the object.
+Describe Named Accounts returns metadata for using named accounts through Marketo APIs. The response includes valid searchable fields and all fields available to the API.
+
+The `idField` of a named account is always `marketoGUID`. The object's `name` field is the only available `dedupeField` and creation key.
 
 ```http
 GET /rest/v1/namedaccounts/describe.json
@@ -128,7 +130,9 @@ GET /rest/v1/namedaccounts/describe.json
 
 ### Query
 
-Querying for named accounts is based on the usage of a filterType and a set of up to 300 comma-separated filterValues. `filterType` may be any single field returned in the `searchableFields` member of the describe result for named accounts, while filterValues may be any valid input for the datatype of the field. To return a specific set of fields from, a fields parameter must be passed, where the value is a comma-separated list of fields to be returned in the response. Like other query options, the maximum number of records for a single query page is 300, and additional records in the set must be requested with the usage of the nextPageToken returned by the call.
+Query named accounts by using a filterType and up to 300 comma-separated filterValues. The filterType can be any single field returned in the `searchableFields` member of the Describe response. Each filterValues entry must be a valid value for the field's data type.
+
+To return specific fields, pass a fields parameter with a comma-separated list of fields. A query page contains a maximum of 300 records. To retrieve additional records, use the nextPageToken returned by the call.
 
 ```http
 GET /rest/v1/namedaccounts.json?filterType=name&filterValues=Google,Yahoo
@@ -159,7 +163,13 @@ GET /rest/v1/namedaccounts.json?filterType=name&filterValues=Google,Yahoo
 
 ### Create and Update
 
-Creating and updating named accounts follows the standard lead database pattern. Records must be passed in the input member of a JSON body in a POST request. `input` is the only required member, with `action` and `dedupeBy` as optional members. Up to 300 records may be included in the input. Action may be one of createOnly, updateOnly, or createOrUpdate. If unspecified, action defaults to createOrUpdate. dedupeBy may only be specified when action is updateOnly, and only accepts one of dedupeFields or idField, which correspond to the name and marketoGUID fields, respectively.
+Create and update named accounts by using the standard Lead Database pattern. Pass records in the input member of a POST request's JSON body. You can include up to 300 records.
+
+The request members are:
+
+- `input`: The only required member.
+- `action`: An optional member that accepts createOnly, updateOnly, or createOrUpdate. The default is createOrUpdate.
+- `dedupeBy`: An optional member available only when action is updateOnly. It accepts dedupeFields or idField, which correspond to the name and marketoGUID fields, respectively.
 
 ```http
 POST /rest/v1/namedaccounts.json
@@ -207,17 +217,19 @@ Content-Type: application/json
 
 ### Fields
 
-The named account object contains a set of fields. Each field definition is composed of a set of attributes that describe the field. Examples of attributes are display name, API name, and dataType. These attributes are known collectively as metadata.
+The named account object contains fields defined by attributes such as display name, API name, and dataType. Together, these attributes are called metadata.
 
-The following endpoints allow you to query fields on the company object. These APIs require that the owning API user have a role with one or both of the Read-Write Schema Standard Field or Read-Write Schema Custom Field permissions.
+The following endpoints query fields on the company object. The API user must have a role with the Read-Write Schema Standard Field permission, the Read-Write Schema Custom Field permission, or both.
 
 ### Query Fields
 
-Querying named account fields is straightforward. You may query a single named account field by API name or query the set of all company fields.
+Query one named account field by API name or retrieve all company fields.
 
 #### By Name
 
-The [Get Named Account Field by Name](https://developer.adobe.com/marketo-apis/api/mapi#tag/Named-Accounts/operation/getNamedAccountFieldByNameUsingGET) endpoint retrieves metadata for a single field on the named account object. The required fieldApiName path parameter specifies the API name of the field. The response is like the Describe Named Account endpoint but contains additional metadata such as the isCustom attribute which denotes whether the field is a custom field.
+The [Get Named Account Field by Name](https://developer.adobe.com/marketo-apis/api/mapi#operation/getNamedAccountFieldByNameUsingGET) endpoint retrieves metadata for one field on the named account object. The required fieldApiName path parameter specifies the field's API name.
+
+The response resembles the Describe Named Account response but includes additional metadata. For example, the isCustom attribute indicates whether the field is custom.
 
 ```http
 GET /rest/v1/namedaccounts/schema/fields/annualRevenue.json
@@ -245,7 +257,9 @@ GET /rest/v1/namedaccounts/schema/fields/annualRevenue.json
 
 #### Browse
 
-The [Get Named Account Fields](https://developer.adobe.com/marketo-apis/api/mapi#tag/Named-Accounts/operation/getNamedAccountFieldByNameUsingGET) endpoint retrieves metadata for all fields on the named account object. By default, a maximum of 300 records are returned. You can use the batchSize query parameter to reduce this number. If the moreResult attribute is true, this means more results are available. Continue to call this endpoint until the moreResult attribute returns false, which means there are no results available. The nextPageToken returned from this API should always be reused for the next iteration of this call.
+The [Get Named Account Fields](https://developer.adobe.com/marketo-apis/api/mapi#operation/getNamedAccountFieldByNameUsingGET) endpoint retrieves metadata for all fields on the named account object. By default, it returns a maximum of 300 records. Use the batchSize query parameter to reduce this number.
+
+If the moreResult attribute is true, more results are available. Continue calling the endpoint with the returned nextPageToken until moreResult is false.
 
 ```http
 GET /rest/v1/namedaccounts/schema/fields.json?batchSize=5
@@ -324,7 +338,9 @@ GET /rest/v1/namedaccounts/schema/fields.json?batchSize=5
 
 ### Delete
 
-Deletions are done via a JSON POST request and have a required input member, and an optional deleteBy member. deleteBy may be one of "dedupeFields" or "idField", corresponding to name or marketoGUID, respectively, and will default to dedupeFields if unset. The input member accepts an array of up to 300 records, containing one member each, either name or marketoGUID depending on the setting of deleteBy.
+Delete named accounts by sending a POST request with a JSON body. The request includes a required input member and an optional deleteBy member.
+
+The deleteBy member accepts "dedupeFields" or "idField", which correspond to name and marketoGUID, respectively. If unset, it defaults to dedupeFields. The input member accepts up to 300 records. Each record contains either name or marketoGUID, depending on the deleteBy setting.
 
 ```http
 POST /rest/v1/namedaccounts/delete.json
@@ -382,6 +398,6 @@ Content-Type: application/json
 
 ## Timeouts
 
-- Named Account endpoints have a timeout of 30s unless noted below
-  - Sync Named Accounts: 120s
-  - Delete Named Accounts: 60s
+- Named Account endpoints have a timeout of 30s unless otherwise noted.
+- Sync Named Accounts has a timeout of 120s.
+- Delete Named Accounts has a timeout of 60s.

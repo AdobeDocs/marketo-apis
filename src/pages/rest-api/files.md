@@ -7,11 +7,13 @@ description: "Guide to Marketo REST API files query by id or name, browse with f
 
 [Files Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Files)
 
-Marketo subscriptions allow for storage of arbitrary files like images, scripts, documents, and style sheets. All of these can be worked with remotely via the REST API. The storage available in Marketo subscriptions is not optimized for bandwidth-intensive applications, so alternatives should be used for proper audio and video streaming applications.
+Use the Files REST API to manage images, scripts, documents, style sheets, and other files stored in a Marketo subscription.
+
+Marketo file storage is not optimized for bandwidth-intensive applications. Use a dedicated streaming service for audio and video.
 
 ## Query
 
-Querying files is simple and follows the standard query types for assets of [by id](https://developer.adobe.com/marketo-apis/api/asset#tag/Files/operation/getFileByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Files/operation/getFileByNameUsingGET), and [browsing](https://developer.adobe.com/marketo-apis/api/asset#tag/Files/operation/getFilesUsingGET).
+Query files [by ID](https://developer.adobe.com/marketo-apis/api/asset#operation/getFileByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getFileByNameUsingGET), or by [browsing](https://developer.adobe.com/marketo-apis/api/asset#operation/getFilesUsingGET).
 
 ### By Id
 
@@ -81,11 +83,11 @@ GET /rest/asset/v1/file/byName.json?name=foo.png
 
 ### Browse
 
-There are three optional parameters:
+The browse endpoint accepts three optional parameters:
 
-- folder - parent folder specified as JSON block containing "id" and "type" attributes
-- offset - integer that specifies where to begin retrieving entries (default is 0); can be used with maxReturn parameter
-- maxReturn - integer that specifies the maximum number of entries to return (default is 20, maximum is 200)
+- `folder` - The parent folder as a JSON object containing `id` and `type` attributes.
+- `offset` - The position at which to begin retrieving entries. The default is 0. Use with `maxReturn`.
+- `maxReturn` - The maximum number of entries to return. The default is 20, and the maximum is 200.
 
 ```http
 GET /rest/asset/v1/files.json?folder={"id":436, "type": "Folder"}&maxReturn=3
@@ -149,7 +151,9 @@ GET /rest/asset/v1/files.json?folder={"id":436, "type": "Folder"}&maxReturn=3
 
 ## Create and Update
 
-[Creating a file](https://developer.adobe.com/marketo-apis/api/asset#tag/Files/operation/createFileUsingPOST) is done with a multipart/form-data type of request. Minimally, the name, folder, and file are required in the request, with an optional description, and an insertOnly flag, which prevents a create call from updating an existing file with the same name. For the file parameter, a "filename" is required in the Content-Disposition header, in addition to the name parameter. You must also pass a Content-Type header for file, which will be the MIME-type which Marketo will use to serve the file with.
+Use a `multipart/form-data` request to [create a file](https://developer.adobe.com/marketo-apis/api/asset#operation/createFileUsingPOST). The `name`, `folder`, and `file` parameters are required. The `description` and `insertOnly` parameters are optional. When true, `insertOnly` prevents the request from updating an existing file with the same name.
+
+For the `file` parameter, include a `filename` in the `Content-Disposition` header. Also include the file's `Content-Type` header. Marketo uses this MIME type when serving the file.
 
 ```http
 POST /rest/asset/v1/files.json
@@ -203,7 +207,7 @@ This is a test file
 
 ```
 
-[Updating a file](https://developer.adobe.com/marketo-apis/api/asset#tag/File-Contents/operation/updateContentUsingPOST) can be done based on its id. The only parameter is a file parameter which has the same requirements as creation.
+To [update a file](https://developer.adobe.com/marketo-apis/api/asset#operation/updateContentUsingPOST), specify its ID. The `file` parameter has the same requirements as file creation.
 
 ```http
 POST /rest/asset/v1/file/{id}/content.json

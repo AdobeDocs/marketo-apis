@@ -5,10 +5,12 @@ description: "Learn how to enable and use Marketo RTP User Context API to set cu
 
 # User Context
 
-User Context JavaScript API exposes user and visitor level data across multiple sessions to enable advanced personalization capability using historical user behavior and data. The API goes beyond data read and exposes custom variables that allow you to push meaningful data and events to the RTP backend for advanced segmentation and personalization purposes. Additional capabilities: [Triggers](../javascript-api/triggers.md), [Pattern Match](../javascript-api/pattern-match.md).
+The User Context JavaScript API exposes user-level and visitor-level data across multiple sessions. Use historical behavior and data to create advanced personalization.
 
-- You must become a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site before using the User Context API.
-- The User Context API is a feature that must be enabled by Marketo Support upon request. When the API is enabled, a userContext object under the RTP global object will be exposed.
+The API also provides custom variables for sending data and events to the RTP backend for segmentation and personalization. See the related [Triggers](../javascript-api/triggers.md) and [Pattern Match](../javascript-api/pattern-match.md) capabilities.
+
+- You must be a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site.
+- You must ask Marketo Support to enable the User Context API. After enablement, a userContext object is exposed under the RTP global object.
 
 ## User Context Attributes
 
@@ -20,7 +22,7 @@ User Context JavaScript API exposes user and visitor level data across multiple 
 
 ## Set Custom Variables
 
-Adding custom data to User Context.
+Set custom variables to add data to User Context.
 
 ### Usage
 
@@ -32,11 +34,11 @@ Adding custom data to User Context.
 | `customVar` | Required | String | Custom variable name. |
 | `my_custom_value` | Required | String | Custom value to save on custom variable in index 1-5. |
 
-Note: Custom variables are sent to RTP only in view call, so it is recommended to set custom variables before view is called. Otherwise, it will be sent only in next view call.
+Custom variables are sent to RTP only in a view call. Set custom variables before the view call. Otherwise, the variables are sent in the next view call.
 
-Custom Var Restrictions
+Custom variables have the following restrictions:
 
-- Custom variable length cannot be longer than 100 characters.
+- A custom variable cannot exceed 100 characters.
 - Campaign data is limited to the last ten visits with ten campaigns per visit.
 
 ### Usage

@@ -5,14 +5,16 @@ description: "Guide to the Web Personalization JavaScript API and RTP tag, cover
 
 # Web Personalization
 
-The Web Personalization JavaScript API extends the platform's automated personalization capability. It allows for event tracking and dynamic customization of a webpage. Additional capabilities: [Custom Data Events](custom-data-events.md), [Dynamic Content](web-personalization.md), [Get Visitor Data](get-visitor-data.md), [Exclude Tag for Specific Bots](#exclude_tag_for_specific_bots).
+The Web Personalization JavaScript API tracks events and dynamically customizes webpages. It extends the platform's automated personalization capabilities.
 
-- You must become a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site before using the User Context API.
+Related capabilities include [Custom Data Events](custom-data-events.md), [Dynamic Content](web-personalization.md), [Get Visitor Data](get-visitor-data.md), and [Exclude Tag for Specific Bots](#exclude_tag_for_specific_bots).
+
+- You must be a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site before using the User Context API.
 - RTP does not support Account Based Marketing named account lists. ABM lists and code only pertain to the uploaded account lists (CSV files) managed within RTP.
 
 ## Tag Setup
 
-The RTP tag should be inserted at the header of the personalized page.
+Insert the RTP tag in the header of each personalized page.
 
 ```javascript
 <!-- RTP tag -->
@@ -27,7 +29,7 @@ g.src=f;var b=h.getElementsByTagName("script")[0];b.parentNode.insertBefore(g,b)
 
 ## Account Setup
 
-This method is called automatically on the tag level to set the relevant account id. You can set the account id when you wish to split between different domains.
+The tag automatically calls this method to set the relevant account ID. Set the account ID explicitly when you want to use different accounts for different domains.
 
 | Parameter | Optional/Required | Type | Description |
 | --- | --- | --- | --- |
@@ -41,9 +43,9 @@ rtp('setAccount', accountId);
 
 ## Event Sending Functions
 
-This method sends a view event, which is used for page tracking. In the example below, the current page url is tracked as a visitor page view.
+This method sends a view event for page tracking. The first call in the following example tracks the current page URL as a visitor page view.
 
-By passing the optional "page" parameter in this method, the current page can be overridden.
+Pass the optional "page" parameter to override the current page, as shown in the second call.
 
 | Parameter | Optional/Required | Type | Description |
 | --- | --- | --- | --- |
@@ -62,9 +64,9 @@ rtp('send', 'view', page);
 
 ## Exclude Tag for Specific Bots (User Agents)
 
-To exclude specific browsers from sending data to the Web Personalization platform (in the case of identified bots), add the following IF statement to the tag script.
+To prevent identified bots from sending data to the Web Personalization platform, add the following `if` statement to the tag script.
 
-In the code example below, "Googlebot|msnbot" is used as bot examples to exclude from Web Personalization activities.
+This example excludes the "Googlebot|msnbot" user agents from Web Personalization activities.
 
 ```javascript
 <!-- RTP tag -->
@@ -84,7 +86,7 @@ if(navigator.userAgent.match(/.(Googlebot|msnbot)./gi) == null){
 
 ## JavaScript Calls Explained
 
-Description of JavaScript that is added to a website when using Web Personalization and Predictive Content.
+The following tables describe the JavaScript added to a website that uses Web Personalization and Predictive Content.
 
 ### Core/Dependent JavaScript
 
@@ -95,7 +97,7 @@ Description of JavaScript that is added to a website when using Web Personalizat
 | jquery-custom-ui-min.js | v1.9.2 | Can be disabled by contacting Marketo Customer Support |
 | query-ui-1.8.17-dialog.js | v1.9.2* | Can be disabled by contacting Marketo Customer Support |
 
-*Used only if jQuery UI is missing dialog
+*Used only if the jQuery UI dialog is missing.
 
 ### On Demand JavaScript
 

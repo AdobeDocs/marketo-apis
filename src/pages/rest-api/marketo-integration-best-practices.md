@@ -5,31 +5,34 @@ description: "Best practices for Marketo API integrations covering quotas, rate 
 
 # Marketo Integration Best Practices
 
+Design integrations around the shared API limits for your Marketo instance. Use batching, caching, and conservative request rates to improve throughput and reliability.
+
 ## API Limits
 
-- **Daily Quota:** Most subscriptions are allocated 50,000 API calls per day (which resets daily at 12:00AM CST). You can increase your daily quota through your account manager.
-- **Rate Limit:** API access per instance limited to 100 calls per 20 seconds.
-- **Concurrency Limit:**  Maximum of ten concurrent API calls.
-- **Batch Size:** Lead DB - 300 records; Asset Query - 200 records
-- **REST API Payload Size:** 1MB
-- **Bulk Import File Size:** 10MB
-- **SOAP Max Batch Size:** 300 records
-- **Bulk Extract Jobs:** 2 executing; 10 queued (inclusive)
+- **Daily quota:** Most subscriptions are allocated 50,000 API calls per day. The quota resets daily at 12:00 AM CST. Contact your account manager to increase the daily quota.
+- **Rate limit:** Each instance is limited to 100 API calls per 20 seconds.
+- **Concurrency limit:** Each instance allows a maximum of ten concurrent API calls.
+- **Batch size:** Lead DB supports 300 records; Asset Query supports 200 records.
+- **REST API payload size:** 1 MB.
+- **Bulk import file size:** 10 MB.
+- **Bulk extract jobs:** Two executing and ten queued, inclusive.
 
 ## Quick Tips
 
-- Assume that your application will compete for quota, rate, and concurrency resources with other applications, and set conservative usage limits.
-- Use Marketo's bulk and batch methods when available and appropriate. Only use single record or single result calls when necessary.
-- Use [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) to retry API calls which fail due to rate or concurrency limits.
-- Avoid making concurrent API calls if your use case does not benefit from it.
+- Set conservative usage limits because your application shares quota, rate, and concurrency resources with other applications.
+- Use Marketo bulk and batch methods when available. Use single-record or single-result calls only when necessary.
+- Use [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) to retry API calls that fail because of rate or concurrency limits.
+- Avoid concurrent API calls unless they benefit your use case.
 
 ## Batching
 
-To ensure the best performance for your integrations, when performing inserts or updates, records should be grouped into as few transactions as possible. When retrieving records from a data store for submission, the records should always be aggregated before submission, rather than submitting a request for each individual change.
+For inserts and updates, group records into as few transactions as possible. When retrieving records from a data store, aggregate them before submission instead of submitting one request for each change.
 
 ## Acceptable Latency
 
-Determining your latency tolerances, or the maximum amount of time that may pass before submitting an API call, will inform many, if not most, of the decisions that you make when designing your integration to Marketo. Marketo provides many different methods and configuration options which are suitable for different use cases, and different latency classes. For example, a real-time integration to notify a salesperson of a user signing up for a trial might only submit batches of one if immediate follow-up is required. However, most cases do not require this and can tolerate additional latency and can be managed more efficiently through queuing and batching calls.
+Define the acceptable latency—the maximum time before submitting an API call—when you design an integration. This choice determines which Marketo methods and configuration options fit the use case.
+
+For example, a real-time integration that notifies a salesperson when a user starts a trial might submit batches of one when immediate follow-up is required. Most use cases tolerate more latency and operate more efficiently by queuing and batching calls.
 
 | Acceptable Latency | Preferred Methods | Notes |
 | --- | --- | --- |
@@ -39,30 +42,38 @@ Determining your latency tolerances, or the maximum amount of time that may pass
 
 ## Daily Limits
 
-Each API-enabled instance of Marketo has a daily allocation of at least 10,000 REST API calls per day, but more commonly 50,000 or more, and 500MB or more of Bulk Extract capacity. While additional daily capacity may be purchased as part of a Marketo subscription, your application design should consider the common limits of Marketo subscriptions.
+Each API-enabled Marketo instance has a daily allocation of at least 10,000 REST API calls, though 50,000 or more is common. Each instance also has 500 MB or more of Bulk Extract capacity. Additional daily capacity can be purchased as part of a Marketo subscription, but application designs should account for common subscription limits.
 
-As capacity is shared among all API services and users in an instance, best practice is to eliminate redundant calls, and to batch records into as few calls as possible. The most call efficient way to import records is using Marketo's bulk import APIs, which are available for [Leads/Persons](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Leads/operation/importLeadUsingPOST) and [Custom Objects](https://developer.adobe.com/marketo-apis/api/mapi#tag/Snippets/operation/createSnippetUsingPOST). Marketo also provides Bulk Extract for [Leads](bulk-lead-extract.md) and [Activities](bulk-activity-extract.md).
+Capacity is shared by all API services and users in an instance. Eliminate redundant calls and batch records into as few calls as possible.
+
+The most call-efficient import method is the Marketo bulk import API, available for [Leads/Persons](https://developer.adobe.com/marketo-apis/api/mapi#operation/importLeadUsingPOST) and [Custom Objects](https://developer.adobe.com/marketo-apis/api/mapi#operation/importCustomObjectUsingPOST). Marketo also provides Bulk Extract for [Leads](bulk-lead-extract.md) and [Activities](bulk-activity-extract.md).
 
 ### Caching
 
 Results from the following operations can typically be cached on the client side for a day or more, as they change infrequently:
 
 - Results from Describe operations
-- [Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getAllActivityTypesUsingGET)
-- [Partitions](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/getLeadPartitionsUsingGET)
+- [Activity Types](https://developer.adobe.com/marketo-apis/api/mapi#operation/getAllActivityTypesUsingGET)
+- [Partitions](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadPartitionsUsingGET)
 
-Caching certain asset types, like programs, emails and folders, is also appropriate for certain use cases, such as data enrichment for lead or activity records.
+For use cases such as lead or activity data enrichment, you can also cache asset types such as programs, emails, and folders.
 
 ## Rate Limit
 
-Each Marketo instance has a rate limit of 100 calls per 20 seconds, which is shared among all third-party API services. If this limit is exceeded the API responds with a 606 error code indicating that the rate limit has been exceeded. In general, third-party integrations should limit their utilization to 50 calls per 20 seconds or fewer to allow for fair usage of the rate limits by multiple API integrations and users. Though it may be appropriate to saturate this limit in certain cases, in general, applications which use batching and target their throughput to less than this limit are more responsive and consistent in their operation, at a small cost of increased latency.
+Each Marketo instance has a shared rate limit of 100 calls per 20 seconds across all third-party API services. If calls exceed this limit, the API returns a 606 error code.
+
+In general, limit each third-party integration to 50 calls per 20 seconds or fewer so that multiple API integrations and users can share the available capacity. Some use cases might need the full limit. However, applications that use batching and target lower throughput are generally more responsive and consistent, with a small increase in latency.
 
 ## Concurrency Limit
 
-Each Marketo instance has a shared limit of ten concurrently executing REST API calls. Like the daily quota and rate limits it is shared, so you should not assume that your application will be the exclusive consumer of this limit. Marketo counts the number of concurrent calls as those which are processing and have not yet returned, so when a call returns, it is no longer counted against the concurrent calls limit.
+Each Marketo instance has a shared limit of ten concurrently executing REST API calls. Do not assume that your application is the only consumer of this limit.
 
-Most integration use cases do not benefit from making concurrent calls, so consider whether your application benefits before deciding to submit concurrent requests to Marketo. If you do wish to implement concurrency, you should cap the number of concurrent requests at five or fewer in your initial design, and only increase this after determining that your application requires more.
+Marketo counts calls that are processing and have not yet returned. When a call returns, it no longer counts toward the concurrency limit.
+
+Most integrations do not benefit from concurrent calls. If you implement concurrency, initially limit the application to five or fewer concurrent requests. Increase the limit only after you determine that the application requires more.
 
 ## Errors
 
-Except for a few rare cases, API requests return an HTTP status code of 200. Business logic errors also return a 200, but contain detailed information in the body of the response. See [Error Codes](error-codes.md) for a detailed explanation. The HTTP reason phrase should not be evaluated as it is optional and subject to change.
+Except in rare cases, API requests return HTTP status code 200. Business logic errors also return 200 but include details in the response body. See [Error Codes](error-codes.md) for more information.
+
+Do not evaluate the HTTP reason phrase because it is optional and subject to change.

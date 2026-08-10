@@ -7,19 +7,23 @@ description: "Manage Marketo Landing Page Templates via REST API endpoints for f
 
 [Landing Page Template Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Landing-Page-Templates)
 
-Landing Page Templates are a parent resource and dependency for individual Marketo landing pages. Landing pages derive the skeleton of their content from the parent template.
+Landing page templates are parent resources for Marketo landing pages. Each landing page derives its initial content structure from its parent template.
 
 ## Template Types
 
-Marketo has two types of Landing Page Templates, free form and guided. Free form landing page templates provide a loosely structured editing experience for pages derived from them. Guided templates provide a heavily structured experience, where element types and locations can be restricted at the template level. For more information on the differences, see [this document](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/demand-generation/landing-pages/understanding-landing-pages/understanding-free-form-vs-guided-landing-pages).
+Marketo provides free-form and guided landing page templates. Free-form templates provide a loosely structured editing experience. Guided templates can restrict element types and locations at the template level.
+
+For a detailed comparison, see [Understanding free-form vs. guided landing pages](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/demand-generation/landing-pages/understanding-landing-pages/understanding-free-form-vs-guided-landing-pages).
 
 ## Query
 
-Landing Page Templates support the standard query types for assets of [by id](https://developer.adobe.com/marketo-apis/api/asset#tag/Landing-Page-Templates/operation/getLandingPageTemplateByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Landing-Page-Templates/operation/getLandingPageTemplateByNameUsingGET), and [browsing](https://developer.adobe.com/marketo-apis/api/asset#tag/Landing-Page-Templates/operation/getLandingPageTemplatesUsingGET). These endpoints return metadata for the templates. Retrieving the HTML content of templates must be done on a per-template basis via its id.
+Query landing page templates [by ID](https://developer.adobe.com/marketo-apis/api/asset#operation/getLandingPageTemplateByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getLandingPageTemplateByNameUsingGET), or by [browsing](https://developer.adobe.com/marketo-apis/api/asset#operation/getLandingPageTemplatesUsingGET). These endpoints return template metadata. Retrieve HTML content separately for each template by ID.
 
 ## Create and Update
 
-Templates are created as empty assets with associated metadata. When creating a template, a name, and folder must be included, along with an optional description, templateType and enableMunchkin parameter. templateType may be either freeform or guided and defaults to freeForm. For differences between the types, see the Guided vs. Free Form section. enableMunchkin defaults to false, and when enabled will prevent Munchkin tracking from being performed on any child landing pages of the template.
+Templates are created as empty assets with metadata. The `name` and `folder` parameters are required. The `description`, `templateType`, and `enableMunchkin` parameters are optional.
+
+The `templateType` value can be `freeform` or `guided` and defaults to `freeForm`. The `enableMunchkin` value defaults to `false`. When enabled, it prevents Munchkin tracking on the template's child landing pages.
 
 ```http
 POST /rest/asset/v1/landingPageTemplates.json
@@ -59,15 +63,15 @@ name=New LPT - PHP&folder={"id":12,"type":"Folder"}
 }
 ```
 
-Content for the template must be populated separately via the [Update Landing Page Template Content](https://developer.adobe.com/marketo-apis/api/asset#tag/Landing-Page-Templates/operation/updateLandingPageTemplateContentUsingPOST) endpoint.
+Add template content separately with the [Update Landing Page Template Content](https://developer.adobe.com/marketo-apis/api/asset#operation/updateLandingPageTemplateContentUsingPOST) endpoint.
 
 ### Update Metadata
 
-Metadata for landing page templates can be updated via the [Update Landing Page Template Metadata](https://developer.adobe.com/marketo-apis/api/asset#tag/Landing-Page-Templates/operation/updateLpTemplateUsingPOST) endpoint. Name, description and the enableMunchkin setting may be updated this way.
+Use the [Update Landing Page Template Metadata](https://developer.adobe.com/marketo-apis/api/asset#operation/updateLpTemplateUsingPOST) endpoint to change the name, description, or `enableMunchkin` setting.
 
 ### Update Content
 
-Content in Landing Page Templates is made as a destructive update to the entirety of the HTML content. The content must be passed as multipart/form-data, with the only parameter being named content.
+Updating template content replaces all existing HTML content. Pass the replacement as `multipart/form-data` in the `content` parameter.
 
 ```http
 POST /rest/asset/v1/landingPageTemplate/286/content.json
@@ -105,15 +109,15 @@ Content-Type: text/plain
 
 ## Clone
 
-Marketo provides a simple method for cloning a Landing Page Templates. This is an application/x-www-url-formencoded POST request.
+Clone a landing page template with an `application/x-www-url-formencoded` POST request.
 
-The `id` path parameter specifies the id of the source Landing Page Template to clone.
+The `id` path parameter specifies the source landing page template.
 
-The `name` parameter is used to specify the name of the new Landing Page Template.
+The `name` parameter specifies the name of the new landing page template.
 
-The `folder` parameter is used to specify the parent folder where new Landing Page Template will reside. This is in the form of an embedded JSON object containing  `id` and `type`.
+The `folder` parameter specifies the parent folder for the new template. Pass it as an embedded JSON object containing `id` and `type`.
 
-The optional `description` parameter is used to describe the new Landing Page Template.
+The optional `description` parameter describes the new template.
 
 ```http
 POST /rest/asset/v1/landingPageTemplate/{id}/clone.json
@@ -156,9 +160,9 @@ name=Standard Template Clone&folder={"type": "Folder", "id": 732}
 
 ## Approval
 
-Landing Page Templates follow the standard draft-approved model, where there can be a draft version and/or an approved version. Whenever updates are applied to a template, they are always applied to the draft version first, and will only be seen live when the template has been approved.
+Landing page templates use the standard draft and approved model. Updates apply to the draft first and become live only after the template is approved.
 
-For a template to be approved it must conform to the rules for its type, either guided of free form. For more information on the requirements for creating and approving templates of their respective types, see their respective creation documents:
+Before approval, a template must meet the requirements for its guided or free-form type. See these resources:
 
 - [Free Form Landing Page Templates](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/demand-generation/landing-pages/landing-page-templates/create-a-free-form-landing-page-template)
 - [Guided Landing Page Templates](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/demand-generation/landing-pages/landing-page-templates/create-a-guided-landing-page-template)
@@ -166,4 +170,4 @@ For a template to be approved it must conform to the rules for its type, either 
 
 ## Delete
 
-To delete a template, it must be out of use and unapproved, meaning that no child landing page may reference it.  Landing Page Templates with embedded social buttons may not be deleted with this API.
+To delete a template, ensure that it is not approved and that no child landing page references it. You cannot use this API to delete landing page templates with embedded social buttons.
