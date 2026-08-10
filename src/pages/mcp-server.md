@@ -5,9 +5,9 @@ description: "Learn how to connect an AI assistant to Marketo using the Marketo 
 
 # Marketo Engage MCP Server
 
->[!AVAILABILITY] 
->
-> This feature is in limited availability. To request access, fill out [this form](https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Wht7-jR7h0OUrtLBeN7O4Y-uSf63sAxCmWyqMJg8eMFUMVZSVExSNDA3T0I4SEcwRDFSVTBGWU01Uy4u&origin=QRCode). Be sure to have your subscription's Munchkin ID ready.
+<InlineAlert slots="text" variant="neutral" />
+
+This feature is in limited availability. To request access, fill out [this form](https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Wht7-jR7h0OUrtLBeN7O4Y-uSf63sAxCmWyqMJg8eMFUMVZSVExSNDA3T0I4SEcwRDFSVTBGWU01Uy4u&origin=QRCode). Be sure to have your subscription's Munchkin ID ready.
 
 <InlineAlert slots="text" variant="info" />
 

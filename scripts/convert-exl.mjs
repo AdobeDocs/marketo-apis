@@ -90,8 +90,8 @@ function convertUIControl(content) {
 // Alert blocks  >[!TYPE] ... → <InlineAlert />
 // ---------------------------------------------------------------------------
 
-const ALERT_TYPE_RE = /^>\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|INFO|SUCCESS|ERROR|ADMIN|AVAILABILITY|PREREQUISITES)\]$/;
-const MORELIKETHIS_RE = /^>\[!MORELIKETHIS\]/;
+const ALERT_TYPE_RE = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|INFO|SUCCESS|ERROR|ADMIN|AVAILABILITY|PREREQUISITES)\]\s*$/;
+const MORELIKETHIS_RE = /^>\s*\[!MORELIKETHIS\]/;
 
 function transformAlerts(content) {
   const lines = content.split('\n');
