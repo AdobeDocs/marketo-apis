@@ -5,93 +5,124 @@ description: "Get started with Marketo Engage APIs and data model including lead
 
 # Getting Started
 
-Marketo Engage is a marketing automation platform that enables marketers to manage personalized multi-channel programs and campaigns to prospects and customers. The Marketo Engage platform can be extended using integration points. Below you find the core entities and their relationships.
+Marketo Engage is a marketing automation platform for managing personalized multichannel programs and campaigns for prospects and customers. You can extend the platform through its integration points.
+
+This page introduces the core Marketo Engage entities and their relationships.
 
 <InlineAlert slots="text" variant="info" />
 
-The SOAP API is being deprecated and will no longer be available after July 31st 2026. All new development should be done with the Marketo [REST API](./rest-api/rest-api.md), and existing services should be migrated by that date to avoid interruptions in service. If you have a service which uses the SOAP API, please consult the SOAP API [Migration Guide](./soap-api/migration.md) for information on how to migrate.
+As of July 31st, 2026,the SOAP API is deprecated and no longer available. Use the Marketo [REST API](./rest-api/rest-api.md) for all new development.
 
-When either the Native SFDC or MS Dynamics CRM connection is enabled on a Marketo Engage instance, the following objects are Read-Only: Company, Opportunity, Opportunity Role, Sales Person
+When either the Native SFDC or MS Dynamics CRM connection is enabled on a Marketo Engage instance, these objects are read-only:
+
+- Company
+- Opportunity
+- Opportunity Role
+- Sales Person
 
 ![Data Model](assets/data_model.png)
 
 ## Person (Leads)
 
-People are the foundation of any marketing automation platform. Within Marketo, all non-sales person records are referred to as leads, regardless of whether they are designated as leads, prospects, suspects, contacts, and so forth, from a sales perspective. The lead object comes with a set of standard fields, such as email, first name and last name. Additional fields can be added to the lead object type to extend the types of information associated with records in the system. Custom attributes can be read and written to just as the standard fields. A complete list of fields can be found within the Marketo **Admin** > **Field Management** menu. Leads are uniquely identified in Marketo by the id field. Other unique keys must be enforced externally from the system.
+People are the foundation of marketing automation. Marketo refers to all non-sales-person records as leads, regardless of whether sales considers them leads, prospects, suspects, or contacts.
 
-Related APIs: [REST](api/mapi.md#tag/Leads), [JavaScript](javascript-api/lead-tracking.md#lead-tracking-api)
+The lead object includes standard fields such as email, first name, and last name. You can add fields to store other information, and you can read and write custom attributes in the same way as standard fields. Find the complete field list under **Admin** > **Field Management** in Marketo.
+
+Marketo uniquely identifies leads by the id field. You must enforce other unique keys outside the system.
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads), [JavaScript](javascript-api/lead-tracking.md#lead-tracking-api)
 
 ## Activities
 
-Leads interact with your organization in a few ways. A lead may visit a page on your company's website, attend a trade show or download a whitepaper. Each of these actions can be captured within Marketo to help a marketer better understand which activities a lead did and when so they can coordinate timely and relevant communications. Activities are always related back to leads by leadId.
+Leads can interact with your organization in several ways, such as visiting a webpage, attending a trade show, or downloading a whitepaper. Marketo captures these actions as activities so that marketers can understand what a lead did and when it occurred.
 
-You can define your own custom activities. Once you have created and published a custom activity, you can add custom activities via the Marketo API. More information on custom activities can be found in the [Activities](rest-api/activities.md) documentation.
+Activities are always related to leads by leadId.
 
-Related APIs: [REST](api/mapi.md#tag/Activities), [JavaScript](javascript-api/lead-tracking.md#munchkin-behavior)
+You can also define custom activities. After you create and publish a custom activity, you can add instances of it through the Marketo API. For more information, see [Understanding Custom Activities](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/marketo-custom-activities/understanding-custom-activities).
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities), [JavaScript](javascript-api/lead-tracking.md#munchkin-behavior)
 
 ## Programs & Campaigns
 
-A Program is the mechanism by which a marketer organizes all their different types of marketing efforts from one central location. An example of a program is an email blast. A lead can take multiple actions/activities related to a given program that become associated with the program. This is known as lead progression. An example progression of an email blast program would record when a lead is sent an email, when the person opened the email or whether they clicked through a link in the email.
+A Program organizes a marketer's related marketing efforts in one location. For example, an email blast can be a Program.
 
-Campaigns are created to serve a specific purpose and specific goal within a Program. An example of a campaign could be to narrow down a group of leads and send them the email blast, or to notify a sales rep for follow-up if a lead clicks through a link within the email blast program.
+A lead can take multiple actions or activities associated with a Program. This process is known as lead progression. For an email blast Program, progression can record when Marketo sends the email, when the person opens it, and whether the person clicks a link.
 
-Related APIs: [REST](api/mapi.md#tag/Campaigns)
+A Campaign serves a specific purpose and goal within a Program. For example, a Campaign can select a group of leads and send an email blast. Another Campaign can notify a sales representative when a lead clicks a link in the email blast.
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Campaigns)
 
 ## Tags
 
-Tags are a way of grouping data for reporting purposes. These identifiers provide the ability to categorize data and define how you want to report on your Program to understand Program effectiveness and ROI.
+Tags group and categorize Program data for reporting. Use tags to measure Program effectiveness and ROI.
 
-As a Marketo Admin, you have the ability to create required and optional tag types available for selection when a Marketo user creates a Program. Possible values for each of these tag types are defined by you and reflect how your company would like to use custom tags for reporting purposes.
+As a Marketo Admin, you can create required and optional tag types that users select when they create a Program. You define the possible values for each tag type based on your company's reporting requirements.
 
-For example, you may want to create a custom "Region" tag type with multiple tag values (for example, Northeast, Southeast) allowing you to analyze which region is generating the most leads. Or, for instance, you can create an "Owner" tag type, which allows you to assess and understand which Program owners (for example, Maria, David, or John) are having the greatest impact on creating leads and opportunities. More information about tags can be found in the [Tags](rest-api/tags.md) documentation.
+For example, create a custom "Region" tag type with values such as Northeast and Southeast to analyze which region generates the most leads. Create an "Owner" tag type to compare which Program owners, such as Maria, David, or John, have the greatest impact on creating leads and opportunities. For more information, see [Understanding Tags](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/core-marketo-concepts/programs/working-with-programs/understanding-tags).
 
-Related APIs: [REST](api/asset.md)
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/asset)
 
 ## Lists
 
-Lists allow a marketer to organize a collection of leads. There are two types of lists within Marketo, static and smart. A static list is a fixed list of leads that a marketer can add or remove as they choose. A smart list is a dynamic collection of leads based on a set of designated characteristics. An example of a smart list would be "All leads who have visited the pricing page on our website." This smart list continues to grow as more leads visit the pricing page. More information about lists can be found in the [Static Lists](rest-api/static-lists.md) documentation.
+Lists organize collections of leads. Marketo provides two types:
 
-Related APIs: [REST](api/asset.md#tag/Static-Lists)
+- A static list is a fixed collection from which a marketer can add or remove leads.
+- A smart list is a dynamic collection based on defined characteristics.
+
+For example, a smart list named "All leads who have visited the pricing page on our website" continues to grow as more leads visit that page. For more information, see the [Marketo Engage documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home).
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists)
 
 ## Opportunities
 
-Marketers deliver leads to sales in the form of an opportunity. An opportunity represents a potential sales deal and is associated with a lead or contact and an organization in Marketo. An opportunity role is the intersection between a given lead and an organization. The opportunity role pertains to a lead's function within the organization.
+An opportunity represents a potential sales deal that marketers deliver to sales. In Marketo, an opportunity is associated with a lead or contact and an organization.
 
-Related APIs: [REST](api/mapi.md#tag/Opportunities)
+An opportunity role connects a lead with an organization and describes the lead's function in that organization.
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities)
 
 ## Companies
 
-An organization, sometimes referred to as an account in Marketo, refers to the organization that a person belongs to. When using ROI reporting in Marketo or Revenue Cycle Analytics (RCA), it is important to associate people with their organization and opportunities so the proper ROI attribution can be determined.
+An organization, sometimes called an account in Marketo, is the organization to which a person belongs.
 
-Related APIs: [REST](api/mapi.md#tag/Companies)
+For accurate ROI attribution in Marketo ROI reporting or Revenue Cycle Analytics (RCA), associate people with their organizations and opportunities.
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies)
 
 ## Assets
 
-Assets refer to landing pages, emails, forms, and images that are used within a program. Assets can be either local to a given program or global. Global assets are available across any program.
+Assets include landing pages, emails, forms, and images used in a Program. An asset can be local to a specific Program or global. Global assets are available to every Program.
 
-Related APIs: [REST](api/asset.md)
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/asset)
 
 ## Tokens
 
-Tokens allow a marketer to personalize messages with assets and add logic within flow actions. There are tokens for the overall system, programs, leads, and companies. An example of a lead token is `{{lead.First Name}}`. This token can be placed within an email to display the lead's first name.
+Tokens let marketers personalize messages with assets and add logic to flow actions. Marketo provides tokens for the overall system, Programs, leads, and companies.
 
-Tokens defined at the Program or folder level are referred to as "My Tokens" within Marketo. My Tokens can be one of three types, local, inherited, or overridden.
+For example, place the lead token `{{lead.First Name}}` in an email to display the lead's first name.
 
-My Tokens that are created locally within a specific campaign folder or program are available to that specific program or campaign folder (local). My Tokens that are created at the campaign folder level are available for use across all programs contained within that campaign folder (inherited). My Tokens that are modified at the program level with custom values do not change the parent My Token value of the token at the program folder level (overridden).
+Tokens defined at the Program or folder level are called "My Tokens" in Marketo. My Tokens have three types:
 
-My Tokens use the naming convention `{{my.My Token}}`, with the word "my" added to the beginning of the token name. For example, if you create a Date type My Token with the name EventDate, the name of the token is `{{my.EventDate}}`. More information about My Tokens can be found in the [Tokens](rest-api/tokens.md) documentation.
+- Local: Created in a specific campaign folder or Program and available only in that folder or Program.
+- Inherited: Created at the campaign folder level and available to all Programs in that folder.
+- Overridden: Modified with a custom value at the Program level without changing the parent My Token value at the Program folder level.
 
-Related APIs: [REST](api/asset.md#tag/Tokens)
+My Tokens use the naming convention `{{my.My Token}}`, with the word "my" at the beginning of the token name. For example, a Date type My Token named EventDate has the token name `{{my.EventDate}}`. For more information, see [Understanding My Tokens in a Program](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/core-marketo-concepts/programs/tokens/understanding-my-tokens-in-a-program).
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/asset#tag/Tokens)
 
 ## Custom Objects
 
-A Marketo custom object allows for the creation of a one-to-many, or many-to-many (Edge-Bridge-Edge) relationship between your Marketo Leads and the custom object records. Once you have created and published a Marketo custom object, you can perform CRUD operations on the custom object via the Marketo API. More information about custom object creation can be found in the [Custom Objects](rest-api/custom-objects.md) documentation. When new records are added to the custom object, you can use a smart list trigger to respond. You can also use custom object data as a filter in smart lists (segmentation), or in emails using [Email Scripting](email-scripting.md).
+A Marketo custom object creates a one-to-many or many-to-many (Edge-Bridge-Edge) relationship between Marketo Leads and custom object records.
 
-Related APIs: [REST](api/mapi.md#tag/Custom-Objects)
+After you create and publish a Marketo custom object, you can perform CRUD operations on it through the Marketo API. When new records are added, you can use a smart list trigger to respond. You can also use custom object data as a smart list filter for segmentation or in emails through [Email Scripting](email-scripting.md). For more information about creating custom objects, see the [Marketo Engage documentation](https://experienceleague.adobe.com/en/docs/marketo/using/home).
+
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Custom-Objects)
 
 ## Sales Persons
 
-Sales Person records and lead relationships can be managed in Marketo when there is no native CRM integration enabled. These records contain basic information about the Sales Person, such as Name, Email, and Job Title, which can be used for filtering and tokens in Marketo when a lead is owned by one. The relationship to a sales person is managed at the lead level through the "externalSalesPersonId" field, which must be updated through the [Sync Leads](api/mapi.md#tag/Leads/operation/syncLeadUsingPOST) API.
+You can manage Sales Person records and their lead relationships in Marketo when no native CRM integration is enabled. These records contain information such as Name, Email, and Job Title. When a Sales Person owns a lead, you can use this information for filtering and tokens.
 
-Related APIs: [REST](api/mapi.md#tag/Sales-Persons)
+Manage the relationship to a sales person at the lead level through the "externalSalesPersonId" field. Update this field through the [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncLeadUsingPOST) API.
 
+Related APIs: [REST](https://developer.adobe.com/marketo-apis/api/mapi#tag/Sales-Persons)

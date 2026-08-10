@@ -5,11 +5,11 @@ description: "Marketo email scripting examples using Velocity, including looping
 
 # Examples
 
-Below you can find a set of demonstrative email scripting examples.
+The following examples demonstrate common email scripting patterns.
 
 ## List of Events
 
-This example uses a hypothetical Event custom object.
+This example uses a hypothetical Event custom object to demonstrate sorting and filtering.
 
 ```html
 ##declare an $EventsThisYear variable

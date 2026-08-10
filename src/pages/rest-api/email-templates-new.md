@@ -56,9 +56,18 @@ GET /rest/asset/v2/emailtemplate/{id}
 
 ### Filter
 
-The filter endpoint supports searching within a workspace and narrowing results with additional query parameters. `workspaceId` is required.
+The filter endpoint searches within a workspace. The `workspaceId` parameter is required.
 
-Supported filters include `folderId`, repeated `folderIds`, repeated `status`, `pageIndex`, `pageSize`, `createdBy`, `createdAtStart`, `createdAtEnd`, `modifiedBy`, `modifiedAtStart`, `modifiedAtEnd`, `name`, `sortKey`, `sortOrder`, `isCreatedByMe`, `isModifiedByMe`, `scriptEngine`, `isValueNonNullable`, and `includeArchived`.
+Use these optional parameters to narrow or organize results:
+
+- Folder: `folderId` or repeated `folderIds`
+- Status: repeated `status`
+- Pagination: `pageIndex` and `pageSize`
+- Creation: `createdBy`, `createdAtStart`, `createdAtEnd`, and `isCreatedByMe`
+- Modification: `modifiedBy`, `modifiedAtStart`, `modifiedAtEnd`, and `isModifiedByMe`
+- Template properties: `name`, `scriptEngine`, and `isValueNonNullable`
+- Sorting: `sortKey` and `sortOrder`
+- Archived content: `includeArchived`
 
 #### Request
 

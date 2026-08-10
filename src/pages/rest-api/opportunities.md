@@ -7,13 +7,15 @@ description: "Marketo REST API to describe, query, create, and update opportunit
 
 [Opportunity Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities)
 
-Marketo exposes APIs for reading, writing, creating and updating opportunity records. In Marketo, opportunity records are linked to lead and contact records through the intermediate Opportunity Role object, so an opportunity may be linked to many individual leads.  Both of these object types are exposed through the API, and like most of the Lead Database object types, they both have a corresponding Describe call, which returns metadata about the object types.
+Marketo provides APIs for reading, writing, creating, and updating opportunity records. In Marketo, the intermediate Opportunity Role object links opportunity records to lead and contact records. An opportunity can therefore be linked to many individual leads.
 
-Opportunity APIs are read-only access for subscriptions which have [SFDC Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/salesforce-sync/sfdc-sync-details/sfdc-sync-field-sync.html?lang=en) or [Microsoft Dynamics Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/microsoft-dynamics/microsoft-dynamics-sync-details/microsoft-dynamics-sync-user-sync.html?lang=en) are enabled.
+The API exposes both object types. As with most Lead Database object types, each has a corresponding Describe call that returns object metadata.
+
+Opportunity APIs provide read-only access for subscriptions that have [SFDC Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/salesforce-sync/sfdc-sync-details/sfdc-sync-field-sync.html?lang=en) or [Microsoft Dynamics Sync](https://experienceleague.adobe.com/docs/marketo/using/product-docs/crm-sync/microsoft-dynamics/microsoft-dynamics-sync-details/microsoft-dynamics-sync-user-sync.html?lang=en) enabled.
 
 ## Describe
 
-Describing Opportunity records follows the standard pattern for lead database objects.
+Describe Opportunity records by using the standard pattern for Lead Database objects.
 
 ```http
 GET /rest/v1/opportunities/describe.json
@@ -74,11 +76,17 @@ GET /rest/v1/opportunities/describe.json
 }
 ```
 
-The most important fields for this response type are `idField`, `dedupeFields`, and `searchableFields`.  idField indicates the primary key for opportunities, marketoGUID.  This is a system generated unique key, which can be used for read and update operations, but not for inserts, since it is system managed.  The dedupeFields array indicates which fields are valid keys for insert operations; in the case of opportunities, this is only externalOpportunityId.  The searchableFields array gives you the set of fields which are valid for querying, externalOpportunityId and marketoGUID.
+The key response fields are:
+
+- `idField`: Identifies the opportunity primary key, marketoGUID. This system-generated key supports read and update operations but not inserts.
+- `dedupeFields`: Identifies valid keys for insert operations. For opportunities, the only key is externalOpportunityId.
+- `searchableFields`: Identifies fields that are valid for queries. These fields are externalOpportunityId and marketoGUID.
 
 ## Query
 
-The pattern for [querying opportunities](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities/operation/getOpportunitiesUsingGET) closely follows that of the leads API with the added restriction that the `filterType` parameter accepts the fields listed in the `searchableFields` array or of the corresponding describe call, or dedupeFields.  Note that if you are using custom opportunity fields, only custom opportunity fields of type String or Integer will be listed in searchableFields array.
+The pattern for [querying opportunities](https://developer.adobe.com/marketo-apis/api/mapi#operation/getOpportunitiesUsingGET) closely follows the Leads API. However, the `filterType` parameter accepts only fields listed in the `searchableFields` array of the corresponding Describe response or dedupeFields.
+
+For custom opportunity fields, only fields of type String or Integer appear in the searchableFields array.
 
 ```http
 GET /rest/v1/opportunities.json?filterType=marketoGUID&filterValues=dff23271-f996-47d7-984f-f2676861b5fa&dff23271-f996-47d7-984f-f2676861b5fc,dff23271-f996-47d7-984f-f2676861b5fb
@@ -111,13 +119,25 @@ GET /rest/v1/opportunities.json?filterType=marketoGUID&filterValues=dff23271-f99
 }
 ```
 
-You can also include the optional query parameters `fields`, for returning additional opportunity fields, `nextPageToken`, for paging through sets larger than the batch size, `batchSize`, which defaults to and has a maximum of 300.  When requesting a list of `fields`, if a particular field is requested, but not returned, the value is implied to be null.
+You can include these optional query parameters:
+
+- `fields`: Returns additional opportunity fields.
+- `nextPageToken`: Pages through result sets larger than the batch size.
+- `batchSize`: Specifies the batch size. The default and maximum value is 300.
+
+When you request a list of `fields`, a requested field that is not returned has an implied value of null.
 
 ## Create and Update
 
-Opportunities follow the leads API pattern closely, with some restrictions.  The values available for `action` are: createOnly, createOrUpdate, and updateOnly.  When using createOnly or createOrUpdate mode, the externalOpportunityId field must be included in each record.  For the updateOnly mode, either marketoGUID or externalOpportunityId may be used.  The mode defaults to createOrUpdate if unspecified.
+Opportunities follow the Leads API pattern with some restrictions. The `action` values are createOnly, createOrUpdate, and updateOnly.
 
-The `lookupField` parameter from the leads API is unavailable, and is superceded by the dedupeBy parameter, which is only valid if action is updateOnly.  The values available for dedupeBy are either "dedupeFields" or "idField" which are specified by the describe call as externalOpportunityId and marketoGUID respectively.  If dedupeBy is unspecified, it defaults to dedupeFields mode.  The 'name' field must not be null.
+- For createOnly or createOrUpdate mode, include the externalOpportunityId field in each record.
+- For updateOnly mode, use either marketoGUID or externalOpportunityId.
+- If unspecified, the mode defaults to createOrUpdate.
+
+The `lookupField` parameter from the Leads API is unavailable. The dedupeBy parameter replaces it and is valid only when action is updateOnly.
+
+The dedupeBy values are "dedupeFields" and "idField", which the Describe response identifies as externalOpportunityId and marketoGUID, respectively. If dedupeBy is unspecified, it defaults to dedupeFields mode. The 'name' field must not be null.
 
 You can submit up to 300 records at a time.
 
@@ -168,21 +188,27 @@ POST /rest/v1/opportunities.json
 }
 ```
 
-The API will respond with the `marketoGUID` for each record, as well as a `status` field, indicating the individual success or failure of each record, and an `seq` field which is used to correlate the submitted records, to the order of the response.  The number in the field is the index of the record submitted in the request.
+The response includes the following values for each record:
+
+- `marketoGUID`: The record identifier.
+- `status`: The success or failure of the individual record.
+- `seq`: The submitted record's index, which correlates the request record with the response order.
 
 ### Fields
 
-The company object contains a set of fields.  Each field definition is comprised of a set of attributes that describe the field.  Examples of attributes are display name, API name, and dataType.  These attributes are known collectively as metadata.
+The company object contains fields defined by attributes such as display name, API name, and dataType. Together, these attributes are called metadata.
 
-The following endpoints allow you to query fields on the company object. These APIs require that the owning API user have a role with one or both of the `Read-Write Schema Standard Field` or `Read-Write Schema Custom Field` permissions.
+The following endpoints query fields on the company object. The API user must have a role with the `Read-Write Schema Standard Field` permission, the `Read-Write Schema Custom Field` permission, or both.
 
 ### Query Fields
 
-Querying opportunity fields is straightforward.  You may query a single company field by API name or query the set of all company fields.
+Query one company field by API name or retrieve all company fields.
 
 #### By Name
 
-The [Get Opportunity Field by Name](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities/operation/getOpportunityFieldByNameUsingGET) endpoint retrieves metadata for a single field on the company object.  The required `fieldApiName` path parameter specifies the API name of the field.  The response is like the Describe Opportunity endpoint but contains additional metadata such as the `isCustom` attribute which denotes whether the field is a custom field.
+The [Get Opportunity Field by Name](https://developer.adobe.com/marketo-apis/api/mapi#operation/getOpportunityFieldByNameUsingGET) endpoint retrieves metadata for one field on the company object. The required `fieldApiName` path parameter specifies the field's API name.
+
+The response resembles the Describe Opportunity response but includes additional metadata. For example, the `isCustom` attribute indicates whether the field is custom.
 
 ```http
 GET /rest/v1/opportunities/schema/fields/externalOpportunityId.json
@@ -211,7 +237,9 @@ GET /rest/v1/opportunities/schema/fields/externalOpportunityId.json
 
 #### Browse
 
-The [Get Opportunity Fields](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities/operation/getOpportunityFieldsUsingGET) endpoint retrieves metadata for all fields on the company object.  By default, a maximum of 300 records are returned.  You can use the `batchSize` query parameter to reduce this number.  If the `moreResult` attribute is true, this means more results are available.  Continue to call this endpoint until the moreResult attribute returns false, which means there are no results available.  The `nextPageToken` returned from this API should always be reused for the next iteration of this call.
+The [Get Opportunity Fields](https://developer.adobe.com/marketo-apis/api/mapi#operation/getOpportunityFieldsUsingGET) endpoint retrieves metadata for all fields on the company object. By default, it returns a maximum of 300 records. Use the `batchSize` query parameter to reduce this number.
+
+If the `moreResult` attribute is true, more results are available. Continue calling the endpoint with the returned `nextPageToken` until moreResult is false.
 
 ```http
 GET /rest/v1/opportunities/schema/fields.json?batchSize=5
@@ -290,7 +318,9 @@ GET /rest/v1/opportunities/schema/fields.json?batchSize=5
 
 #### Delete
 
-You may delete opportunities by dedupe fields or id field. Specify using the `deleteBy` parameter with a value of either dedupeFields or idField. If not specified, the default is dedupeFields. The request body contains an `input` array of opportunities to delete. A maximum of 300 opportunities per call are permitted.
+Delete opportunities by dedupe fields or id field. Set the `deleteBy` parameter to either dedupeFields or idField. The default is dedupeFields.
+
+The request body contains an `input` array of opportunities to delete. Each call permits a maximum of 300 opportunities.
 
 ```http
 POST /rest/v1/opportunities/delete.json
@@ -331,6 +361,6 @@ POST /rest/v1/opportunities/delete.json
 
 ## Timeouts
 
-- Opportunity endpoints have a timeout of 30s unless noted below
-  - Sync Opportunities: 60s
-  - Delete Opportunities: 60s
+- Opportunity endpoints have a timeout of 30s unless otherwise noted.
+- Sync Opportunities has a timeout of 60s.
+- Delete Opportunities has a timeout of 60s.

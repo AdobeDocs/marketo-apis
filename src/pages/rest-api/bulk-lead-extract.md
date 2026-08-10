@@ -7,40 +7,44 @@ description: "Learn how to use Marketo Bulk Lead Extract REST APIs to bulk expor
 
 [Bulk Lead Extract Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads)
 
-The Bulk Lead Extract set of REST APIs provides a programmatic interface for retrieving large sets of lead/person records out of Marketo. Also, it can be used to retrieve leads incrementally based on the created date of the record, the most recent update, static list membership, or smart list membership. The recommended interface for use cases which require continuous interchange of data between Marketo and one or more external systems, for ETL, data warehousing, and archival purposes.
+The Bulk Lead Extract REST APIs retrieve large sets of lead/person records from Marketo. You can also retrieve leads incrementally based on the record creation date, most recent update, static list membership, or smart list membership.
+
+Use Bulk Lead Extract for continuous data exchange between Marketo and external systems, including ETL, data warehousing, and archival workflows.
 
 ## Permissions
 
-The Bulk Lead Extract APIs require that the owning API user have a role with one or both of the Read-Only Lead, or Read-Write Lead permissions.
+The API user that owns the job must have a role with the Read-Only Lead permission, the Read-Write Lead permission, or both permissions.
 
 ## Filters
 
-Leads support various filter options. Certain filters, including the `updatedAt`, `smartListName`, and `smartListId` require additional infrastructure components which have not yet been rolled out to all subscriptions. Only one filter type may be specified per export job.
+Lead export jobs support several filter types. Each export job can use only one filter type.
+
+The `updatedAt`, `smartListName`, and `smartListId` filters require infrastructure that is not available in all subscriptions.
 
 | Filter Type | Data Type | Notes |
 | --- | --- | --- |
-| createdAt | Date Range | Accepts a JSON object with the members `startAt` and `endAt`. `startAt` accepts a datetime representing the low-watermark, and `endAt` accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Datetimes should be in an ISO-8601 format, without milliseconds. Jobs with this filter type return all accessible records which were created within the date range. |
-| updatedAt* | Date Range | Accepts a JSON object with the members `startAt` and `endAt`. `startAt` accepts a datetime representing the low-watermark, and `endAt` accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Datetimes should be in an ISO-8601 format, without milliseconds. Note: This filter does not filter on the visible "updatedAt" field which only reflects updates to standard fields. It filters based on when the most recent field update was made to a lead recordJobs with this filter type returns all accessible records which were most recently updated within the date range. |
-| staticListName | String | Accepts the name of a static list. Jobs with this filter type return all accessible records which are members of the static list at the time that the job begins processing. Retrieve static list names using the Get Lists endpoint. |
-| staticListId | Integer | Accepts the id of a static list. Jobs with this filter type return all accessible records which are members of the static list at the time that the job begins processing. Retrieve static list ids using theGet Lists endpoint. |
-| smartListName* | String | Accepts the name of a smart list. Jobs with this filter type return all accessible records which are members of the smart lists at the time that the job begins processing. Retrieve smart list names using theGet Smart Lists endpoint. |
-| smartListId* | Integer | Accepts the id of a smart list. Jobs with this filter type return all accessible records which are members of the smart lists at the time that the job begins processing. Retrieve smart list ids using theGet Smart Lists endpoint. |
+| createdAt | Date Range | A JSON object with `startAt` and `endAt` members. `startAt` is the low-watermark datetime, and `endAt` is the high-watermark datetime. Use ISO-8601 date and time values without milliseconds. The range must be 31 days or fewer. The job returns all accessible records created within the date range. |
+| updatedAt* | Date Range | A JSON object with `startAt` and `endAt` members. `startAt` is the low-watermark datetime, and `endAt` is the high-watermark datetime. Use ISO-8601 date and time values without milliseconds. The range must be 31 days or fewer. This filter does not use the visible `updatedAt` field, which reflects updates to standard fields only. Instead, it uses the time of the most recent field update to a lead record. The job returns all accessible records most recently updated within the date range. |
+| staticListName | String | The name of a static list. The job returns all accessible records that are members of the static list when the job begins processing. Retrieve static list names by using the Get Lists endpoint. |
+| staticListId | Integer | The ID of a static list. The job returns all accessible records that are members of the static list when the job begins processing. Retrieve static list IDs by using the Get Lists endpoint. |
+| smartListName* | String | The name of a smart list. The job returns all accessible records that are members of the smart list when the job begins processing. Retrieve smart list names by using the Get Smart Lists endpoint. |
+| smartListId* | Integer | The ID of a smart list. The job returns all accessible records that are members of the smart list when the job begins processing. Retrieve smart list IDs by using the Get Smart Lists endpoint. |
 
-Filter type is unavailable for some subscriptions. If unavailable for your subscription, you receive an error when calling the Create Export Lead Job endpoint ("1035, Unsupported filter type for target subscription"). Customers may contact Marketo Support to have this functionality enabled in their subscription.
+The filter types marked with an asterisk are unavailable for some subscriptions. If a filter type is unavailable for your subscription, the Create Export Lead Job endpoint returns the error "1035, Unsupported filter type for target subscription". Contact Marketo Support to enable this functionality for your subscription.
 
 ## Options
 
-The Create Export Lead Job endpoint provides several formatting options, giving the user the ability to include particular fields within the exported file, the ability to rename column headers of these fields, and the format of the exported file.
+The Create Export Lead Job endpoint provides options to select exported fields, rename column headers, and set the file format.
 
 | Parameter | Data Type | Required | Notes |
 | --- | --- | --- | --- |
-| fields | Array[String] | Yes | The fields parameter accepts a JSON array of strings. Each string must be the REST API name of a Marketo lead field. The listed fields are included in the exported file. The column header for each field will be the REST API name of each field, unless overridden with columnHeader. Note: When the Adobe Experience Cloud Audience Sharing feature is enabled, a cookie sync process occurs that associates Adobe Experience Cloud ID (ECID) with Marketo leads. You can specify the "ecids" field to include ECIDs in the export file. |
-| columnHeaderNames | Object | No | A JSON object containing key-value pairs of field and column header names. The key must be the name of a field included in the export job. This is the API name of the field which can be retrieved by calling Describe Lead. The value is the name of the exported column header for that field. |
-| format | String | No | Accepts one of: CSV, TSV, SSV. The exported file is rendered as a comma-separated values, tab-separated values, or space-separated values file, respectively if set. Defaults to CSV if unset. |
+| fields | Array[String] | Yes | A JSON array of strings. Each string must be the REST API name of a Marketo lead field. The export includes each listed field and uses its REST API name as the column header unless `columnHeaderNames` overrides it. When the Adobe Experience Cloud Audience Sharing feature is enabled, a cookie sync process associates the Adobe Experience Cloud ID (ECID) with Marketo leads. Specify the `ecids` field to include ECIDs in the export file. |
+| columnHeaderNames | Object | No | A JSON object of field and column-header key-value pairs. Each key must be the API name of a field included in the export job. Retrieve the API name by calling Describe Lead. Each value is the exported column header for that field. |
+| format | String | No | The export file format: CSV for comma-separated values, TSV for tab-separated values, or SSV for space-separated values. The default is CSV. |
 
 ## Creating a Job
 
-The parameters for the job are defined before kicking off the export using the [Create Export Lead Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads/operation/createExportLeadsUsingPOST) endpoint. We must define the `fields` that are needed for export, the type of parameters of the `filter`, the `format` of the file, and the column header names, if any.
+Use the [Create Export Lead Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/createExportLeadsUsingPOST) endpoint to define an export job. Specify the `fields` to export, one `filter` type and its parameters, the file `format`, and any custom column header names.
 
 ```http
 POST /bulk/v1/leads/export/create.json
@@ -64,13 +68,13 @@ POST /bulk/v1/leads/export/create.json
    "filter": {
       "createdAt": {
          "startAt": "2017-01-01T00:00:00Z",
-         "`endAt`": "2017-01-31T00:00:00Z"
+         "endAt": "2017-01-31T00:00:00Z"
       }
    }
 }
 ```
 
-This request will begin export a set of leads created between January 1, 2017, and January 31, 2017, including the values from the corresponding `firstName`, `lastName`, `id`, and `email` fields.
+This request creates an export job for leads created between January 1, 2017, and January 31, 2017. The export includes values from the `firstName`, `lastName`, `id`, and `email` fields.
 
 ```json
 {
@@ -88,7 +92,7 @@ This request will begin export a set of leads created between January 1, 2017, 
 }
 ```
 
-This returns a status response indicating that the job has been created. The job has been defined and created, but it hasn't yet been kicked off. To do so, the [Enqueue Export Lead Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads/operation/enqueueExportLeadsUsingPOST) endpoint must be called using the exportId from the creation status response:
+The response confirms that the job is created but not started. To start the job, call the [Enqueue Export Lead Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/enqueueExportLeadsUsingPOST) endpoint with the `exportId` from the creation response.
 
 ```http
 POST /bulk/v1/leads/export/{exportId}/enqueue.json
@@ -110,13 +114,15 @@ POST /bulk/v1/leads/export/{exportId}/enqueue.json
 }
 ```
 
-This responds with a `status` of "Queued" after which it will be set to "Processing" when there is an available export slot.
+The enqueue response has a `status` of "Queued". When an export slot becomes available, the status changes to "Processing".
 
 ## Polling Job Status
 
-`Note:` Status can only be retrieved for jobs which were created by the same API user.
+You can retrieve status only for jobs created by the same API user.
 
-Since this is an asynchronous endpoint, after creating the job, we must poll its status to determine its progress. Poll using the [Get Export Lead Job Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads/operation/getExportLeadsStatusUsingGET) endpoint. The status is only updated once every 60 seconds, so a polling frequency lower than this is not advised, and in nearly all cases is still excessive. Let's take a quick look at polling.
+Lead export jobs run asynchronously. Poll the [Get Export Lead Job Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getExportLeadsStatusUsingGET) endpoint to track the job's progress.
+
+The status updates only once every 60 seconds. Do not poll more frequently; in nearly all cases, that interval is still excessive.
 
 ```http
 GET /bulk/v1/leads/export/{exportId}/status.json
@@ -138,9 +144,9 @@ GET /bulk/v1/leads/export/{exportId}/status.json
 }
 ```
 
-The status endpoint responds indicating that the job is still processing, so the file is not yet available for retrieval. Once the job status changes to "Completed" it  prepared for download.
+This response shows that the job is still processing, so the file is not available. When the job status changes to "Completed", the file is ready to download.
 
-The status field may respond with any one of:
+The `status` field can return any of the following values:
 
 - Created
 - Queued
@@ -151,26 +157,26 @@ The status field may respond with any one of:
 
 ## Retrieving Your Data
 
-To retrieve the file of a completed lead export, simply call the [Get Export Lead File](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads/operation/getExportLeadsFileUsingGET) endpoint with your `exportId`.
+To retrieve a completed lead export, call the [Get Export Lead File](https://developer.adobe.com/marketo-apis/api/mapi#operation/getExportLeadsFileUsingGET) endpoint with the `exportId`.
 
 ```http
 GET /bulk/v1/leads/export/{exportId}/file.json
 ```
 
-The response contains a file formatted in the way that the job was configured. The endpoint responds with the contents of the file.
+The response body contains the file in the format configured for the job.
 
-If a requested lead field is empty (contains no data), then `null` is placed in the corresponding field in the export file. In the example below, the email field for the returned lead is empty.
+If a requested lead field contains no data, the corresponding field in the export file contains `null`. In the following example, the returned lead has an empty email field.
 
 ```csv
 firstName,lastName,email,cookies
 Russell,Wilson,null,_mch-localhost-1536605780000-12105
 ```
 
-To support partial and resumption-friendly retrieval of extracted data, the file endpoint optionally supports the HTTP header Range of the type bytes. If the header is not set, the whole of the content is returned. Read more about using the Range header with Marketo [Bulk Extract](bulk-extract.md).
+For partial or resumable retrieval, the file endpoint supports the optional HTTP `Range` header with the `bytes` type. If you do not set the header, the endpoint returns all content. Learn more about using the `Range` header with Marketo [Bulk Extract](bulk-extract.md).
 
 ## Canceling a Job
 
-If a job was configured incorrectly, or becomes unnecessary, it can be easily canceled using the [Cancel Export Lead Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Leads/operation/cancelExportLeadsUsingPOST) endpoint:
+To cancel an incorrectly configured or unnecessary job, call the [Cancel Export Lead Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/cancelExportLeadsUsingPOST) endpoint.
 
 ```http
 POST /bulk/v1/leads/export/{exportId}/cancel.json
@@ -191,4 +197,4 @@ POST /bulk/v1/leads/export/{exportId}/cancel.json
 }
 ```
 
-This responds with a status indicating that the job has been canceled.
+The response confirms that the job is canceled.

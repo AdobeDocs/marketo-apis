@@ -5,15 +5,15 @@ description: "Manage Marketo opportunity roles via REST API including describe, 
 
 # Opportunity Roles
 
-[Opportunity Roles Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities/operation/getOpportunityRolesUsingGET)
+[Opportunity Roles Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#operation/getOpportunityRolesUsingGET)
 
-Leads are linked to opportunities via the intermediate `opportunityRole` object.
+The intermediate `opportunityRole` object links leads to opportunities.
 
-Opportunity Role APIs are only exposed for subscriptions which do not have a native CRM sync enabled.
+Opportunity Role APIs are available only for subscriptions that do not have native CRM sync enabled.
 
 ## Describe
 
-Like opportunities, a describe call and CRUD operations are exposed for opportunity roles.
+As with opportunities, the API provides a Describe call and CRUD operations for opportunity roles.
 
 ```http
 GET /rest/v1/opportunities/roles/describe.json
@@ -99,7 +99,9 @@ GET /rest/v1/opportunities/roles/describe.json
 
 ## Query
 
-Notice that both `dedupeFields` and `searchableFields` are a little different from opportunities. `dedupeFields` actually provides a compound key, where all three of `externalOpportunityId`, `leadId`, and `role` are required. Both the opportunity and lead link by the id fields must exist in the destination instance, for record creation to succeed. For `searchableFields`, `marketoGUID`, `leadId`, and `externalOpportunityId` are all valid for queries on their own and use a pattern identical to Opportunities, but there is an additional option of using the compound key to query, which requires submitting a JSON object via POST, with the additional query parameter `_method=GET`.
+The `dedupeFields` and `searchableFields` values differ from opportunities. `dedupeFields` provides a compound key that requires `externalOpportunityId`, `leadId`, and `role`. For record creation to succeed, the opportunity and lead referenced by the ID fields must exist in the destination instance.
+
+The `searchableFields` values `marketoGUID`, `leadId`, and `externalOpportunityId` are valid for individual queries that use the same pattern as Opportunities. You can also query by the compound key. This query requires a JSON object submitted through POST with the `_method=GET` query parameter.
 
 ```http
 POST /rest/v1/opportunities/roles.json?_method=GET
@@ -135,11 +137,11 @@ POST /rest/v1/opportunities/roles.json?_method=GET
 
 ```
 
-This produces the same type of response as a standard GET query, it simply has a different interface for making the request.
+This request produces the same response type as a standard GET query but uses a different request interface.
 
 ## Create and Update
 
-Opportunity roles have the same interface for creating and updating records as opportunities.
+Create and update opportunity roles by using the same interface as opportunities.
 
 ```http
 POST /rest/v1/opportunities/roles.json
@@ -187,7 +189,9 @@ POST /rest/v1/opportunities/roles.json
 
 ## Delete
 
-You may delete opportunity roles by dedupe fields or id field. Specify using the deleteBy parameter with a value of either dedupeFields or idField. If not specified, the default is dedupeFields. The request body contains an input array of opportunity roles to delete. A maximum of 300 opportunity roles per call is permitted.
+Delete opportunity roles by dedupe fields or id field. Set the deleteBy parameter to either dedupeFields or idField. The default is dedupeFields.
+
+The request body contains an input array of opportunity roles to delete. Each call permits a maximum of 300 opportunity roles.
 
 ```http
 POST /rest/v1/opportunities/roles/delete.json
@@ -222,6 +226,6 @@ POST /rest/v1/opportunities/roles/delete.json
 
 ## Timeouts
 
-- Opportunity Role endpoints have a timeout of 30s unless noted below
-  - Sync Opportunity Roles: 60s
-  - Delete Opportunity Roles: 60s
+- Opportunity Role endpoints have a timeout of 30s unless otherwise noted.
+- Sync Opportunity Roles has a timeout of 60s.
+- Delete Opportunity Roles has a timeout of 60s.

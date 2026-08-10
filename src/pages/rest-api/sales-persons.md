@@ -7,19 +7,21 @@ description: "Marketo REST API guide to Sales Person records with SFDC or Dynami
 
 [Sales Person Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Sales-Persons)
 
-Sales Person APIs are read-only access for subscriptions which have [SFDC Sync](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/crm-sync/salesforce-sync/sfdc-sync-details/sfdc-sync-field-sync) or [Microsoft Dynamics Sync](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/crm-sync/microsoft-dynamics/microsoft-dynamics-sync-details/microsoft-dynamics-sync-user-sync) are enabled. Sales Persons are a type of person record that are the sales owners of lead records. They are related to Lead records by the externalSalesPersonId field on each Lead record. When a Lead is related to a Sales Person by a populated externalSalesPersonId field, the corresponding Lead Owner lookup fields are populated for that lead record in Marketo, allowing usage of the corresponding filters and tokens.
+Sales Person APIs provide read-only access for subscriptions that have [SFDC Sync](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/crm-sync/salesforce-sync/sfdc-sync-details/sfdc-sync-field-sync) or [Microsoft Dynamics Sync](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/crm-sync/microsoft-dynamics/microsoft-dynamics-sync-details/microsoft-dynamics-sync-user-sync) enabled.
 
-Sales Persons are related to Lead records by using the [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/syncLeadUsingPOST) endpoint and passing the externalSalesPersonId attribute.
+Sales Persons are person records that represent the sales owners of lead records. The externalSalesPersonId field on each Lead record relates a Lead to a Sales Person. When this field is populated, Marketo populates the corresponding Lead Owner lookup fields on the lead record. You can then use the associated filters and tokens.
 
-Sales Persons are related to Opportunity records by using the [Sync Opportunities](https://developer.adobe.com/marketo-apis/api/mapi#tag/Opportunities/operation/syncOpportunitiesUsingPOST) endpoint and passing the externalSalesPersonId attribute.
+Relate Sales Persons to other records by passing the externalSalesPersonId attribute to the corresponding endpoint:
 
-Sales Persons are related to Company records by using the [Sync Companies](https://developer.adobe.com/marketo-apis/api/mapi#tag/Companies/operation/syncCompaniesUsingPOST) endpoint and passing the externalSalesPersonId attribute.
+- Lead records: [Sync Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncLeadUsingPOST).
+- Opportunity records: [Sync Opportunities](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncOpportunitiesUsingPOST).
+- Company records: [Sync Companies](https://developer.adobe.com/marketo-apis/api/mapi#operation/syncCompaniesUsingPOST).
 
 Sales Person records are only editable via the API.
 
 ## Describe
 
-Describing Sales Person records follows the standard pattern for lead database objects.
+Describe Sales Person records by using the standard pattern for Lead Database objects.
 
 ```http
 GET /rest/v1/salespersons/describe.json
@@ -88,11 +90,13 @@ GET /rest/v1/salespersons/describe.json
 }
 ```
 
-By default, the `idField` of Sales Persons is "id" and the `dedupeFields` is just "externalSalesPersonId."
+By default, the Sales Person `idField` is "id" and `dedupeFields` is "externalSalesPersonId."
 
 ## Query
 
-Sales Persons using the standard query pattern for simple keys. This example shows the user's email being used as the externalSalesPersonId. By default the query returns all fields that are populated for the returned records.
+Query Sales Persons by using the standard query pattern for simple keys. The following example uses the user's email as the externalSalesPersonId.
+
+By default, the query returns all populated fields for the matching records.
 
 ```http
 GET /rest/v1/salespersons.json?filterType=dedupeFields&filterValues=david@test.com,sam@test.com
@@ -123,7 +127,7 @@ GET /rest/v1/salespersons.json?filterType=dedupeFields&filterValues=david@test.c
 
 ## Create and Update
 
-The pattern for updates is standard.
+Create or update Sales Persons by using the standard update pattern.
 
 ```http
 POST /rest/v1/salespersons.json
@@ -171,12 +175,12 @@ POST /rest/v1/salespersons.json
 
 ## Delete
 
-The pattern for deletes is standard.
+Delete Sales Persons by using the standard delete pattern.
 
-Deletion of Sales Persons is not allowed when "in use". In this case the Sales Person is skipped. Examples:
+You cannot delete a Sales Person that is "in use." The request skips the Sales Person in the following cases:
 
-- When Sales Person is associated with active Leads
-- When Sales Person is associated with a Company that has been deleted
+- The Sales Person is associated with active Leads.
+- The Sales Person is associated with a Company that has been deleted.
 
 ```http
 POST /rest/v1/salespersons/delete.json
@@ -231,6 +235,6 @@ POST /rest/v1/salespersons/delete.json
 
 ## Timeouts
 
-- Sales Person Endpoints have a timeout of 30s unless noted below
-  - Sync Sales Persons: 60s
-  - Delete Sales Persons: 60s
+- Sales Person endpoints have a timeout of 30s unless otherwise noted.
+- Sync Sales Persons has a timeout of 60s.
+- Delete Sales Persons has a timeout of 60s.

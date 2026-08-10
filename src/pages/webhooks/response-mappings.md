@@ -1,31 +1,38 @@
 ---
 title: Response Mappings
-description: "Marketo Webhooks response mappings for JSON and XML, map attributes to lead fields with SOAP API names, dot and array notation, and type compatibility."
+description: "Marketo Webhooks response mappings for JSON and XML, map attributes to lead fields , dot and array notation, and type compatibility."
 ---
 
 # Response Mappings
 
-Marketo can translate data received by a Webhook from two content types and return these values back to a lead field: JSON and XML. The Marketo Field parameter will always use the [SOAP API name](../rest-api/fields.md) of the field. Each Webhook may have an unlimited number of response mappings, which are added and edited by clicking the **Edit** button in the Response Mappings pane of your Webhook:
+Marketo can translate webhook data from JSON or XML and write the values to lead fields. The Marketo Field parameter always uses the field's SOAP API name.
+
+Each webhook can have an unlimited number of response mappings. To add or edit mappings, select **Edit** in the webhook's Response Mappings pane:
 
 ![Response-Mapping](assets/response-mapping.png)
 
-Response Mappings are created via a pairing of a "Response Attribute", the path to the desired property in the XML or JSON document, and the "Marketo Field", which specifies the Lead field which has the value written to it from the Response Attribute.
+A response mapping pairs these values:
 
-Keys for properties must consist of alphanumeric characters, dash (-), underscore(_), colon (:), and whitespace to be accessed via Marketo response mappings.
+- "Response Attribute": The path to the desired property in the XML or JSON document.
+- "Marketo Field": The lead field to which Marketo writes the Response Attribute value.
+
+To access a property through Marketo response mappings, its key must contain only alphanumeric characters, dash (-), underscore(_), colon (:), and whitespace.
 
 ## JSON Mappings
 
-JSON properties are accessed with dot-notation, and array notation. Array notation in Marketo will not accept strings as input, and will only accept integers. To retrieve data from a JSON document, the response type must be set to JSON:
+Access JSON properties with dot notation and array notation. Marketo array notation accepts only integers, not strings.
+
+To retrieve data from a JSON document, set the response type to JSON:
 
 ```json
 { "foo":"bar"}
 ```
 
-To access the `foo` property in a response mapping, use the `name` of the property since it is in the first level of the JSON object, `foo`. The following shows what that looks like in Marketo:
+The `foo` property is at the first level of the JSON object. Use its property `name`, `foo`, in the response mapping:
 
 ![Response Mapping](assets/json-resp.png)
 
-The following is a more complicated example with an array:
+The following example contains an array:
 
 ```json
 {
@@ -47,11 +54,11 @@ The following is a more complicated example with an array:
 }
 ```
 
-We want to access the orderDate from the first element of the orders array. To access this property, use the following: `orders[0].orderDate`
+To access orderDate from the first element of the orders array, use `orders[0].orderDate`.
 
 ## XML Mappings
 
-Values can be accessed from individual elements in XML documents. This uses dot notation similar to the JSON mappings. Consider this simple example:
+Access values from individual XML elements by using dot notation, similar to JSON mappings. Consider this example:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -60,9 +67,11 @@ Values can be accessed from individual elements in XML documents. This uses dot 
 </example>
 ```
 
-To access the foo property here, use the following: `example.foo`
+To access the foo property, use `example.foo`.
 
-The example element must first be referenced before accessing `foo`. To access a property, all elements in the hierarchy must be referenced in the mapping. XML documents with arrays are a bit more complicated. Use the following example:
+Reference the example element before accessing `foo`. A mapping must reference every element in the property hierarchy.
+
+For an XML document with an array, consider this example:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -79,8 +88,12 @@ The example element must first be referenced before accessing `foo`. To access a
 </elementList>
 ```
 
-The document consists of the parent array `elementList`, with children, element that contains one property: `foo`. For the purposes of Marketo response mappings, the array is referenced as `elementList.element`, so the children of the elementList are accessed via `elementList.element[i]`. To get the value of foo from the first child of elementList, we use this response attribute: `elementList.element[0].foo` This returns the value "baz" to our designated field. Trying to access properties inside elements which contain both unique and non-unique element names result in undefined behavior. Each element must be a single property or an array, the types cannot be intermixed.
+The parent array is `elementList`. Each child element contains the `foo` property. Marketo response mappings reference the array as `elementList.element` and access its children through `elementList.element[i]`.
+
+To get the value of foo from the first child of elementList, use the response attribute `elementList.element[0].foo`. This mapping returns the value "baz" to the designated field.
+
+Accessing properties inside elements that contain both unique and non-unique element names produces undefined behavior. Each element must be either a single property or an array. Do not mix the types.
 
 ## Types
 
-When mapping attributes to fields, you must ensure that the type in your webhook response is compatible with the target field. For example, if the value in the response is a string, and the selected field is of the type integer, then the value is not written. Read about [Field Types](../rest-api/field-types.md).
+When mapping attributes to fields, ensure that the webhook response type is compatible with the target field. For example, Marketo does not write a string response value to a field of type integer. For more information, see [Field Types](../rest-api/field-types.md).

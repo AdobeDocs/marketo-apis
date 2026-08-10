@@ -5,9 +5,9 @@ description: "Implement the RTP Redirect API to send segmented visitors to targe
 
 # Redirect
 
-The RTP Redirect API allows you to redirect segmented audiences to a target URL.
+Use the RTP Redirect API to send segmented audiences to a target URL.
 
-- You must become a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site prior to using the User Context API.
+- You must be a Web Personalization customer and have the [RTP tag deployed](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/web-personalization/rtp-tag-implementation/deploy-the-rtp-javascript) on your site before using the User Context API.
 - RTP does not support Account Based Marketing named account lists. ABM lists and code only pertain to the uploaded account lists (CSV files) managed within RTP.
 
 ## Usage
@@ -23,7 +23,7 @@ The RTP Redirect API allows you to redirect segmented audiences to a target URL.
 | redirect_url | Required | String | Target url to redirect visitors that matched the condition. |
 | redirect_matched_visitors | Optional | Boolean | If true, condition matched visitors will be redirected. If false, condition unmatched visitors will be redirected. Default: true. |
 
-Organization, Industry, ABM Lists, Location, ISP, Matched Segments
+Redirect conditions can use organization, industry, ABM lists, location, ISP, or matched segments.
 
 | Condition | Data Hierarchy | Example |
 | --- | --- | --- |
@@ -40,10 +40,10 @@ Organization, Industry, ABM Lists, Location, ISP, Matched Segments
 
 ## Notes
 
-- If the redirect rule/condition is based on Firmographics (company, industry, location) you can insert the redirect code before the rtp('send', 'view') and the rtp('get','campaign') to reduce latency.
-- Redirect via JavaScript is a browser side redirect and depends on the website's loading and optimization to reach maximum speed.
-- The best practice is to set the redirect code right after the rtp tag and place it at the header.
-- Make sure you are not running a self redirect (there is a safety net in rtp to block cyclic redirect calls).
+- To reduce latency for a redirect based on Firmographics, such as company, industry, or location, insert the redirect code before rtp('send', 'view') and rtp('get','campaign').
+- Place the redirect code immediately after the rtp tag in the page header.
+- Optimize website loading to improve the speed of the browser-side JavaScript redirect.
+- Avoid self-redirects. rtp includes a safeguard that blocks cyclic redirect calls.
 
 ```html
 <!DOCTYPE html>
@@ -79,15 +79,15 @@ rtp('get','campaign');
 
 ## How to Redirect Tracked Visitors
 
-1. Append a parameter to the end of the target URL: that is \<www.marketo.com?rtp=redirect>
-1. Create a segment called - "Redirected by RTP"
-1. Use the 'Specific Pages' parameter to target visitors viewing any page with the parameter shown below.
+1. Append the parameter to the target URL, for example, www.marketo.com?rtp=redirect.
+1. Create a segment with the name "Redirected by RTP".
+1. Use the 'Specific Pages' parameter to target visitors who view a page that contains the parameter.
 
 ![tracking-redirected-vistors](assets/tracking-redirected-vistors.png)
 
 ## How to Define More Than One Condition with Different Target URLs
 
-The redirect call supports multiple calls. This makes it possible to redirect with multiple fields and create complex conditions with different urls and values.
+The redirect call supports multiple calls. Use multiple calls to combine fields and create conditions with different URLs and values.
 
 ### Usage
 
@@ -98,7 +98,7 @@ The redirect call supports multiple calls. This makes it possible to redirect wi
 | 'send' | Required | String | Method action. |
 | 'redirect' | Required | String | Method name. |
 | field_name | Required | String | Field name to match against. Example: 'abm.name' (see above). |
-| url_values_map | Required | Object | Map between redirect url and list of values. Example: `{'https://www.example.com' : ['first_abm', 'second_abm']}` |
+| url_values_map | Required | Object | Map between redirect url and list of values. Example:\{'[https://www.example.com](https://www.example.com)' : ['first_abm', 'second_abm']} |
 
 #### Example
 

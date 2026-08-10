@@ -5,14 +5,14 @@ description: "Learn to create and update user profiles in Marketo Mobile SDK on 
 
 # User Profiles
 
-How to Create User Profiles
+Create or update user profiles with the Marketo Mobile SDK for iOS or Android:
 
 1. [Creating User Profiles on iOS](#ios_user_profiles)
 1. [Creating User Profiles on Android](#android_user_profiles)
 
-## Creating User Profiles on iOS {#ios_user_profiles}
+## Creating User Profiles on iOS \{#ios_user_profiles}
 
-You can create rich profiles by sending the user fields as shown below.
+Create a profile and populate its user fields.
 
 ```objectivec
 MarketoLead *profile = [[MarketoLead alloc] init];
@@ -58,7 +58,7 @@ profile.setLinkedInId("linkedinid")
 profile.setTwitterId("twitterid")
 ```
 
-Add more [standard fields](../rest-api/list-of-standard-fields.md).
+Add other [standard fields](../rest-api/list-of-standard-fields.md).
 
 <Tab orientation="horizontal" slots="heading, content" repeat="2" />
 
@@ -80,7 +80,7 @@ profile.setFieldName("numberOfEmployees", withValue: "10");
 profile.setFieldName("phone", withValue:"123.456.7890");
 ```
 
-Report User Profile.
+Report the user profile to create or update it.
 
 <Tab orientation="horizontal" slots="heading, content" repeat="2" />
 
@@ -102,11 +102,11 @@ let marketo = Marketo.sharedInstance()
 marketo.associateLead(profile)
 ```
 
-## Creating User Profiles on Android {#android_user_profiles}
+## Creating User Profiles on Android \{#android_user_profiles}
 
-1. Create User Profile.
+1. Create a user profile.
 
-    You can create rich profiles by sending user fields as shown below.
+    Create a profile and populate its user fields.
 
     ```java
     MarketoLead profile = new MarketoLead();
@@ -124,7 +124,7 @@ marketo.associateLead(profile)
     }
     ```
 
-1. Add more [standard fields](../rest-api/list-of-standard-fields.md).
+1. Add other [standard fields](../rest-api/list-of-standard-fields.md).
 
     ```java
     // Add other custom fields
@@ -141,7 +141,7 @@ marketo.associateLead(profile)
     profile.setCustomField("linkedInDisplayName", "Android");
     ```
 
-1. Report User Profile.
+1. Report the user profile to create or update it.
 
     ```java
     MarketoLead profile = new MarketoLead();

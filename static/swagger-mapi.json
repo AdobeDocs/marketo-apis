@@ -2245,7 +2245,7 @@
           "Campaigns"
         ],
         "summary": "Get Campaigns",
-        "description": "Returns a list of campaign records. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/asset/#operation/getAllSmartCampaignsGET\">Get Smart Campaigns</a> endpoint instead.",
+        "description": "Returns a list of campaign records. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superseded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/asset/#operation/getAllSmartCampaignsGET\">Get Smart Campaigns</a> endpoint instead.",
         "operationId": "getCampaignsUsingGET",
         "consumes": [
           "application/json"
@@ -2338,7 +2338,7 @@
           "Campaigns"
         ],
         "summary": "Get Campaign By Id",
-        "description": "Returns the record of a campaign by its id. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/asset/#operation/getSmartCampaignByIdUsingGET\">Get Smart Campaign by Id</a> endpoint instead.",
+        "description": "Returns the record of a campaign by its id. Required Permissions: Read-Only Campaigns, Read-Write Campaigns<br><br><b>Note: This endpoint has been superseded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/asset/#operation/getSmartCampaignByIdUsingGET\">Get Smart Campaign by Id</a> endpoint instead.",
         "operationId": "getCampaignByIdUsingGET",
         "consumes": [
           "application/json"
@@ -3493,7 +3493,7 @@
           "Leads"
         ],
         "summary": "Describe Lead",
-        "description": "Returns metadata about lead objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/describeUsingGET_6\">Describe Lead2</a> endpoint instead.",
+        "description": "Returns metadata about lead objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superseded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/describeUsingGET_6\">Describe Lead2</a> endpoint instead.",
         "operationId": "describeUsingGET_2",
         "consumes": [
           "application/json"
@@ -4063,7 +4063,7 @@
           "Leads"
         ],
         "summary": "Describe Program Member",
-        "description": "Returns metadata about program member objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/describeProgramMemberUsingGET2\">Describe Program Member</a> endpoint instead.",
+        "description": "Returns metadata about program member objects in the target instance, including a list of all fields available for interaction via the APIs. Required Permissions: Read-Only Lead, Read-Write Lead<br><br><b>Note: This endpoint has been superseded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/describeProgramMemberUsingGET2\">Describe Program Member</a> endpoint instead.",
         "operationId": "describeProgramMemberUsingGET",
         "consumes": [
           "application/json"
@@ -4449,7 +4449,7 @@
           "Leads"
         ],
         "summary": "Change Lead Program Status",
-        "description": "Changes the program status of a list of leads in a target program. Only existing members of the program may have their status changed with this API. Required Permissions: Read-Write Lead<br><br><b>Note: This endpoint has been superceded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/syncProgramMemberStatusUsingPOST\">Sync Program Member Status</a> endpoint instead.",
+        "description": "Changes the program status of a list of leads in a target program. Only existing members of the program may have their status changed with this API. Required Permissions: Read-Write Lead<br><br><b>Note: This endpoint has been superseded.</b>  Use <a href=\"https://developer.adobe.com/marketo-apis/api/mapi/#operation/syncProgramMemberStatusUsingPOST\">Sync Program Member Status</a> endpoint instead.",
         "operationId": "changeLeadProgramStatusUsingPOST",
         "consumes": [
           "application/json"
@@ -4562,7 +4562,7 @@
           "Leads"
         ],
         "summary": "Associate Lead",
-        "description": "Associates a known Marketo lead record to a munchkin cookie and its associated web acitvity history. Required Permissions: Read-Write Lead",
+        "description": "Associates a known Marketo lead record to a munchkin cookie and its associated web activity history. Required Permissions: Read-Write Lead",
         "operationId": "associateLeadUsingPOST",
         "consumes": [
           "application/json"
@@ -6051,7 +6051,7 @@
           {
             "in": "query",
             "name": "filterValues",
-            "description": "Comma seperated list of search values.",
+            "description": "Comma separated list of search values.",
             "required": true,
             "type": "array",
             "items": {
@@ -11227,14 +11227,6 @@
     },
     "ExportLeadFilter": {
       "type": "object",
-      "required": [
-        "createdAt",
-        "smartListId",
-        "smartListName",
-        "staticListId",
-        "staticListName",
-        "updatedAt"
-      ],
       "properties": {
         "createdAt": {
           "description": "Date range to filter new leads on",
@@ -11266,13 +11258,6 @@
     },
     "ExportCustomObjectFilter": {
       "type": "object",
-      "required": [
-        "updatedAt",	  
-        "smartListId",
-        "smartListName",
-        "staticListId",
-        "staticListName"
-      ],
       "properties": {
         "updatedAt": {
           "description": "Date range to filter updated custom objects on",
@@ -11300,10 +11285,6 @@
     },	
     "ExportProgramMemberFilter": {
       "type": "object",
-      "required": [
-        "programId",
-        "programIds"		
-      ],
       "properties": {	  
         "programId": {
           "type": "integer",
@@ -11326,8 +11307,8 @@
           "type": "string",
           "description": "Filter program membership records for a given nurture cadence",
           "enum": [
-            "paus",
-            "norm"
+            "paused",
+            "normal"
           ]
         },
         "statusNames": {
@@ -11622,7 +11603,7 @@
           }
         },
         "filter": {
-          "description": "Record selection criteria. \"createAt\" is required, \"activityTypeIds\", \"primaryAttributeValueIds\", and \"primaryAttributeValues\" are optional",
+          "description": "Record selection criteria. \"createdAt\" is required, \"activityTypeIds\", \"primaryAttributeValueIds\", and \"primaryAttributeValues\" are optional",
           "$ref": "#/definitions/ExportActivityFilter"
         },
         "format": {
@@ -11645,7 +11626,7 @@
         "total": {
           "type": "integer",
           "format": "int32",
-          "description": "Total number of errors in the time period"
+          "description": "Total number of calls in the time period"
         },
         "users": {
           "type": "array",

@@ -7,35 +7,35 @@ description: "Marketo Bulk Activity Extract REST API to export high-volume activ
 
 [Bulk Activity Extract Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi)
 
-The Bulk Activity Extract set of REST APIs provides a programmatic interface for retrieving large amounts of activity data out of Marketo.  For cases that do not require low latency, and must transfer significant volumes of activity data out of Marketo, such as CRM-integration, ETL, data warehousing, and data archiving.
+The Bulk Activity Extract REST APIs retrieve large volumes of activity data from Marketo. Use these APIs for processes that do not require low latency, such as CRM integration, ETL, data warehousing, and data archiving.
 
 ## Permissions
 
-The Bulk Activity Extract APIs require that the API user have the "Read-Only Activity" or "Read-Write Activity" permissions.
+The API user must have the "Read-Only Activity" or "Read-Write Activity" permission.
 
 ## Filters
 
 | Filter Type | Data Type | Required | Notes |
 | --- | --- | --- | --- |
-| `createdAt` | Date Range | Yes | Accepts a JSON object with the members `startAt` and `endAt`. `startAt` accepts a datetime representing the low-watermark, and `endAt` accepts a datetime representing the high-watermark. The range must be 31 days or fewer. Jobs with this filter type return all accessible records that were created within the date range. Datetimes should be in an ISO-8601 format, without milliseconds. |
-| `activityTypeIds` | Array\[Integer\] | No | Accepts a JSON object with one member, `activityTypeIds`. The value must be an array of integers, corresponding to the desired activity types. The "Delete Lead" activity is not supported (use the [Get Deleted Leads](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getDeletedLeadsUsingGET) endpoint instead). Retrieve activity type ids using the [Get Activity Types endpoint](https://developer.adobe.com/marketo-apis/api/mapi#tag/Activities/operation/getAllActivityTypesUsingGET). |
-| [`primaryAttributeValueIds`](#primaryattributevalueids-options) | Array\[Integer\] | No | Accepts a JSON object with one member, `primaryAttributeValueIds`. The value is an array of ids that specify the primary attributes to filter on. A maximum of 50 ids may be specified. The ids are the unique identifier for either a lead field or an asset, and can be retrieved by calling the appropriate REST API endpoint. For example, to filter on a specific Form for the "Fill Out Form" activity, pass the Form name to the [Get Form by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Forms/operation/getLpFormByNameUsingGET) endpoint to retrieve the Form Id. The following is a list of activity types where primary attribute filtering is supported. |
-| [`primaryAttributeValues`](#primaryattributevalues-options) | Array\[String\] | No | Accepts a JSON object with one member, `primaryAttributeValues`. The value is an array of names that specify the primary attributes to filter on. A maximum of 50 names may be specified. The names are the unique identifier for either a lead field or an asset, and can be retrieved by calling the appropriate REST API endpoint. For example, to filter on a specific Form for the "Fill Out Form" activity, pass the Form Id to [Get Form by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Sales-Persons/operation/describeUsingGET_5) endpoint to retrieve the Form name. The following is a list of activity types where primary attribute filtering is supported. |
+| `createdAt` | Date Range | Yes | A JSON object that contains `startAt` and `endAt`. `startAt` is the low-watermark datetime, and `endAt` is the high-watermark datetime. The range must be 31 days or fewer. The job returns all accessible records created within the date range. Use ISO-8601 datetime values without milliseconds. |
+| `activityTypeIds` | Array\[Integer\] | No | An array of integers for the requested activity types. The "Delete Lead" activity is not supported. Instead, use the [Get Deleted Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/getDeletedLeadsUsingGET) endpoint. Retrieve activity type ids with the [Get Activity Types endpoint](https://developer.adobe.com/marketo-apis/api/mapi#operation/getAllActivityTypesUsingGET). |
+| [`primaryAttributeValueIds`](#primaryattributevalueids-options) | Array\[Integer\] | No | An array that accepts a maximum of 50 ids for primary attributes. Each id uniquely identifies a lead field or asset. Retrieve ids by calling the appropriate REST API endpoint. For example, to filter on a specific Form for the "Fill Out Form" activity, pass the Form name to the [Get Form by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getLpFormByNameUsingGET) endpoint to retrieve the Form Id. See [primaryAttributeValueIds options](#primaryattributevalueids-options) for supported activity types. |
+| [`primaryAttributeValues`](#primaryattributevalues-options) | Array\[String\] | No | An array that accepts a maximum of 50 names for primary attributes. Each name uniquely identifies a lead field or asset. Retrieve names by calling the appropriate REST API endpoint. For example, to filter on a specific Form for the "Fill Out Form" activity, pass the Form Id to [Get Form by Id](https://developer.adobe.com/marketo-apis/api/asset#operation/getLpFormByIdUsingGET) endpoint to retrieve the Form name. See [primaryAttributeValues options](#primaryattributevalues-options) for supported activity types. |
 
-### primaryAttributeValueIds options {#primaryattributevalueids-options}
+### primaryAttributeValueIds options \{#primaryattributevalueids-options}
 
 | Activity Type | Primary Attribute Value Id | Retrieval Endpoint | Asset Group |
 | --- | --- | --- | --- |
-| Change Data Value | Lead field id | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/describeUsingGET_2) | Attribute Name |
-| Change Score | Lead field id | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/describeUsingGET_2) | Attribute Name |
-| Change Status in Progression | Program id | [Get Program by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/getProgramByNameUsingGET) | Marketing Program |
-| Add to List | Static list id | [Get Static List by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByNameUsingGET) | Static List |
-| Remove from List | Static list id | [Get Static List by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByNameUsingGET) | Static List |
-| Fill Out Form | Form id | [Get Form by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Forms/operation/getLpFormByNameUsingGET) | Web Form |
+| Change Data Value | Lead field id | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeUsingGET_2) | Attribute Name |
+| Change Score | Lead field id | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeUsingGET_2) | Attribute Name |
+| Change Status in Progression | Program id | [Get Program by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getProgramByNameUsingGET) | Marketing Program |
+| Add to List | Static list id | [Get Static List by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByNameUsingGET) | Static List |
+| Remove from List | Static list id | [Get Static List by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByNameUsingGET) | Static List |
+| Fill Out Form | Form id | [Get Form by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/getLpFormByNameUsingGET) | Web Form |
 
-When using `primaryAttributeValueIds`, the `activityTypeIds` filter must be present and only contain activity ids that match the corresponding asset group. For example, if you are filtering on Web Form assets, only the "Fill Out Form" activity type id is allowed in `activityTypeIds`.
+When you use `primaryAttributeValueIds`, you must also include the `activityTypeIds` filter. This filter can contain only activity ids that match the corresponding asset group. For example, when filtering Web Form assets, `activityTypeIds` can contain only the "Fill Out Form" activity type id.
 
-Example Request Body:
+The following request includes the `primaryAttributeValueIds` filter:
 
 ```json
 {
@@ -56,20 +56,20 @@ Example Request Body:
 
 `primaryAttributeValueIds` and `primaryAttributeValues` cannot be used together.
 
-### primaryAttributeValues options {#primaryattributevalues-options}
+### primaryAttributeValues options \{#primaryattributevalues-options}
 
 | Activity Type | Primary Attribute Value | Retrieval Endpoint | Asset Group |
 | --- | --- | --- | --- |
-| Change Data Value | Lead field displayName | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/describeUsingGET_2) | Attribute Name |
-| Change Score | Lead field displayName | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/describeUsingGET_2) | Attribute Name |
-| Change Status in Progression | Program name | [Get Program by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Programs/operation/getProgramByIdUsingGET) | Marketing Program |
-| Add to List | Static list name | [Get Static List by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByIdUsingGET) | Static List |
-| Remove from List | Static list name | [Get Static List by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Static-Lists/operation/getStaticListByIdUsingGET) | Static List |
-| Fill Out Form | Form name | [Get Form by Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Sales-Persons/operation/describeUsingGET_5) | Web Form |
+| Change Data Value | Lead field displayName | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeUsingGET_2) | Attribute Name |
+| Change Score | Lead field displayName | [Describe Lead](https://developer.adobe.com/marketo-apis/api/mapi#operation/describeUsingGET_2) | Attribute Name |
+| Change Status in Progression | Program name | [Get Program by Id](https://developer.adobe.com/marketo-apis/api/asset#operation/getProgramByIdUsingGET) | Marketing Program |
+| Add to List | Static list name | [Get Static List by Id](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByIdUsingGET) | Static List |
+| Remove from List | Static list name | [Get Static List by Id](https://developer.adobe.com/marketo-apis/api/asset#operation/getStaticListByIdUsingGET) | Static List |
+| Fill Out Form | Form name | [Get Form by Id](https://developer.adobe.com/marketo-apis/api/asset#operation/getLpFormByIdUsingGET) | Web Form |
 
-Note that you must use `&lt;program&gt;.&lt;asset&gt;` notation to specify the name for the following asset groups: Marketing Program, Static List, Web Form. For example, a form with the name "MPS Outbound" that resides underneath a program with the name "GL_OP_ALL_2021" would be specified as "GL_OP_ALL_2021.MPS Outbound".
+Use `&lt;program&gt;.&lt;asset&gt;` notation to specify names for the Marketing Program, Static List, and Web Form asset groups. For example, specify the "MPS Outbound" form in the "GL_OP_ALL_2021" program as "GL_OP_ALL_2021.MPS Outbound".
 
-Example Request Body:
+The following request includes the `primaryAttributeValues` filter:
 
 ```json
 {
@@ -88,20 +88,26 @@ Example Request Body:
 }
 ```
 
-When using `primaryAttributeValues`, the `activityTypeIds` filter must be present and only contain activity ids that match the corresponding asset group. For example, if you are filtering on Web Form assets, then only the "Fill Out Form" activity type id is allowed in `activityTypeIds`. `primaryAttributeValues` and `primaryAttributeValueIds` cannot be used together.
+When you use `primaryAttributeValues`, you must also include the `activityTypeIds` filter. This filter can contain only activity ids that match the corresponding asset group. For example, when filtering Web Form assets, `activityTypeIds` can contain only the "Fill Out Form" activity type id.
+
+`primaryAttributeValues` and `primaryAttributeValueIds` cannot be used together.
 
 ## Options
 
 | Parameter | Data Type | Required | Notes |
 | --- | --- | --- | --- |
-| `filter` | Array\[Object\] | Yes | Accepts an array of filters. Exactly one `createdAt` filter must be included in the array. An optional `activityTypeIds` filter may be included. The filters are applied to the accessible activity set, and the resulting set of activities is returned by the export job. |
-| `format` | String | No | Accepts one of: CSV, TSV, SSV. The exported file is rendered as a comma-separated values, tab-separated values, or space-separated values file, respectively if set. Defaults to CSV if unset. |
-| `columnHeaderNames` | Object | No | A JSON object containing key-value pairs of field and column header names. The key must be the name of a field included in the export job. The value is the name of the exported column header for that field. |
-| `fields` | Array\[String\] | No | Optional array of strings containing field values. The listed fields are included in the exported file. By default, the following fields are returned: `marketoGUID`, `leadId`, `activityDate`, `activityTypeId`, `campaignId`, `primaryAttributeValueId`, `primaryAttributeValue`, and `attributes`. This parameter can be used to reduce the number of fields that are returned by specifying a subset from the list above: `"fields": ["leadId", "activityDate", "activityTypeId"]`. An additional field `actionResult` can be specified to include the activity action: `("succeeded", "skipped", or "failed")`. |
+| `filter` | Object | Yes | An object containing filters that apply to the accessible activity set. Include exactly one `createdAt` filter. You can also include an `activityTypeIds` filter. The export job returns the resulting set of activities. |
+| `format` | String | No | The export file format: CSV, TSV, or SSV. These values produce comma-separated, tab-separated, or space-separated values, respectively. The default is CSV. |
+| `columnHeaderNames` | Object | No | A JSON object of field and column-header key-value pairs. Each key must name a field included in the export job. Its value sets the exported column header for that field. |
+| `fields` | Array\[String\] | No | An array of fields to include in the export file. By default, the response includes `marketoGUID`, `leadId`, `activityDate`, `activityTypeId`, `campaignId`, `primaryAttributeValueId`, `primaryAttributeValue`, and `attributes`. To return a subset, specify fields from this list, such as `"fields": ["leadId", "activityDate", "activityTypeId"]`. You can also specify `actionResult` to include the activity action: `("succeeded", "skipped", or "failed")`. |
 
 ## Creating a Job
 
-To export records, you first must define the job and the set of records that you want to retrieve.  Create the job using the [Create Export Activity Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Activities/operation/createExportActivitiesUsingPOST) endpoint.  When exporting activities there are two primary filters that can be applied: `createdAt`, which is always required, and `activityTypeIds`, which is optional.  The `createdAt` filter is used to define a date range in which activities were created, using the `startAt` and `endAt` parameters, both of which are datetime fields, and represent the earliest permitted creation date, and the latest permitted creation date respectively.  You may also optionally filter on only certain types of activities, using the `activityTypeIds` filter.  This is useful for removing results that are not relevant for your use case.
+Create an export job to define the records to retrieve. Use the [Create Export Activity Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/createExportActivitiesUsingPOST) endpoint.
+
+Every job requires a `createdAt` filter. Its `startAt` and `endAt` datetime parameters define the earliest and latest permitted activity creation dates. To exclude activity types that are not relevant, also include the optional `activityTypeIds` filter.
+
+The following request creates a CSV export job for selected activity types within a date range:
 
 ```http
 POST /bulk/v1/activities/export/create.json
@@ -140,7 +146,9 @@ POST /bulk/v1/activities/export/create.json
 }
 ```
 
-The job now has a status of "Created," but it is not yet in the processing queue.  To put it in the queue so it can begin processing, call the [Enqueue Export Activity Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Activities/operation/enqueueExportActivitiesUsingPOST) endpoint using the exportId from the creation status response.
+The response returns an `exportId` and a status of "Created." A created job is not yet in the processing queue.
+
+To add the job to the queue, call the [Enqueue Export Activity Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/enqueueExportActivitiesUsingPOST) endpoint with the `exportId` from the creation response.
 
 ```http
 POST /bulk/v1/activities/export/{exportId}/enqueue.json
@@ -162,13 +170,13 @@ POST /bulk/v1/activities/export/{exportId}/enqueue.json
 }
 ```
 
-Now, the status is reporting that the job has been queued.  When a worker becomes available for this job, then the status is switched to "Processing" and the job begins aggregating records from Marketo.
+The response status is now "Queued." When a worker becomes available, the status changes to "Processing," and the job begins aggregating records from Marketo.
 
 ## Polling Job Status
 
 Job status can only be retrieved for jobs created by the same API user.
 
-Marketo's Bulk Activity Extract is an asynchronous endpoint, so the job status must be polled to determine when the job is complete.  Poll using the [Get Export Activity Job Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Activities/operation/getExportActivitiesStatusUsingGET) endpoint as follows:
+Bulk Activity Extract processes jobs asynchronously. Poll the [Get Export Activity Job Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getExportActivitiesStatusUsingGET) endpoint to determine when a job is complete:
 
 ```http
 GET /bulk/v1/activities/export/{exportId}/status.json
@@ -195,26 +203,26 @@ GET /bulk/v1/activities/export/{exportId}/status.json
 }
 ```
 
-The status field may respond with one of the following values:
+The `status` field returns one of the following values:
 
-- Created
-- Queued
-- Processing
-- Canceled
-- Completed
-- Failed
+- `Created`
+- `Queued`
+- `Processing`
+- `Canceled`
+- `Completed`
+- `Failed`
 
 ## Retrieving Your Data
 
-Once the job is complete, retrieve your data using the [Get Export Activity File](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Activities/operation/getExportActivitiesFileUsingGET) endpoint.
+When the job status is "Completed," retrieve the exported data with the [Get Export Activity File](https://developer.adobe.com/marketo-apis/api/mapi#operation/getExportActivitiesFileUsingGET) endpoint:
 
 ```http
 GET /bulk/v1/activities/export/{exportId}/file.json
 ```
 
-The response contains a file formatted in the way that the job was configured. The endpoint responds with the contents of the file.
+The response body contains the file in the format configured for the job.
 
-If a requested lead field is empty (contains no data), `then null` is placed in the corresponding field in the export file.  In the example below, the `campaignId` field for the returned activity is empty.
+If a requested activity field contains no data, `null` appears in the corresponding export-file field. The following example shows exported activity data:
 
 ```json
 marketoGUID,leadId,activityDate,activityTypeId,campaignId,primaryAttributeValueId,primaryAttributeValue,attributes
@@ -224,11 +232,11 @@ marketoGUID,leadId,activityDate,activityTypeId,campaignId,primaryAttributeValueI
 783961924,5316669,2022-02-13T14:27:21Z,104,11614,2333,Nurture Automation,"{""Program Member ID"":3240306,""Acquired By"":false,""Old Status"":""Not in Program"",""New Status ID"":27,""Success"":false,""New Status"":""Member"",""Old Status ID"":26}"
 ```
 
-To support partial and resumption-friendly retrieval of extracted data, the file endpoint optionally supports the HTTP header `Range` of the type `bytes`.  If the header is not set, the whole of the contents is returned.  You can read more about using the Range header with Marketo [Bulk Extract](bulk-extract.md).
+For partial or resumable retrieval, the file endpoint supports the optional HTTP `Range` header with a `bytes` range. If you omit this header, the endpoint returns the entire file. For more information about using the `Range` header, see [Bulk Extract](bulk-extract.md).
 
 ## Canceling a Job
 
-If a job was configured incorrectly, or becomes unnecessary, it can be easily canceled using the [Cancel Export Activity Job](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Export-Activities/operation/cancelExportActivitiesUsingPOST) endpoint:
+To stop an incorrectly configured or unnecessary job, call the [Cancel Export Activity Job](https://developer.adobe.com/marketo-apis/api/mapi#operation/cancelExportActivitiesUsingPOST) endpoint:
 
 ```http
 POST /bulk/v1/activities/export/{exportId}/cancel.json
@@ -249,4 +257,4 @@ POST /bulk/v1/activities/export/{exportId}/cancel.json
 }
 ```
 
-This response has a status indicating that the job has been canceled.
+The response status indicates that the job is canceled.

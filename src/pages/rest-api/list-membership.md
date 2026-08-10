@@ -7,7 +7,12 @@ description: "Use Marketo Lead Database REST APIs to add leads to static lists, 
 
 [List Membership Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Static-Lists)
 
-The List Membership APIs provide Lead Database endpoints for working with static list members. These endpoints can be used to add leads to a list, remove leads from a list, retrieve members of a list, and determine whether one or more leads are members of a list.
+The List Membership APIs provide Lead Database endpoints for managing static list members. Use these endpoints to:
+
+- Add leads to a list.
+- Remove leads from a list.
+- Retrieve members of a list.
+- Determine whether leads are members of a list.
 
 ## Endpoints
 
@@ -20,9 +25,9 @@ The List Membership APIs provide Lead Database endpoints for working with static
 
 ## Add to List
 
-The [Add to List](https://developer.adobe.com/marketo-apis/api/mapi#tag/Static-Lists/operation/addLeadsToListUsingPOST) endpoint is used to add one or more members to a list. The endpoint takes a required `listId` path parameter, and one or more `id` query parameters which contain lead ids (maximum allowed is 300).
+Use the [Add to List](https://developer.adobe.com/marketo-apis/api/mapi#operation/addLeadsToListUsingPOST) endpoint to add one or more members to a list. Pass the required `listId` path parameter and one or more `id` query parameters that contain lead IDs. The maximum number of lead IDs is 300.
 
-The response contains a `result` array comprised of JSON objects with the status for each lead id that was specified in the request.
+The response contains a `result` array with the status of each lead ID in the request.
 
 ```http
 POST /rest/v1/lists/{listId}/leads.json?id=318594&id=318595
@@ -53,9 +58,9 @@ POST /rest/v1/lists/{listId}/leads.json?id=318594&id=318595
 
 ## Remove from List
 
-The [Remove from List](https://developer.adobe.com/marketo-apis/api/mapi#tag/Static-Lists/operation/removeLeadsFromListUsingDELETE) endpoint is used to remove one or more members from a list. The endpoint takes a required `listId` path parameter, and one or more `id` query parameters which contain lead ids (maximum allowed is 300).
+Use the [Remove from List](https://developer.adobe.com/marketo-apis/api/mapi#operation/removeLeadsFromListUsingDELETE) endpoint to remove one or more members from a list. Pass the required `listId` path parameter and one or more `id` query parameters that contain lead IDs. The maximum number of lead IDs is 300.
 
-The response contains a `result` array comprised of JSON objects with the status for each lead id that was specified in the request.
+The response contains a `result` array with the status of each lead ID in the request.
 
 ```http
 DELETE /rest/v1/lists/{listId}/leads.json?id=318603&id=318595&id=999999
@@ -90,15 +95,15 @@ DELETE /rest/v1/lists/{listId}/leads.json?id=318603&id=318595&id=999999
 
 ## Get Leads by List ID
 
-The [Get Leads by List Id](https://developer.adobe.com/marketo-apis/api/mapi#tag/Static-Lists/operation/getLeadsByListIdUsingGET) endpoint is used to retrieve members of a list. The endpoint takes a required `listId` path parameter, and allows several optional query parameters to specify filtering criteria.
+Use the [Get Leads by List Id](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadsByListIdUsingGET) endpoint to retrieve members of a list. Pass the required `listId` path parameter. You can also pass optional query parameters to specify filtering criteria.
 
-The `batchSize` parameter is used to specify the number of lead records to be returned in a single call. The default and maximum is 300.
+The optional query parameters are:
 
-The `nextPageToken` parameter is used to paginate through large result sets. This parameter is not passed in the first call, but only in subsequent calls for pagination.
+- `batchSize`: Specifies the number of lead records to return in one call. The default and maximum value is 300.
+- `nextPageToken`: Paginates through large result sets. Omit this parameter from the first call and include it in subsequent calls.
+- `fields`: Specifies a comma-separated list of field names to return. If you omit this parameter, the response includes `email`, `updatedAt`, `createdAt`, `lastName`, `firstName`, and `id`.
 
-The `fields` parameter contains a comma-separated list of field names to be returned in the response. If the `fields` parameter is not included in this request, the following default fields are returned: `email`, `updatedAt`, `createdAt`, `lastName`, `firstName`, and `id`.
-
-The response contains a `result` array comprised of JSON objects containing the lead fields that were specified in the request.
+The response contains a `result` array with the lead fields specified in the request.
 
 ```http
 GET /rest/v1/lists/{listId}/leads.json?batchSize=3
@@ -140,9 +145,9 @@ GET /rest/v1/lists/{listId}/leads.json?batchSize=3
 
 ## Member of List
 
-The [Member of List](https://developer.adobe.com/marketo-apis/api/mapi#tag/Static-Lists/operation/areLeadsMemberOfListUsingGET) endpoint is used to see if one or more leads are members of a list. The endpoint takes a required `listId` path parameter, and one or more `id` query parameters which contain lead ids (maximum allowed is 300).
+Use the [Member of List](https://developer.adobe.com/marketo-apis/api/mapi#operation/areLeadsMemberOfListUsingGET) endpoint to determine whether one or more leads are members of a list. Pass the required `listId` path parameter and one or more `id` query parameters that contain lead IDs. The maximum number of lead IDs is 300.
 
-The response contains a `result` array comprised of JSON objects with the status for each lead id that was specified in the request.
+The response contains a `result` array with the status of each lead ID in the request.
 
 ```http
 GET /rest/v1/lists/{listId}/leads/ismember.json?id=309901&id=318603&id=999999

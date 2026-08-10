@@ -7,30 +7,38 @@ description: Create and monitor asynchronous bulk lead imports in Marketo with C
 
 [Bulk Lead Import Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Leads)
 
-For large amounts of lead records, leads can be imported asynchronously with the [bulk API](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Leads/operation/importLeadUsingPOST). This allows you to import a list of records into Marketo using a flat file with the delimiters (comma, tab, or semi-colon). The file can contain any number of records, so long as the file totals less than 10MB in size. The record operation is "insert or update" only.
+Use the [bulk API](https://developer.adobe.com/marketo-apis/api/mapi#operation/importLeadUsingPOST) to import large numbers of lead records asynchronously. Provide the records in a comma-, tab-, or semicolon-delimited flat file that is less than 10 MB.
+
+Bulk lead import supports only the "insert or update" record operation.
 
 ## Processing Limits
 
-You are allowed to submit more than one bulk import request, with limitations. Each request is added as a job to a FIFO queue to be processed. A maximum of two jobs are processed at the same time. A maximum of 10 jobs are allowed in the queue at any given time (including the two currently being processed). If you exceed the ten job maximum, then a `1016, Too many imports` error is returned.
+Each bulk import request is added as a job to a first-in, first-out (FIFO) queue. The following limits apply:
+
+- A maximum of two jobs can be processed concurrently.
+- A maximum of 10 jobs can be in the queue, including the two jobs being processed.
+
+If you exceed the 10-job maximum, the API returns a `1016, Too many imports` error.
 
 ## Import File
 
-The first row of the file must be a header which lists the corresponding REST API fields to map the values of each row into. A typical file would follow this basic pattern:
+The first row of the file must be a header that lists the REST API fields to which the values in each row map. A typical file follows this pattern:
 
 ```csv
 email,firstName,lastName
 test@example.com,John,Doe
 ```
 
-The `externalCompanyId` field may be used to link the lead record to a company record. The `externalSalesPersonId` field may be used to link the lead record to a sales person record.
+Use `externalCompanyId` to link a lead record to a company record. Use `externalSalesPersonId` to link a lead record to a sales person record.
 
-The call itself is made using the `multipart/form-data` content-type.
-
-This request type can be difficult to implement, so it is highly recommended that you use an existing library implementation.
+Send the request using the `multipart/form-data` content type. Use an existing library implementation to construct the multipart request.
 
 ## Creating a Job
 
-To make a bulk import request, you must set your content-type header to `multipart/form-data` and include at least a `file` parameter with your file content, and a `format` parameter with the value `csv`, `tsv`, or `ssv`, denoting your file format.
+To create a bulk import job, set the content type to `multipart/form-data` and include these parameters:
+
+- `file`: The import file content.
+- `format`: The file format. Valid values are `csv`, `tsv`, and `ssv`.
 
 ```http
 POST /bulk/v1/leads.json?format=csv
@@ -68,13 +76,13 @@ Easy,Fox,easyfox@marketo.com,Marketo
 }
 ```
 
-This endpoint uses [multipart/form-data as the content-type](https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html). It is a  best practice is to use an HTTP support library for your language of choice to ensure the correct usage. The following example is a simple way to do this with cURL from the command line:
+This endpoint uses [multipart/form-data as the content-type](https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html). Use an HTTP support library for your preferred language to construct the request correctly. The following example uses cURL from the command line:
 
 ```bash
 curl -i -F format=csv -F file=@lead_data.csv -F access_token=<Access Token> <REST API Endpoint Base URL>/bulk/v1/leads.json
 ```
 
-Where the import file `lead_data.csv` contains the following:
+In this example, the `lead_data.csv` import file contains the following data:
 
 ```text
 firstName,lastName,email,company
@@ -83,13 +91,19 @@ Charlie,Dog,charliedog@marketo.com,Marketo
 Easy,Fox,easyfox@marketo.com,Marketo
 ```
 
-You can also optionally include the `lookupField`, `listId`, and `partitionName` parameters in your request. `lookupField` allows you to select a specific field to deduplicate on, just like Sync Leads, and defaults to email. You can specify `id` as `lookupField` to indicate an "update only" operation. `listId` allows you to select a static list to import the list of leads to; this will cause the leads in the list to become members of this static list, in addition to any creations or updates caused by the import. `partitionName` selects a specific partition to import to. See the Workspaces and Partitions section for more information.
+You can also include these optional parameters:
 
-Notice in the response to our call, that there is not a listing of successes or failures like with Sync Leads, but a batchId and a status field for the record in the result array. This is because this API is asynchronous, and can return a status of Queued, Importing, or Failed. You must retain the batchId to get the status of the import job, and to retrieve failures and/or warnings upon completion. The batchId remains valid for seven days.
+- `lookupField`: Selects the field used for deduplication and defaults to `email`. Specify `id` to perform an "update only" operation.
+- `listId`: Selects a static list. Imported leads become members of this list in addition to any records created or updated by the import.
+- `partitionName`: Selects the partition to import to. See the Workspaces and Partitions section for more information.
+
+Because the API is asynchronous, the response contains `batchId` and `status` fields instead of individual successes and failures. The status can be `Queued`, `Importing`, or `Failed`.
+
+Retain the `batchId` to check the job status and retrieve failures or warnings after completion. The `batchId` remains valid for seven days.
 
 ## Polling Job Status
 
-It is best practice to poll the job every 5-30 seconds, depending on required latency and API call limitations, to see the status of the import job. You can do so with the Get Import Lead Status API.
+Use the Get Import Lead Status API to poll the job every 5–30 seconds, depending on latency requirements and API call limitations.
 
 ```http
 GET /bulk/v1/leads/batch/{id}.json
@@ -113,35 +127,35 @@ GET /bulk/v1/leads/batch/{id}.json
 
 ```
 
-This response shows a completed import, but the status can be one of:
+This response shows a completed import. The status can be one of the following values:
 
 - Complete
 - Queued
 - Importing
 - Failed
 
-If the job has completed, you have a listing of the number of rows processed, failed, on ones with warnings. The message parameter may also give the failure message if status is Failed.
+When the job is complete, the response lists the numbers of rows processed, failed, and processed with warnings. The `message` parameter can also provide a failure message when the status is `Failed`.
 
 ## Failures
 
-Failures are indicated by the `numOfRowsFailed` attribute in Get Import Lead Status response. If `numOfRowsFailed` is greater than zero, then that value indicates the number of failures that occurred.
+The `numOfRowsFailed` attribute in the Get Import Lead Status response indicates the number of failed rows. A value greater than zero means that failures occurred.
 
-To retrieve the records and causes of failed rows, you  must retrieve the failure file:
+To retrieve the failed records and their causes, request the failure file:
 
 ```http
 GET /bulk/v1/leads/batch/{id}/failures.json
 ```
 
-The API responds with a file indicating which rows failed, along with a message indicating why the record failed. The format of the file is the same as specified in `format` parameter during job creation. An additional field is appended to each record with a description of the failure.
+The API returns a file that identifies each failed row and explains why the record failed. The file uses the format specified by the `format` parameter during job creation. An additional field on each record describes the failure.
 
 ## Warnings
 
-Warnings are indicated by the `numOfRowsWithWarning` attribute in a Get Import Lead Status response. If `numOfRowsWithWarning` is greater than zero, that value indicates the number of warnings that occurred.
+The `numOfRowsWithWarning` attribute in the Get Import Lead Status response indicates the number of rows with warnings. A value greater than zero means that warnings occurred.
 
-To retrieve the records and causes of warning rows, retrieve the warning file:
+To retrieve the affected records and their causes, request the warning file:
 
 ```http
 GET /bulk/v1/leads/batch/{id}/warnings.json
 ```
 
-The API responds with a file indicating which rows produced warnings, along with a message indicating why the record failed. The format of the file is the same as specified in `format` parameter during job creation. An additional field is appended to each record with a description of the warning.
+The API returns a file that identifies each row with a warning and explains why the warning occurred. The file uses the format specified by the `format` parameter during job creation. An additional field on each record describes the warning.

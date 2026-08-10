@@ -5,19 +5,21 @@ description: "Marketo Bulk Import for loading leads, custom objects, and program
 
 # Bulk Import
 
-Marketo provides interfaces for insertion of large sets of person and person related data, called Bulk Import. Currently, interfaces are offered for three object types:
+Bulk Import provides interfaces for inserting large sets of person and person-related data. You can import three object types:
 
 - Leads (Persons)
 - Custom Objects
 - Program Members
 
-Bulk import is performed by creating a job, and then waiting for the job to complete reading a file. These jobs are executed asynchronously, and can be polled to retrieve the status of the import. Files are uploaded using HTTP multipart/form-data per RFC 2399.
+To perform a bulk import, create a job that reads an uploaded file. The job runs asynchronously, so poll it to retrieve the import status.
 
-Bulk API endpoints are not prefixed with '/rest' like other endpoints.
+Upload files using HTTP `multipart/form-data` per RFC 2399.
+
+Unlike other endpoints, Bulk API endpoints are not prefixed with `/rest`.
 
 ## Authentication
 
-The bulk import APIs use the same OAuth 2.0 authentication method as other Marketo REST APIs.  This requires a valid access token sent as an HTTP header `Authorization: Bearer {_AccessToken_}`.
+The bulk import APIs use the same OAuth 2.0 authentication method as other Marketo REST APIs. Send a valid access token in the `Authorization: Bearer {_AccessToken_}` HTTP header.
 
 <InlineAlert slots="text" variant="warning" />
 
@@ -25,21 +27,25 @@ Support for authentication using the **access_token** query parameter is being r
 
 ## Limits
 
-- Max Concurrent Import Jobs: 2
-- Max Queued Import Jobs (inclusive of currently importing jobs): 10
-- Max Size of Import File: 10 MB
+- Maximum concurrent import jobs: 2
+- Maximum queued import jobs, including jobs currently importing: 10
+- Maximum import file size: 10 MB
 
 ## Permissions
 
-Bulk Import uses the same permissions model as the Marketo REST API, and does not require any additional special permissions in order to use, though specific permissions are required for each set of endpoints.
+Bulk Import uses the same permissions model as the Marketo REST API. It does not require additional permissions, but each set of endpoints requires specific permissions.
 
 ## Record Operations
 
-Bulk import is an "insert or update" record operation. If a matching record is found in the database, it is updated. Otherwise, a new record is created. The bulk import response does not indicate whether a given record was updated or inserted.
+Bulk import is an "insert or update" record operation. If the database contains a matching record, the operation updates it. Otherwise, the operation creates a record.
+
+The bulk import response does not indicate whether an individual record was updated or inserted.
 
 ## Creating a Job
 
-Marketo's bulk import APIs use the concept of a job for executing data import. Let's look at creating a simple lead import job using the [Import Leads](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Leads/operation/importLeadUsingPOST) endpoint.  Note that this endpoint uses [multipart/form-data as the content-type](https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html). This can be tricky to get right, so best practice is to use an HTTP support library for your language of choice.  If you are just getting your feet wet, we suggest that you use [curl](https://curl.se/).
+Create a lead import job by calling the [Import Leads](https://developer.adobe.com/marketo-apis/api/mapi#operation/importLeadUsingPOST) endpoint. This endpoint uses [multipart/form-data as the content-type](https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html).
+
+Use an HTTP support library for your preferred language to construct the multipart request. You can also use [curl](https://curl.se/) to get started.
 
 ```http
 POST /bulk/v1/leads.json?format=csv
@@ -63,7 +69,7 @@ Easy,Fox,easyfox@marketo.com
 ------WebKitFormBoundaryBQACkJZyaiIAXogC--
 ```
 
-This request will construct a job that will import values contained in the CSV file named "leads.csv" with the column headers "FirstName", "LastName", "Email", "Company".
+This request creates a job that imports values from the CSV file named `leads.csv`.
 
 ```json
 {
@@ -79,11 +85,11 @@ This request will construct a job that will import values contained in the CSV f
 }
 ```
 
-When we submit the job it will return a batchId, which we can then use to check its status.
+The response returns a `batchId`. Use this value to check the job status.
 
 ### Common Parameters
 
-Each job creation endpoint shares some common parameters for configuring the file format, field names, and filter of a bulk extract job.  Each subtype of extract job may have additional parameters:
+Each job creation endpoint shares parameters for configuring the import file. An import subtype can also support additional parameters.
 
 | Parameter | Data Type | Notes |
 | --- | --- | --- |
@@ -92,7 +98,7 @@ Each job creation endpoint shares some common parameters for configuring the fi
 
 ## Polling Job Status
 
-Determining the status of the job is simple using the [Get Import Lead Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Leads/operation/getImportLeadStatusUsingGET) endpoint.
+Pass the `batchId` to the [Get Import Lead Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportLeadStatusUsingGET) endpoint to retrieve the job status.
 
 ```http
 GET /bulk/v1/leads/batch/{batchId}.json
@@ -116,16 +122,18 @@ GET /bulk/v1/leads/batch/{batchId}.json
 }
 ```
 
-The inner `status` member will indicate the progress of the job, and may be one of the following values: Queued, Importing, Complete, Failed. In this case our job has completed, so we can stop polling.
+The `status` member indicates the job's progress. Its value can be `Queued`, `Importing`, `Complete`, or `Failed`.
+
+In this example, the job is complete, so polling can stop.
 
 ## Failures
 
-Failures are indicated by the `numOfRowsFailed` attribute in Get Import Lead Status response. If `numOfRowsFailed` is greater than zero, then that value indicates the number of failures that occurred.
+The `numOfRowsFailed` attribute in the Get Import Lead Status response indicates the number of failed rows. A value greater than zero means that failures occurred.
 
-To retrieve the records and causes of failed rows, you will must retrieve the failure file using the [Get Import Lead Failures](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Leads/operation/getImportLeadFailuresUsingGET) endpoint.
+To retrieve the failed records and their causes, use the [Get Import Lead Failures](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportLeadFailuresUsingGET) endpoint.
 
 ```http
 GET /bulk/v1/leads/batch/{batchId}/failures.json
 ```
 
-The file indicates which rows failed, along with a message indicating why the record failed.
+The failure file identifies each failed row and explains why the record failed.

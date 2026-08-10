@@ -5,11 +5,11 @@ description: "Guide to Marketo Lead Database APIs covering objects, CRUD and Des
 
 # Lead Database
 
-The Marketo Lead Database APIs are the most frequently utilized APIs that Marketo provides as they allow for data interchange of person and person-related data from Marketo, such as Activities, Opportunities, and Companies.
+The Marketo Lead Database APIs exchange person and person-related data with Marketo. This data includes Activities, Opportunities, and Companies.
 
 ## Objects
 
-Lead Database objects include the following:
+The Lead Database includes the following objects:
 
 - Leads
 - Companies/Accounts
@@ -21,13 +21,15 @@ Lead Database objects include the following:
 - Activities
 - List and Program Membership
 
-Most of these objects include at least Create, Read, Update, and Delete methods. Also included is a "Describe" method which provides a list of available fields for each type, and a list of fields used for deduplication (for non-Lead objects), and which fields are searchable for retrieval of records. The richest set is provided for lead's as they have the largest variety of capabilities within Marketo applications.
+Most Lead Database objects support Create, Read, Update, and Delete methods. The Describe method provides the available fields for each object type. For non-Lead objects, it also identifies fields used for deduplication and fields that are searchable when retrieving records.
+
+Lead objects support the broadest set of capabilities because leads have the largest variety of uses in Marketo applications.
 
 ## API
 
-For a full listing of Lead Database API endpoints, including parameters, and modeling information, see the [Lead Database API Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi).
+For a complete list of Lead Database API endpoints, parameters, and modeling information, see the [Lead Database API Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi).
 
-For instances with a native CRM integration enabled (either Microsoft Dynamics or Salesforce.com), the Company, Opportunity, Opportunity Role, and Sales Person APIs are disabled. The records are managed through the CRM when enabled and cannot be accessed or updated via Marketo's APIs.
+When an instance has a native Microsoft Dynamics or Salesforce.com CRM integration, the Company, Opportunity, Opportunity Role, and Sales Person APIs are disabled. The CRM manages these records, so you cannot access or update them through Marketo APIs.
 
 - Max batch size (standard): 300 records
 - Max batch size (bulk): 10MB file
@@ -37,7 +39,12 @@ For instances with a native CRM integration enabled (either Microsoft Dynamics o
 
 ## Describe
 
-For Leads, Companies, Opportunities, Roles, SalesPersons, and Custom Objects, a describe API is provided. Calling this retrieves metadata for the object, and a list of fields available for updating and querying. Describing is a crucial part of designing a proper integration with Marketo. It provides rich metadata about how objects can and cannot be interacted with, as well as how they can be created, updated, and queried. Apart from Describe Leads, each of these returns a list of keys available for `deduplication` in the `dedupeFields` response parameter. A list of fields is available as keys for querying in the `searchableFields` response parameter.
+The Describe API is available for Leads, Companies, Opportunities, Roles, SalesPersons, and Custom Objects. Use it to retrieve object metadata and the fields available for updates and queries.
+
+Except for Describe Leads, each Describe endpoint returns:
+
+- `dedupeFields`: Keys available for deduplication.
+- `searchableFields`: Keys available for queries.
 
 ```http
 GET /rest/v1/opportunities/roles/describe.json
@@ -122,26 +129,36 @@ GET /rest/v1/opportunities/roles/describe.json
 
 ```
 
-In this example, `dedupeFields` is actually a compound key. This means that in future updates and creates, when using the `dedupeFields` mode, you must include all three of `externalOpportunityId`, `leadId`, and `role` for each role. The `searchableFields` array, also provides the list of fields available for querying role records. This also includes the compound key of `externalOpportunityId`, `leadId`, and `role`.
+In this example, `dedupeFields` is a compound key. When you use `dedupeFields` mode for future creates and updates, include `externalOpportunityId`, `leadId`, and `role` for each role.
 
-There is also a fields response parameter, which will provide the name of each field, the `displayName` as it appears in the Marketo UI, the datatype of the field, whether it can be updated after creation, and the length of the field if applicable.
+The `searchableFields` array lists the fields available for querying role records. This list includes the compound key of `externalOpportunityId`, `leadId`, and `role`.
+
+The `fields` response parameter provides the following information for each field:
+
+- Name.
+- `displayName` as shown in the Marketo UI.
+- Data type.
+- Whether the field can be updated after creation.
+- Field length, if applicable.
 
 ## Query
 
-Lead Database objects all share basic pattern for querying against simple keys, where just one field is referenced.
+Lead Database objects share a basic query pattern for simple keys that reference one field.
 
 ```http
 GET /rest/v1/{type}.json?filterType={field to query}&filterValues={comma-separated list of possible values}
 ```
 
-For all objects except leads, you can select your {field to query} from the searchableFields of the corresponding describe call, and compose a comma-separated list of up to 300 values. There are also these optional query parameters:
+For all objects except leads, select `{field to query}` from `searchableFields` in the corresponding Describe response. Provide a comma-separated list of up to 300 values.
 
-- `batchSize` - An integer count of the number of results to return. Default and Maximum are 300.
-- `nextPageToken` - Token returned from a previous call for paging. See [Paging Tokens](paging-tokens.md) for more detail.
-- `fields` - A comma-separated list of field names to return for each record. See corresponding description for a list of valid fields. If a particular field is requested, but not returned, the value is implied to be null.
-- `_method` - Used for submitting queries using the POST HTTP method. See _method=GET section below for usage.
+You can also include these optional query parameters:
 
-For a quick example, let's look at querying opportunities:
+- `batchSize`: An integer that specifies the number of results to return. The default and maximum value is 300.
+- `nextPageToken`: A token returned from a previous call for paging. See [Paging Tokens](paging-tokens.md) for more information.
+- `fields`: A comma-separated list of field names to return for each record. See the corresponding description for valid fields. If you request a field that is not returned, its value is implied to be null.
+- `_method`: Submits queries by using the POST HTTP method. See the _method=GET section for usage.
+
+The following example queries opportunities:
 
 ```http
 GET /rest/v1/opportunities.json?filterType=idField&filterValues=dff23271-f996-47d7-984f-f2676861b5fa&dff23271-f996-47d7-984f-f2676861b5fc,dff23271-f996-47d7-984f-f2676861b5fb
@@ -175,13 +192,17 @@ GET /rest/v1/opportunities.json?filterType=idField&filterValues=dff23271-f996-47
 
 ```
 
-The `filterType` specified in this call is "idField" and not "marketoGUID". This and "dedupeFields" are both special cases, where the field corresponding to the idField, or dedupeFields can be aliased in this way. The "marketoGUID" is still the resulting lookup field in the call, but it is not explicitly set in the call. The fields and/or sets of fields indicated by the `idField` and `dedupeFields` of an object description will always be valid `filterTypes` for a query. This call searches for records matching the GUIDs included in filterValues, and returns any matching records. If there are no records found using this method, the response will still indicate success, however the result array will be empty, since the search was executed successfully, but there were no records to return.
+The `filterType` in this call is "idField", not "marketoGUID". Both "idField" and "dedupeFields" are special cases that let you use an alias for the corresponding field or fields. Although the call does not explicitly set "marketoGUID", it remains the lookup field.
 
-If the set of records in the query exceeds 300 or the `batchSize` which was specified, whichever is smaller, then the response has a member `moreResult` with a value of true, and a `nextPageToken`, which can be included in a subsequent call to retrieve more of the set. See [Paging Tokens](paging-tokens.md) for more details.
+The fields or field sets identified by `idField` and `dedupeFields` in an object description are always valid `filterTypes` for a query. This call returns records that match the GUIDs in filterValues. If no records match, the response indicates success and returns an empty result array.
+
+If the matching record set exceeds 300 or the specified `batchSize`, whichever is smaller, the response includes `moreResult` with a value of true and a `nextPageToken`. Include the token in a subsequent call to retrieve more records. See [Paging Tokens](paging-tokens.md) for more information.
 
 ### Long URIs
 
-Sometimes, such as when querying by GUIDs, your URI may be long and exceed the 8KB permitted by the REST service. In this case, you must use the HTTP POST method instead of GET, and add a query parameter `_method=GET`. In addition, the rest of the query parameters must be passed in the POST body as an "application/x-www-form-urlencoded" string, and pass the associated Content-type header.
+A URI can exceed the 8KB limit of the REST service, such as when you query by GUIDs. In this case, use the HTTP POST method instead of GET and add the `_method=GET` query parameter.
+
+Pass the remaining query parameters in the POST body as an "application/x-www-form-urlencoded" string. Also pass the associated Content-type header.
 
 ```http
 POST /rest/v1/opportunities.json?_method=GET
@@ -195,11 +216,13 @@ Content-Type: application/x-www-form-urlencoded
 filterType=idField&filterValues=dff23271-f996-47d7-984f-f2676861b5fa&dff23271-f996-47d7-984f-f2676861b5fc,dff23271-f996-47d7-984f-f2676861b5fb,544fb7f5-2ddf-4fca-ae32-7e6ef1415e9f,f1ba41a2-69d1-4a35-9807-0e159d66f2c9,f7521272-3331-4a89-a768-222baff2f894
 ```
 
-Besides long URIs, this parameter is also required when querying compound keys.
+The `_method=GET` parameter is also required when querying compound keys.
 
 ### Compound Keys
 
-The pattern for querying compound keys is different from simple keys, as it requires submitting a POST with a JSON body. This is not necessary in all cases, only in those where a `dedupeFields` option with multiple fields is used as the `filterType`. Currently compound keys are only used by Opportunity Roles, and some custom objects. Let's look at an example of a query for Opportunity Roles with the compound key from `dedupeFields`:
+To query a compound key, submit a POST request with a JSON body. Use this pattern only when the `filterType` is a `dedupeFields` option with multiple fields.
+
+Compound keys are currently used only by Opportunity Roles and some custom objects. The following example queries Opportunity Roles with the compound key from `dedupeFields`:
 
 ```http
 POST /rest/v1/opportunities/roles.json?_method=GET
@@ -235,15 +258,26 @@ POST /rest/v1/opportunities/roles.json?_method=GET
 
 ```
 
-The structure of the JSON object is mostly flat, and all of the query parameters for queries with simple keys are valid members, except for `filterValues`. Instead of a filter value, there is an "input" array of JSON objects, which each must have a member for each of the fields in your compound key; in this case, they are `externalOpportunityId`, `leadId`, and `role`. This executes a query for `roles`, against the provided inputs and return the matching results. If the response returns a parameter with `moreResult=true`, and a `nextPageToken`, you must include all of the original inputs and the `nextPageToken` for the query to execute properly.
+The JSON object accepts all query parameters used for simple-key queries except `filterValues`. Instead of `filterValues`, provide an "input" array of JSON objects. Each object must include every field in the compound key. In this example, the fields are `externalOpportunityId`, `leadId`, and `role`.
+
+The request queries `roles` against the provided inputs and returns matching results. If the response includes `moreResult=true` and a `nextPageToken`, include all original inputs and the `nextPageToken` in the next request.
 
 ## Create and Update
 
-Creates and updates for lead database records, are all performed through POSTs with JSON bodies. The interface for Opportunities, Roles, Custom Objects, Companies, and SalesPersons are each the same. The Lead's interface is a little different, and you can read more about it there specifically.
+Create and update Lead Database records by sending POST requests with JSON bodies. Opportunities, Roles, Custom Objects, Companies, and SalesPersons use the same interface. Leads use a different interface, which is described in the Leads documentation.
 
-The only required parameter is an array called `input` containing up to 300 objects, each with the fields that you want to insert/update as members. You can also optionally include an `action` parameter which can be one of: `createOnly`, `updateOnly`, or `createOrUpdate`. If the action is omitted, then the mode defaults to `createOrUpdate`. `dedupeBy` is another optional parameter that can be used when action is set to either createOnly or `createOrUpdate`. `dedupeBy` can be either `idField`, or `dedupeFields`. If `idField` is selected, then the `idField` listed in the description is used for deduplication and must be included in each record. `idField` mode is not compatible with `createOnly` mode. If `dedupeFields` are selected , then the `dedupeFields` listed in the object description used, and each one must be included in each record. If the `dedupeBy` parameter is omitted, the mode defaults to `dedupeFields`.
+The only required parameter is `input`, an array of up to 300 objects. Each object contains the fields to insert or update.
 
-When passing a list of field values, a value of `null`, or an empty string, is written to the database as `null`.
+You can also include these optional parameters:
+
+- `action`: Accepts `createOnly`, `updateOnly`, or `createOrUpdate`. If omitted, the mode defaults to `createOrUpdate`.
+- `dedupeBy`: Accepts `idField` or `dedupeFields` when action is set to either createOnly or `createOrUpdate`. If omitted, the mode defaults to `dedupeFields`.
+
+When `dedupeBy` is `idField`, the `idField` listed in the description is used for deduplication and must be included in each record. `idField` mode is not compatible with `createOnly` mode.
+
+When `dedupeBy` is `dedupeFields`, include each `dedupeFields` field listed in the object description in every record.
+
+When you pass field values, the database writes a value of `null` or an empty string as `null`.
 
 ```http
 POST /rest/v1/opportunities.json
@@ -293,11 +327,15 @@ POST /rest/v1/opportunities.json
 
 ```
 
-Other than the leads API, calls to create or update lead database objects return a `seq` field in each object in the `result` array. The number listed corresponds to the order of the updated record in the request made. Each item returns the value of the `idField` for the object type, and a `status`. The status field indicates one of "created," "updated," or "skipped."  If the status is skipped, then there will also be a corresponding "reasons" array with one or more reason objects that includes a code and a message, indicating why a record was skipped. See [error codes](error-codes.md) for additional details.
+Except for the Leads API, create and update calls return a `seq` field in each object in the `result` array. The number corresponds to the position of the updated record in the request.
+
+Each result also returns the object type's `idField` value and a `status` of "created," "updated," or "skipped." If the status is skipped, the result includes a "reasons" array. Each reason object contains a code and message that explain why the record was skipped. See [error codes](error-codes.md) for more information.
 
 ### Delete
 
-The interface for deletions is standard for Lead Database objects aside from leads. Aside from input, there is only one required parameter `deleteBy,` which can have a value of idField or dedupeFields. Let's look at deleting some custom objects.
+Except for leads, Lead Database objects use a standard delete interface. In addition to input, the only required parameter is `deleteBy,` which accepts idField or dedupeFields.
+
+The following example deletes custom objects:
 
 ```http
 POST /rest/v1/customobjects/{name}/delete.json
@@ -351,6 +389,6 @@ POST /rest/v1/customobjects/{name}/delete.json
 
 ```
 
-The `seq`, `status`, `marketoGUID`, and `reasons` should all be familiar to you by now.
+The response includes `seq`, `status`, and `marketoGUID`. For skipped records, it also includes `reasons`.
 
-For more details on working with CRUD operations for each individual object type, check out their respective pages.
+For details about CRUD operations for a specific object type, see the documentation for that object.

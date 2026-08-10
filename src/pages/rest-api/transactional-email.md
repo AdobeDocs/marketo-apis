@@ -5,41 +5,43 @@ description: "Learn how to configure Marketo for transactional emails and trigge
 
 # Transactional Email
 
-A common use case for the Marketo API is to trigger the sending of transactional emails to specific records via the [Request Campaign](https://developer.adobe.com/marketo-apis/api/mapi#tag/Campaigns/operation/triggerCampaignUsingPOST) API call. There are a few configuration requirements within Marketo to execute the required call with the Marketo REST API.
+Use the [Request Campaign](https://developer.adobe.com/marketo-apis/api/mapi#operation/triggerCampaignUsingPOST) API to send transactional emails to specific Marketo records. Configure the email and trigger campaign before making the request.
 
-- The recipient must have a record within Marketo
-- There must be a Transactional Email created and approved in your Marketo instance.
-- There must be an active trigger campaign with the "Campaign is Requested, 1. Source: Web Service API", that is set up to send the email
+- Ensure that the recipient has a Marketo record.
+- Create and approve a transactional email in the Marketo instance.
+- Activate a trigger campaign that uses "Campaign is Requested, 1. Source: Web Service API" and sends the email.
 
-First [create and approve your email](https://experienceleague.adobe.com/docs/marketo/using/home.html). If the email is truly transactional, you will likely must set it to operational, but be sure that it legally qualifies as operational. This is configured from with the Edit Screen under Email Actions > Email Settings:
+First, [create and approve the email](https://experienceleague.adobe.com/docs/marketo/using/home.html). If the email legally qualifies as operational, configure it as operational under Email Actions > Email Settings:
 
 ![Request-Campaign-Email-Settings](assets/request-campaign-email-settings.png)
 
 ![Request-Campaign-Operational](assets/request-campaign-operational.png)
 
-Approve it and we are ready to create our campaign:
+Approve the email before creating the campaign:
 
 ![RequestCampaign-Approve-Draft](assets/request-campaign-approve-draft.png)
 
-If you are new to creating campaigns, check out the [Create a New Smart Campaign](https://experienceleague.adobe.com/docs/marketo/using/product-docs/core-marketo-concepts/smart-campaigns/creating-a-smart-campaign/create-a-new-smart-campaign.html) article. Once you have created your campaign, we must go through these steps. Configure your Smart List with the Campaign is Requested trigger:
+If needed, see [Create a new Smart Campaign](https://experienceleague.adobe.com/docs/marketo/using/product-docs/core-marketo-concepts/smart-campaigns/creating-a-smart-campaign/create-a-new-smart-campaign.html). Configure the campaign's Smart List with the Campaign is Requested trigger:
 
 ![Request-Campaign-Smart-List](assets/request-campaign-smart-list.png)
 
-Now we must configure the flow to point a Send Email step to our email:
+Configure a Send Email flow step that references the transactional email:
 
 ![Request-Campaign-Flow](assets/request-campaign-flow.png)
 
-Before activation, you must decide on some settings in the Schedule tab. If this particular email should only ever be sent once to a given record, then leave the qualification settings as is. If it is required that they receive the email multiple times, though, you want to adjust this to either every time or to one of the available cadences:
+Before activation, configure the qualification settings on the Schedule tab. Keep the default setting if each record should receive the email only once. Otherwise, allow recipients to qualify every time or at an available cadence.
 
-Now we are ready to activate:
+Activate the campaign:
 
 ![Request-Campaign-Schedule](assets/request-campaign-schedule.png)
 
 ## Sending the API Calls
 
-**Note:** In the Java examples below, we are using the [minimal-json package](https://github.com/ralfstx/minimal-json) to handle JSON representations in our code.
+The Java examples use the [minimal-json package](https://github.com/ralfstx/minimal-json) to handle JSON representations.
 
-The first part of sending a transactional email through the API is ensuring that a record with the corresponding email address exists in your Marketo instance and that we have access to its lead ID. For the purposes of this post, we assume that the email addresses are in Marketo already, and we only must retrieve the ID of the record. For this, we are using the [Get Leads by Filter Type](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/getLeadsByFilterUsingGET) call. Let's look at our Main method for to request the campaign:
+Before sending the email, confirm that a Marketo record exists for the email address and retrieve its lead ID. This example assumes that the email address already exists.
+
+Use [Get Leads by Filter Type](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadsByFilterUsingGET) to retrieve the ID. The following main method then requests the campaign:
 
 ```java
 package dev.marketo.blog_request_campaign;
@@ -73,14 +75,14 @@ public class App
 }
 ```
 
-To get to these results from the JsonObject response of leadsRequest, we must write some code . To retrieve the first result in the Array, we must extract the Array from the JsonObject and get the object indexed at 0:
+Extract the result array from the `JsonObject` response and retrieve the object at index 0:
 
 ```java
 JsonArray leadsResult = leadsRequest.getData().get("result").asArray();
 int leadId = leadsResult.get(0).asObject().get("id").asInt();
 ```
 
-From here now all we must do is the Request Campaign call. For this, the required parameters are ID in the URL of the request, and an array of JSON objects containing one member, "id." Let's look at the code for this:
+Call Request Campaign with the campaign ID in the request URL. The request body contains an array of JSON objects with an `id` member:
 
 ```java
 package dev.marketo.blog_request_campaign;
@@ -171,7 +173,7 @@ public class RequestCampaign {
 }
 ```
 
-This class has one constructor taking an Auth, and the Id of the campaign. Leads are added to the object either by passing an `ArrayList<Integer>` containing the Ids of the records to setLeads, or by using addLead, which takes one integer and appends it to the existing ArrayList in the leads property. To trigger the API call to pass the lead records to the campaign, postData must be called, which returns a JsonObject containing the response data from the request. When request campaign is called, every lead passed to the call will be processed by the target trigger campaign in Marketo and be sent the email which was created previously. Congratulations, you have triggered an email through the Marketo REST API. Keep an eye out for Part 2 where we look at dynamically customizing the content of an email through Request Campaign.
+This class has one constructor taking an Auth, and the Id of the campaign. Leads are added to the object either by passing an `ArrayListInteger` containing the Ids of the records to setLeads, or by using addLead, which takes one integer and appends it to the existing ArrayList in the leads property. To trigger the API call to pass the lead records to the campaign, postData must be called, which returns a JsonObject containing the response data from the request. When request campaign is called, every lead passed to the call will be processed by the target trigger campaign in Marketo and be sent the email which was created previously. Congratulations, you have triggered an email through the Marketo REST API. Keep an eye out for Part 2 where we look at dynamically customizing the content of an email through Request Campaign.
 
 ### Building your Email
 
@@ -257,4 +259,4 @@ Result:
 
 ## Wrapping Up
 
-This method is extensible in a multitude of ways, changing content in emails within individual layout sections, or outside emails, allowing custom values to be passed into tasks or interesting moments. Anywhere a token can be used from within a program can be customized using this method. Similar functionality is also available with the [Schedule Campaign](https://developer.adobe.com/marketo-apis/api/mapi#tag/Campaigns/operation/scheduleCampaignUsingPOST) call which will allow you to process tokens across an entire batch campaign. These cannot be customized on a per lead basis, but are useful for customizing content across a wide set of leads.
+This method is extensible in a multitude of ways, changing content in emails within individual layout sections, or outside emails, allowing custom values to be passed into tasks or interesting moments. Anywhere a token can be used from within a program can be customized using this method. Similar functionality is also available with the [Schedule Campaign](https://developer.adobe.com/marketo-apis/api/mapi#operation/scheduleCampaignUsingPOST) call which will allow you to process tokens across an entire batch campaign. These cannot be customized on a per lead basis, but are useful for customizing content across a wide set of leads.

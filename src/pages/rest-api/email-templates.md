@@ -7,11 +7,13 @@ description: "Learn how to create and manage Marketo REST API email templates, i
 
 [Email Template Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates)
 
-Email templates form the basis for each new email in Marketo.  While emails can be unlinked from templates through HTML replacement, emails must be created initially with a template as the basis.  Templates are created as pure HTML documents in Marketo with metadata such as names and descriptions.  There are few restrictions on content, but the HTML of the template must be valid, and must contain at least one editable section, which follows the requirements [outlined here](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/email-marketing/general/functions-in-the-editor/add-editable-sections-to-email-templates-v1-0).
+Every new email in Marketo is initially based on an email template. Although you can later unlink an email from its template by replacing the HTML, you must select a template when creating the email.
+
+Templates are HTML documents with metadata such as a name and description. The template HTML must be valid and contain at least one editable section that meets the [editable section requirements](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/email-marketing/general/functions-in-the-editor/add-editable-sections-to-email-templates-v1-0).
 
 ## Query
 
-Querying email templates follows the standard pattern for assets, allowing for queries [by id](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/getTemplateByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/getTemplateByNameUsingGET) and [browsing](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/getEmailTemplatesUsingGET) a given folder.
+Email templates support the standard asset query patterns: [by id](https://developer.adobe.com/marketo-apis/api/asset#operation/getTemplateByIdUsingGET), [by name](https://developer.adobe.com/marketo-apis/api/asset#operation/getTemplateByNameUsingGET), and by [browsing](https://developer.adobe.com/marketo-apis/api/asset#operation/getEmailTemplatesUsingGET) a folder.
 
 ### By Id
 
@@ -181,13 +183,19 @@ GET /rest/asset/v1/emailTemplates.json
 }
 ```
 
-Querying the record itself will return just metadata about the record. To get content, refer to the #content section.
+Template queries return only record metadata. Use the content endpoint to retrieve template content.
 
 ## Create and Update
 
-[Creating](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/createEmailTemplateUsingPOST) or [updating](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/updateEmailTemplateContentUsingPOST) a template is fairly straightforward. The content of each template is stored as an HTML document and must be passed into Marketo using a multipart/form-data type of POST. You must pass the appropriate Content-Type header that includes a boundary as described in the RFCs for [multipart](https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html) and [multipart/form-data](https://www.ietf.org/rfc/rfc2388.txt).
+To [create](https://developer.adobe.com/marketo-apis/api/asset#operation/createEmailTemplateUsingPOST) or [update](https://developer.adobe.com/marketo-apis/api/asset#operation/updateEmailTemplateContentUsingPOST) a template, send the HTML document in a `multipart/form-data` POST request. The `Content-Type` header must include a boundary as described in the RFCs for [multipart](https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html) and [multipart/form-data](https://www.ietf.org/rfc/rfc2388.txt).
 
-Creating a template requires you to include three parameters: name, folder, content. An optional description parameter may be included.  The HTML document is passed in the content parameter, which must also include the conventional filename parameter as part of its Content-Disposition header.
+Creating a template requires these parameters:
+
+- `name`: The template name.
+- `folder`: The parent folder.
+- `content`: The HTML document. Its `Content-Disposition` header must include the conventional `filename` parameter.
+
+You can also include an optional `description` parameter.
 
 ```http
 POST /rest/asset/v1/emailTemplates.json
@@ -251,7 +259,9 @@ Create email template using API
 
 ```
 
-Updating content is done using a [separate endpoint](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/updateEmailTemplateContentUsingPOST) which requires the id of the Email template. This endpoint only allows the submission of the content parameter in the body. When an update is made, whatever is passed in the content parameter will completely replace the existing content of the email in a new draft if updating an approved version, or replace the current draft if the asset is in a draft-only state.
+To update template content, call the [content endpoint](https://developer.adobe.com/marketo-apis/api/asset#operation/updateEmailTemplateContentUsingPOST) with the email template ID. The request body accepts only the `content` parameter.
+
+The submitted content completely replaces the existing template content. Updating an approved version creates a new draft. Updating a draft-only asset replaces the current draft.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/content.json
@@ -293,7 +303,7 @@ Content-Type: text/html
 
 ## Update Metadata
 
-To [update a template's metadata](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/updateEmailTemplateUsingPOST), name and description, you can use the same endpoint as to update content, but pass an application/x-www-url-formencoded POST instead, with the name and description parameters.
+To [update a template's metadata](https://developer.adobe.com/marketo-apis/api/asset#operation/updateEmailTemplateUsingPOST), send an `application/x-www-form-urlencoded` POST request with the `name` and `description` parameters.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}.json
@@ -333,11 +343,11 @@ description=Updated description&name=New Name
 
 ## Approval
 
-Email templates follow the standard pattern for approvals of asset records. You can approve a draft, unapprove an approved version, and discard an existing draft of an email template through each of their own endpoints.
+Email templates follow the standard asset approval lifecycle. Separate endpoints let you approve a draft, unapprove an approved version, or discard an existing draft.
 
 ### Approve
 
-When calling the approval endpoint, the email will be validated against the rules for Marketo emails. The from name, from email, reply to email, and subject have to be populated before the email can be approved.
+The approval endpoint validates the template against the rules for Marketo emails. The from name, from email, reply-to email, and subject must be populated before approval.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/approveDraft.json
@@ -369,7 +379,7 @@ POST /rest/asset/v1/emailTemplate/{id}/approveDraft.json
 
 ### Unapprove
 
-The unapprove endpoint can only be used on approved templates.
+Use the unapprove endpoint only on an approved template.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/unapprove.json
@@ -401,7 +411,7 @@ POST /rest/asset/v1/emailTemplate/{id}/unapprove.json
 
 ### Discard
 
-The draft version of the template is created after an approved email is updated.
+Updating an approved template creates a draft version. Use the discard endpoint to discard that draft.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/discardDraft.json
@@ -453,7 +463,11 @@ POST /rest/asset/v1/emailTemplate/{id}/delete.json
 
 ## Clone
 
-Marketo provides a simple method for [cloning an Email Template](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/cloneTemplateUsingPOST). Unlike creating, this type of request is made with an application/x-www-url-formencoded POST, and takes two required parameters, name, and folder, an embedded JSON object with id and type.  Description is also an optional parameter.
+To [clone an email template](https://developer.adobe.com/marketo-apis/api/asset#operation/cloneTemplateUsingPOST), send an `application/x-www-form-urlencoded` POST request with these parameters:
+
+- `name`: Required. The cloned template name.
+- `folder`: Required. An embedded JSON object with `id` and `type`.
+- `description`: Optional. The cloned template description.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/clone.json
@@ -495,9 +509,12 @@ name=Sample Template 01 - deverly&folder={"id":12,"type":"Folder"}&description=T
 
 ## Query Email Dependencies
 
-Use the [Get Email Template Used By](https://developer.adobe.com/marketo-apis/api/asset#tag/Email-Templates/operation/getEmailTemplateUsedByUsingGET) endpoint to retrieve a list of emails that depend on a given email template.  The `id` path parameter specifies the parent email template.
+Use the [Get Email Template Used By](https://developer.adobe.com/marketo-apis/api/asset#operation/getEmailTemplateUsedByUsingGET) endpoint to retrieve emails that depend on a template. The `id` path parameter identifies the parent email template.
 
-There are 2 optional parameters. `maxReturn`  is a integer that limits the number of results (default is 20, maximum is 200), and `offset` is an integer that can be used with `maxReturn` to read through large result sets (default is 0).
+The endpoint supports two optional pagination parameters:
+
+- `maxReturn`: Limits the number of results. The default is 20, and the maximum is 200.
+- `offset`: Works with `maxReturn` to page through large result sets. The default is 0.
 
 ```http
 GET /rest/asset/v1/emailTemplates/{id}/usedBy.json

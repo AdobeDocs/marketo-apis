@@ -9,31 +9,33 @@ description: "Overview of Marketo Engage Data Streams enabling near real-time le
 
 Current information on data streams is now found at [Using Data Streams](https://developer.adobe.com/events/docs/guides/using/marketo/marketo-data-streams#).
 
-Our customer's marketing organizations rely on timely and focused Marketing Campaigns to stay on top of their business and be competitive. In order to support fast paced decisions and enable strategic change at speed, it is important to have data to support and drive those key decisions that deliver focused and targeted Campaigns. There are also some customers that perform Marketing efforts at levels of their customer segments both inside and outside of Marketo Engage. To support these different efforts, Marketo has created the ability to acquire large volumes of data in near real-time thru Data Streams.
+Data Streams deliver large volumes of Marketo Engage data to external systems in near real time. Use streamed data to support timely decisions, targeted campaigns, external marketing processes, and auditing.
 
-Aside from the benefit of near real-time data, there are product-related benefits:
+Data Streams provide these benefits:
 
-- Relieves the bottleneck of API limits because streaming is used instead.
-- Reduces the scenario of API limits, generating fewer alert messaging.
-- No must perform bulk exports to extract data due to the Data Streaming capability.
+- Reduce reliance on rate-limited API requests.
+- Reduce API-limit alerts.
+- Deliver data without running bulk exports.
 
 Data Streams are available to those that have purchased a [Marketo Engage Performance Tier Package](https://nation.marketo.com/t5/product-documents/marketo-engage-performance-tiers/ta-p/328835).
 
 ## Lead Activity Data Stream Overview
 
-Lead Activity Data Stream provides near real-time streaming of audit tracking Lead Activities where large volumes of Lead Activities can be sent to a customer's external system. Streams enable customers to effectively audit Lead related events, usage patterns, provide views into Lead changes and trigger processes and workflows based upon the different types of Lead Events. There are over 144 Activity Types that can be subscribed to and sent thru the stream.
+Lead Activity Data Stream sends large volumes of lead activity data to an external system in near real time. Use the stream to audit lead events and usage patterns, view lead changes, and trigger workflows from lead events.
 
-Types of Lead Data Streamed:
+You can subscribe to more than 144 activity types.
 
-1. Lead Changes – all changes on all fields and new Leads
-1. Lead Activities – all Lead activity types described in the document
-1. Deleted Leads
-1. All Custom Objects on the Lead (if requested). It is all or nothing at this time.
+The stream can include:
 
-By providing views into Lead changes, this allows customers to make faster decisions on their overall marketing strategies and create more focused targeted campaigns. Some popular use cases would be:
+1. Changes to all lead fields and newly created leads.
+1. All documented lead activity types.
+1. Deleted leads.
+1. All lead custom objects, when requested. You cannot select individual custom objects.
 
-- Custom Alerting: When certain Leads are found with inconsistent conditions, they can be added to the list. Activity streams can pick these up and push the "Add to List" activity for customers to any follow on action.
-- Powering ML Models: Some customers plan to build scoring models that use Activity insights and feed them back to Marketo or use in their own internal Scoring models as desired. By scoring a Lead, customers can then inform Marketo to add customers to Nurture campaigns increase their scoring.
+Common use cases include:
+
+- Custom alerting: Add leads with inconsistent conditions to a list. The stream sends the Add to List activity to a follow-up process.
+- Machine-learning models: Use activity insights in external scoring models, then send scores to Marketo to influence nurture campaigns or other processes.
 
 List of Streamed Activities:
 
@@ -60,15 +62,17 @@ List of Streamed Activities:
 | ClickEmail | OpenSalesEmail | VoteInPoll |
 | ClickLink | PushLeadToMarketo | WinSweepstakes |
 
-Note that if custom objects should be streamed, it must be all of the Lead-related custom objects. There is no way at the present time to select which ones are desired.
+When streaming custom objects, include all lead-related custom objects. You cannot select individual custom objects.
 
 ## User Audit Data Stream Overview
 
-User Audit Data Stream provides near real-time audit tracking of asset changes by users​. This enables a customer to effectively audit asset events, provide a view into user changes, and trigger processes or workflows based upon different types of audit events. Near real-time asset changes are sent via Adobe I/O events to a configurable endpoint. Audit events are broken down by Asset type and can subscribe to audit events that are important to them.
+User Audit Data Stream tracks user changes to assets in near real time. Use it to audit asset events, view user changes, and trigger processes from audit events.
 
-A good use case for subscribing to this stream would be:
+Adobe I/O Events sends the changes to a configurable endpoint. Subscribe to the event types required for each asset type.
 
-- Tracking changes when using multiple Marketing Systems: There are some customers who also perform some level of marketing activities in another system such as a CRM like Salesforce and then pass the Lead to Marketo. The Lead at times gets updated and synched back and forth so it is important to track which system has made recent changes.
+One use case is:
+
+- Tracking changes across marketing systems: When a CRM or another system exchanges leads with Marketo, use audit events to identify which system made the latest change.
 
 List of Streamed User Audit Events:
 
@@ -128,7 +132,7 @@ Example of User Audit Event:
 
 Notification Data Stream is available as part of the Performance level offerings of Marketo Engage.
 
-Currently, the notification center in Marketo can be configured to send notifications to an email address. Notification Data Stream enables the notifications to be sent directly to a configurable endpoint via Adobe I/O events. Notifications are provided thru the UI today and can be referenced by the orange bell in the top right of the screen and this stream takes those notifications and sends them thru a stream.
+The Marketo notification center can send notifications to an email address. Notification Data Stream also sends those notifications to a configurable endpoint through Adobe I/O Events. These are the same notifications available from the bell icon in the Marketo UI.
 
 List of Notification Events:
 
@@ -164,18 +168,18 @@ Example of Notification Event:
 
 ## Technical Details
 
-This section provides guidelines on what is needed, how to connect and receive streaming data for each of the streams. There is some level of coding and setup involved for each.
+The following sections describe the configuration required to receive data from each stream. Each stream requires endpoint setup and integration code.
 
 ### Lead Activity Data Stream
 
-The Lead Activity Stream provides near real-time streaming of Marketo Lead Activity events and sends subscribed activity type changes with configurable attributes:
+Lead Activity Stream sends subscribed lead activity events with these service characteristics:
 
-- Frequency of data pushes every 2 seconds by default.
-- Batches from 100 to 500 per subscription.
-- Timeout for customer REST service is 20 seconds with 3 retries every 3 minutes, and auto enabled upon success. Otherwise after this, they are paused. Once its paused, the service retries every 3 minutes in an attempt to re-enable unless de-provisioned manually.
-- Data retention in a queue for up to 7 days.
+- Data is pushed every two seconds by default.
+- Each subscription uses batches of 100–500 records.
+- The customer REST service has a 20-second timeout and three retries at three-minute intervals. A successful retry automatically enables the service. After three failures, the service pauses and retries every three minutes unless manually deprovisioned.
+- Queued data is retained for up to seven days.
 
-To implement the Lead Activity Data Stream, here are the steps for customers to follow:
+To implement Lead Activity Data Stream:
 
 1. Expose an HTTP endpoint that can receive POST requests with a JSON body from the public internet. The Activity Push Data Stream sends requests to:
 1. Provide Adobe with the following:
@@ -186,7 +190,7 @@ To implement the Lead Activity Data Stream, here are the steps for customers to 
         1. An identity provider URL, Client ID, and Client Secret for OAuth [Client Credentials Authentication](https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/)
         1. An API token, which can be included in requests sent by the Lead Activity Datastream in an Authorization http header
 
-Adobe then enables the data stream, at which point customers begin to receive data.
+Adobe enables the data stream after receiving the required information. The endpoint then begins receiving data.
 
 UML diagram of a typical Lead Activity Data Stream call:
 
@@ -237,22 +241,22 @@ app.listen(port,()=>{
 })
 ```
 
-A code sample for an application that consumes the Marketo Lead Activity Data Stream can be found [here](https://github.com/ihgrant/activity-stream-consumer-example).
+See the [Lead Activity Data Stream consumer example](https://github.com/ihgrant/activity-stream-consumer-example) for sample application code.
 
 ### User Audit Data Stream and Notification Data Stream
 
-User Audit events are sent to Adobe IO and can be consumed by logging in with an Adobe ID. Here are the steps to follow:
+User Audit events are sent through Adobe I/O. To consume them with an Adobe ID:
 
-1. Customers provide Adobe with the following:
+1. Provide Adobe with the following information:
     1. Adobe ID
     1. Marketo Munchkin ID for their subscription
-1. Customer exposes a REST endpoint to consume events normally in the form of a webhook.
-1. Once that is provided, Adobe enables the stream for the customer's subscription.
-1. Customer then sets up the stream in Adobe IO (instructions to be provided)
+1. Expose a REST endpoint, typically a webhook, to consume events.
+1. After receiving the endpoint information, Adobe enables the stream for the subscription.
+1. Configure the stream in Adobe I/O.
     1. This step requires an Adobe Org
     1. Requires Adobe Org User to have Developer or System Admin Role
 
-To setup Adobe IO, see [Setting up Marketo User Audit Data Streams with Adobe IO](https://developer.adobe.com/events/docs/guides/using/marketo/marketo-user-audit-data-stream-setup#) in the Public Documentation section.
+To configure Adobe I/O, see [Setting up Marketo User Audit Data Streams with Adobe I/O](https://developer.adobe.com/events/docs/guides/using/marketo/marketo-user-audit-data-stream-setup#).
 
 ### Setting Up The User Audit Data Stream in Marketo
 

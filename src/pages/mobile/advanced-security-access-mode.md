@@ -5,13 +5,22 @@ description: "Learn Advanced Security Access Mode for Marketo Mobile SDK, with H
 
 # Advanced Security Access Mode
 
-The Marketo SDK exposes methods to set and remove the security signature. There is also a utility method to retrieve the device ID. The device ID should be passed along with the email, upon login, to the customer server for use in calculating the security signature. The SDK should the hit new endpoint, pointing to algorithm listed above, to retrieve the necessary fields to instantiate the signature object. Setting this signature in the SDK is a necessary step if the Security Access Mode has been enabled in Marketo Mobile Admin.
+Advanced Security Access Mode requires the Marketo SDK to retrieve and set a security signature. The SDK provides methods to set and remove the signature and a utility method to retrieve the device ID.
+
+At login, send the device ID and email address to the customer server to calculate the security signature. The SDK then calls the customer endpoint to retrieve the fields required to instantiate the signature object. If Security Access Mode is enabled in Marketo Mobile Admin, you must set this signature in the SDK.
 
 ## Secure Access Mode Setup
 
-This setup must be implemented before the Secure Access mode has been enabled via the Marketo Admin > Mobile Apps & Devices page. The following further steps describe the process required to complete the security validation process:
+Implement this setup before enabling Secure Access mode on the Marketo Admin > Mobile Apps & Devices page.
 
-Secure Access mode requires implementing the signature algorithm on the customer server-side that will provide an endpoint to retrieve the access key, calculated signature, expiry timestamp, and email. This algorithm requires the user access key, access secret, email, timestamp, and device id to perform the calculation. The customer is responsible for setting up endpoint, implementing the algorithm to preform signature calculations, and also keep expiration timestamp fresh.
+Secure Access mode requires a server-side signature algorithm and a customer endpoint. The endpoint returns the following values:
+
+- Access key
+- Calculated signature
+- Expiration timestamp
+- Email address
+
+The algorithm uses the user access key, access secret, email address, timestamp, and device ID. The customer must set up the endpoint, implement the signature calculation, and keep the expiration timestamp current.
 
 ```python
 import argparse
@@ -55,7 +64,7 @@ if __name__ == '__main__':
 
 ```
 
-The Marketo SDK exposes new methods to set and remove the security signature. There is also a utility method to retrieve the device ID. The device ID should be passed along with the email, upon login, to the customer server for use in calculating the security signature. The SDK should the hit new endpoint, pointing to algorithm listed above, to retrieve the necessary fields to instantiate the signature object. Setting this signature in the SDK is a necessary step if the Security Access Mode has been enabled in Marketo Mobile Admin.
+Use the platform-specific methods to set or remove the security signature and retrieve the device ID.
 
 ### iOS
 

@@ -10,11 +10,11 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'fs';
 import { readdirSync, statSync } from 'fs';
 import { join, dirname, relative, extname, basename } from 'path';
 
-const SOURCE_ROOT = '/Users/dobooth/projects/marketo-developer.en/help';
-const TARGET_ROOT = '/Users/dobooth/projects/marketo-apis/src/pages';
+const SOURCE_ROOT = process.env.MARKETO_EXL_SOURCE || '/Users/dobooth/projects/marketo-developer.en/help';
+const TARGET_ROOT = process.env.MARKETO_ADP_TARGET || '/Users/dobooth/projects/marketo-apis/src/pages';
 
 const SKIP_FILES = new Set(['TOC.md', 'home.md']);
-const IMAGE_EXTS = new Set(['.png', '.svg', '.jpg', '.jpeg', '.gif', '.webp']);
+const ASSET_EXTS = new Set(['.png', '.svg', '.jpg', '.jpeg', '.gif', '.webp', '.pdf', '.zip']);
 
 const ALERT_VARIANTS = {
   NOTE: 'info',
@@ -238,8 +238,16 @@ function sanitizePlainTextSegment(text) {
   t = t.replace(/<([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})>/g, '$1');
   // 3. <a href="url">text</a> → [text](url)
   t = t.replace(/<a\s[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, '[$2]($1)');
-  // 4. Escape remaining < that open HTML-like tags (preserves as literal text)
-  t = t.replace(/<([a-zA-Z/!][^>]*?)>/g, '\\<$1>');
+  // 4. Remove legacy named anchors; ADP derives anchors from headings.
+  t = t.replace(/<a\s+name=["'][^"']+["']\s*><\/a>/gi, '');
+  // 5. Flatten legacy HTML line breaks; table cells cannot contain raw <br> tags.
+  t = t.replace(/<br\s*\/?\s*>/gi, ' ');
+  // 6. Escape remaining HTML-like tags (preserves them as literal text).
+  t = t.replace(/(?<!\\)<([a-zA-Z/!][^>]*?)>/g, '\\<$1>');
+  // 7. Convert remaining angle-bracket examples/autolinks to inline code.
+  t = t.replace(/(?<!\\)<([^>\n]+)>/g, '`$1`');
+  // 8. Escape braces outside code, which ADP otherwise interprets as syntax.
+  t = t.replace(/(?<!\\)\{/g, '\\{');
   return t;
 }
 
@@ -271,7 +279,9 @@ function sanitizeHTML(content) {
     const segs = splitOnCodeSpans(line);
     const sanitized = segs
       .map((s) => (s.isCode ? s.text : sanitizePlainTextSegment(s.text)))
-      .join('');
+      .join('')
+      // The ADP linter rejects angle-bracket autolinks even inside inline code.
+      .replace(/\\?<([^>\n]+)>/g, '$1');
     out.push(sanitized);
   }
 
@@ -344,7 +354,7 @@ walk(SOURCE_ROOT, (srcPath) => {
     writeFileSync(targetPath, out, 'utf8');
     stats.converted++;
     console.log(`  OK    ${rel}`);
-  } else if (IMAGE_EXTS.has(ext)) {
+  } else if (ASSET_EXTS.has(ext)) {
     copyFileSync(srcPath, targetPath);
     stats.copied++;
     console.log(`  COPY  ${rel}`);

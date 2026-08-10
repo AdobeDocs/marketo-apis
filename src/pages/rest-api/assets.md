@@ -5,7 +5,7 @@ description: "Overview of Marketo Asset REST APIs for querying by id or name, br
 
 # Assets
 
-Marketo provides APIs to interact with most marketing and organizational assets within Marketo.
+Use the Marketo Asset REST APIs to query and manage marketing and organizational assets.
 
 ## Assets
 
@@ -29,9 +29,11 @@ For a full listing of Asset API endpoints, including parameters and modeling inf
 
 ## Query
 
-Assets typically have three patterns by which they can be retrieved: by id, by name, and by browsing.  By id and by name will both retrieve a single asset for a given parameter, while browsing will return and allow paging through the whole list of assets of that type.  Individual types of assets have varying parameters by which they can be filtered, so be sure to look at their individual documents for specifics.
+Asset APIs typically support three retrieval patterns: by ID, by name, and by browsing. Queries by ID or name retrieve one asset for the specified parameter. Browse endpoints return a paginated list of assets of that type.
 
-In certain cases the browse endpoint for some asset types will not return child assets, such as the allowable values for a tag, and they must be retrieved individually using either the By Name or By Id endpoint to return the complete set of metadata.  Others may have separate endpoints entirely for retrieving dependent objects like Form Fields.
+Filtering parameters vary by asset type. See the documentation for each asset type for supported filters.
+
+Some browse endpoints do not return child assets, such as the allowed values for a tag. Retrieve these assets individually by name or ID to get their complete metadata. Other asset types provide separate endpoints for dependent objects such as form fields.
 
 ### By Id
 
@@ -74,7 +76,7 @@ GET /rest/asset/v1/folder/{id}.json?type=Folder
 
 ### By Name
 
-For technical reasons, the Asset APIs are unable to search for Asset names containing commas (,).  It is recommended that your naming convention exclude commas for all asset types.
+Asset APIs cannot search for asset names that contain commas. Exclude commas from asset names.
 
 ```http
 GET /rest/asset/v1/file/byName.json?name=My File
@@ -107,10 +109,10 @@ GET /rest/asset/v1/file/byName.json?name=My File
 
 ### Browse
 
-Browsing through assets will always permit two query parameters:
+Asset browse endpoints support these query parameters:
 
-- offset - An integer offset to return results from.
-- maxReturn - Limits the number of records returned.  Defaults to 20 if unset, and has a maximum of 200.
+- `offset` - An integer offset at which to begin returning results.
+- `maxReturn` - The maximum number of records to return. The default is 20, and the maximum is 200.
 
 ```http
 GET /rest/asset/v1/emailTemplates.json?offset=10&maxReturn=50
@@ -168,9 +170,9 @@ GET /rest/asset/v1/emailTemplates.json?offset=10&maxReturn=50
 
 ## Create and Update
 
-For simple asset types like Folders, Tokens and Files there is typically only a single endpoint for creation, and then an additional endpoint for updating records by ID.  Assets are created with a name which is always required, and then any metadata and IDs are returned by the create or update response.
+Simple asset types, such as folders, tokens, and files, typically provide one endpoint for creation and another for updates by ID. A name is required when creating an asset. The create or update response returns the asset metadata and ID.
 
-For example, here's how to create a token:
+The following request creates a token:
 
 ```http
 POST /rest/asset/v1/folder/{id}/tokens.json
@@ -209,7 +211,7 @@ name=April Fools&value=2015-04-01&type=date&folderType=Folder
 }
 ```
 
-To update a folder you would do this:
+The following request updates a folder:
 
 ```http
 POST /rest/asset/v1/folder/{id}.json
@@ -256,13 +258,13 @@ type=Folder&description=This is a test (update 01)
 }
 ```
 
-Other assets have more complex structures and require updates to additional subsections or child objects, and then ultimately have to undergo approval before they can be put into use.  These asset types include Forms, Emails, Email Templates, Landing Pages, and Landing Page templates.  These will each have a single endpoint for creating a record, then additional endpoints for updating metadata, content, and content sections.
+Forms, emails, email templates, landing pages, and landing page templates have more complex structures. Each type provides one endpoint for creating the asset and additional endpoints for updating its metadata, content, and content sections.
 
-For example, to create a Landing Page, you will must call its create endpoint with a template ID and then retrieve its content sections, and update each one individually to add content, before approving it so that it can be deployed live.
+These assets must be approved before use. For example, create a landing page with a template ID, retrieve its content sections, update each required section, and then approve the page for deployment.
 
 ### Complex Create
 
-Landing pages first require creating a Landing Page asset using a parent template.  This creates a new landing page containing the default content of the template for each content section.
+Create a landing page from a parent template. The new landing page contains the template's default content for each section.
 
 ```http
 POST rest/asset/v1/landingPages.json
@@ -311,7 +313,7 @@ name=createLandingPage&folder={"type": "Folder", "id": 11}&template=1&descriptio
 
 #### Get Sections
 
-To populate the content for a landing page, you must retrieve the list of content sections, and then perform individual updates for any section that deviates from the template.
+Retrieve the landing page's content sections. Update each section that must differ from the template.
 
 ```http
 GET /rest/asset/v1/landingPage/{id}/content.json
@@ -365,7 +367,9 @@ POST /rest/asset/v1/landingPage/{id}/content/{contentId}.json?type=Form&value=1
 
 ## Approval
 
-Many asset types have an associated draft and approval system, including Emails, Landing Pages, Snippets, Forms, and their corresponding templates.  Trying to approve an asset will evaluate it against a specific set of validation rules, and then either set it to an approved state, or return a failure reason.  For these types of assets, whenever an update is made to the content of a particular asset the changes are made to a draft of the asset, which does not affect the approved version.  This allows changes to content to be safely made without affecting live versions of the asset.  The changes can then be applied to the live version by using the approval endpoint.  This also clears the draft state of the asset until any additional updates are applied.
+Emails, landing pages, snippets, forms, and their templates use a draft and approval system. Content updates change the draft without affecting the approved live version.
+
+The approval endpoint validates the draft. If validation succeeds, the draft replaces the live version and the draft state is cleared. If validation fails, the endpoint returns the reason.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/approveDraft.json
@@ -397,7 +401,9 @@ POST /rest/asset/v1/emailTemplate/{id}/approveDraft.json
 
 The successful approval replaces the previous live version with the updated version.
 
-Discarding drafts is also available through an endpoint for each valid asset type.  Using this on an asset which is in an approved with draft state will discard the current draft and any pending changes it has.  Using this on an asset that currently has no approved version will do nothing and return an error.  Draft-only assets may be deleted, but they may not be discarded.
+Each supported asset type provides an endpoint for discarding drafts. For an approved asset with a draft, this endpoint discards the draft and its pending changes.
+
+The endpoint returns an error if the asset has no approved version. You can delete a draft-only asset, but you cannot discard its draft.
 
 ```http
 POST /rest/asset/v1/emailTemplate/{id}/discardDraft.json
@@ -427,7 +433,9 @@ POST /rest/asset/v1/emailTemplate/{id}/discardDraft.json
 }
 ```
 
-Assets can also be unapproved if they are in an approved-only state.  This will take down any live versions of the asset and returning the asset to a draft-only state while also discarding any associated draft.  This action can only be performed on most assets if it is not in use anywhere in Marketo, such as an email being referred to in a Send Email flow step, or a snippet being embedded in an Email.
+You can unapprove an asset that is in an approved-only state. Unapproving removes the live version, returns the asset to a draft-only state, and discards any associated draft.
+
+For most asset types, the asset must not be in use. For example, you cannot unapprove an email referenced by a Send Email flow step or a snippet embedded in an email.
 
 ```http
 POST /rest/asset/v1/email/{id}/unapprove.json
@@ -450,7 +458,9 @@ POST /rest/asset/v1/email/{id}/unapprove.json
 
 ## Delete
 
-Assets with approval and draft states, except for forms, may not be deleted while approved, and must be unapproved prior to deletion.  Deletions generally can only be performed when an asset is unapproved and out of use and in the case of folders, being empty of assets.  One notable exception are programs, which can be deleted along with all of their child contents, so long as the program and its contents are not in use anywhere outside of the bounds of the program.
+Except for forms, assets with approval and draft states must be unapproved before deletion. An asset generally must also be unused. A folder must be empty.
+
+Programs are an exception. You can delete a program and its child content if neither the program nor its content is used outside the program.
 
 ```http
 POST /rest/asset/v1/program/{id}/delete.json
@@ -472,4 +482,4 @@ POST /rest/asset/v1/program/{id}/delete.json
 
 ## Timeouts
 
-Asset APIs have a timeout of 300s
+Asset APIs have a timeout of 300 seconds.

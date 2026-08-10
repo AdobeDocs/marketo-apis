@@ -7,15 +7,26 @@ description: "Learn how to bulk import Marketo custom objects via REST using CSV
 
 [Bulk Custom Object Import Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Custom-Objects)
 
-When you have many custom object records to  import, it is best practice to import them asynchronously using the bulk API. This is done by importing a flat file that contains delimited records (comma, tab, or semicolon). The file can contain any number of records, provided its size is less than 10MB (otherwise an HTTP  413 status code is returned). The contents of the file depend on your custom object definition. The first row always contains a header that lists the fields to map values of each row into. All field names in header must match an API name (as discussed below). Remaining rows contain the data to import, one record per row. The record operation is "insert or update" only.
+Use the bulk API to import large numbers of custom object records asynchronously. Provide the records in a comma-, tab-, or semicolon-delimited flat file that is less than 10 MB. If the file is larger, the API returns an HTTP 413 status code.
+
+The file contents depend on the custom object definition. The first row must be a header, and every header field must match an API name. Each remaining row contains one record.
+
+Bulk custom object import supports only the "insert or update" record operation.
 
 ## Processing Limits
 
-You are allowed to submit more than one bulk import request, within limits. Each request is added as a job to a FIFO queue to be processed. A maximum of two jobs are processed at the same time. A maximum of ten jobs are allowed in the queue at any given time (including the 2 currently being processed). If you exceed the ten job maximum, then a "1016, Too many imports" error is returned.
+Each bulk import request is added as a job to a first-in, first-out (FIFO) queue. The following limits apply:
+
+- A maximum of two jobs can be processed concurrently.
+- A maximum of 10 jobs can be in the queue, including the two jobs being processed.
+
+If you exceed the 10-job maximum, the API returns a `1016, Too many imports` error.
 
 ## Custom Object Example
 
-Before using the bulk API, you must first use the Marketo Admin UI to [create your custom object](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/marketo-custom-objects/create-marketo-custom-objects). As an example, suppose that we created a "Car" custom object with "Color", "Make", "Model", and "VIN" fields. Below are Admin UI screens showing the custom object. You can see that we used VIN field for deduplication. The API names are highlighted because they must be used when calling bulk API-related endpoints.
+Before using the bulk API, use the Marketo Admin UI to [create your custom object](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/administration/marketo-custom-objects/create-marketo-custom-objects).
+
+This example uses a `Car` custom object with `Color`, `Make`, `Model`, and `VIN` fields. The VIN field is used for deduplication. The Admin UI screens highlight the API names required by bulk API endpoints.
 
 ![Insert Custom Object](assets/bulk-insert-co-car-1.png)
 
@@ -25,7 +36,7 @@ Here are the custom object fields as presented in the Admin UI.
 
 ### API Names
 
-You can retrieve API names programmatically by passing the custom object API name to the [Describe Custom Object](#describe) endpoint.
+To retrieve API names programmatically, pass the custom object API name to the [Describe Custom Object](#describe) endpoint.
 
 ```text
 /rest/v1/customobjects/{apiName}/describe.json
@@ -110,7 +121,7 @@ You can retrieve API names programmatically by passing the custom object API nam
 
 ### Import File
 
-Now suppose that you want to import three "Car" custom object records. Using comma-delimited format (CSV), the file could look like this:
+The following CSV file contains three `Car` custom object records:
 
 ```text
 color,make,model,vin
@@ -119,11 +130,14 @@ yellow,bmw,320i,WBA4R7C30HK896061
 blue,bmw,325i,WBS3U9C52HP970604
 ```
 
-Line 1 is the header, and lines 2-4 are the custom object data records.
+The first line is the header. Lines 2–4 contain the custom object data records.
 
 ## Creating a Job
 
-To make the bulk import request, you must include the API name of the custom object in the path to the [Import Custom Objects](https://developer.adobe.com/marketo-apis/api/mapi#tag/Identity/operation/identityUsingPOST) endpoint. You must also include a "file" parameter that references the name of your import file, and a"format" parameter that specifies how your import file is delimited ("csv", "tsv", or "ssv").
+To create the bulk import job, include the custom object API name in the path to the [Import Custom Objects](https://developer.adobe.com/marketo-apis/api/mapi#operation/importCustomObjectUsingPOST) endpoint. Include these parameters:
+
+- `file`: The name of the import file.
+- `format`: The file delimiter format (`csv`, `tsv`, or `ssv`).
 
 ```http
 POST /bulk/v1/customobjects/{apiName}/import.json?format=csv
@@ -162,18 +176,20 @@ blue,bmw,325i,WBS3U9C52HP970604
 }
 ```
 
-In this example, we specified "csv" format and named our import file "custom_object_import.csv".
+This example specifies the `csv` format and names the import file `custom_object_import.csv`.
 
-Notice in the response to our call, here is no listing of successes or failures like you would get back from Sync Custom Objects endpoint. Instead, you receive a `batchId`. This is because the call is asynchronous, and can return a `status` of "Queued", "Importing", or "Failed". You should retain the batchId so that you can get status of the import job, or retrieve failures and/or warnings upon completion. The batchId remains valid for seven days.
+Because the call is asynchronous, the response contains a `batchId` instead of the individual successes and failures returned by the Sync Custom Objects endpoint. The `status` can be `Queued`, `Importing`, or `Failed`.
 
-A simple way to replicate the bulk import request is to use curl from the command line:
+Retain the `batchId` to check the import status and retrieve failures or warnings after completion. The `batchId` remains valid for seven days.
+
+The following command-line cURL request submits the example job:
 
 ```bash
 curl -X POST -i -F format='csv' -F file='@custom_object_import.csv' -F access_token='<Access Token>' <REST API Endpoint URL>/bulk/v1/customobjects/car_c/import.json
 
 ```
 
-Where the import file "custom_object_import.csv" contains the following:
+In this example, the `custom_object_import.csv` file contains the following data:
 
 ```text
 color,make,model,vin
@@ -184,7 +200,7 @@ blue,bmw,325i,WBS3U9C52HP970604
 
 ## Polling Job Status
 
-Once the import job has been created, you must query its status. It is best practice to poll the import job every 5-30 seconds. Do this by passing the API name of the custom object and the `batchId` in the path to the [Get Import Custom Object Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Custom-Objects/operation/getImportCustomObjectStatusUsingGET) endpoint.
+After creating the import job, poll it every 5–30 seconds. Pass the custom object API name and `batchId` in the path to the [Get Import Custom Object Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportCustomObjectStatusUsingGET) endpoint.
 
 ```http
 GET /bulk/v1/customobjects/{apiName}/import/{batchId}/status.json
@@ -210,19 +226,23 @@ GET /bulk/v1/customobjects/{apiName}/import/{batchId}/status.json
 }
 ```
 
-This response shows a completed import, but the `status` can be one of: Complete, Queued, Importing, Failed. If the job has completed, you have a listing of the number of rows processed, with failures, and with warnings. The message attribute is also a good place to look for additional job information.
+This response shows a completed import. The `status` can be `Complete`, `Queued`, `Importing`, or `Failed`.
+
+When the job is complete, the response lists the numbers of rows processed, failed, and processed with warnings. The `message` attribute can provide additional job information.
 
 ## Failures
 
-Failures are indicated by the `numOfRowsFailed` attribute in [Get Import Custom Object Status](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Custom-Objects/operation/getImportCustomObjectStatusUsingGET) response. If numOfRowsFailed is greater than zero, then that value indicates the number of failures that occurred. Call [Get Import Custom Object Failures](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Custom-Objects/operation/getImportCustomObjectFailuresUsingGET) endpoint to obtain a file with failure detail. Again, you must pass the custom object API name and `batchId` in the path. If no failure file exists, an HTTP 404 status code is returned.
+The `numOfRowsFailed` attribute in the [Get Import Custom Object Status](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportCustomObjectStatusUsingGET) response indicates the number of failed rows. A value greater than zero means that failures occurred.
 
-Continuing with the example, we can force a failure by modifying the header and changing "vin" to " vin" (by adding a space between the comma and "vin").
+Pass the custom object API name and `batchId` in the path to the [Get Import Custom Object Failures](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportCustomObjectFailuresUsingGET) endpoint. The endpoint returns a file with failure details. If no failure file exists, it returns an HTTP 404 status code.
+
+To demonstrate a failure, modify the header by changing `vin` to ` vin`, adding a space between the comma and `vin`.
 
 ```text
 color,make,model, vin
 ```
 
-When we re-import and check the status, we see this response with `numRowsFailed`: 3. This indicates three failures.
+After reimporting the file, the status response shows `numRowsFailed`: 3, indicating three failures.
 
 ```http
 GET /bulk/v1/customobjects/car_c/import/{batchId}/status.json
@@ -248,7 +268,7 @@ GET /bulk/v1/customobjects/car_c/import/{batchId}/status.json
 }
 ```
 
-Now we make Get Import Custom Object Failures endpoint call to get additional failure detail:
+Call the Get Import Custom Object Failures endpoint for more information:
 
 ```http
 GET /bulk/v1/customobjects/car_c/import/{batchId}/failures.json
@@ -262,11 +282,13 @@ blue,bmw,325i,WBS3U9C52HP970604,missing.dedupe.fields
 
 ```
 
-And we can see that we are missing our deduplication field `vin`.
+The response shows that the deduplication field `vin` is missing.
 
 ## Warnings
 
-Warnings are indicated by the `numOfRowsWithWarning` attribute in Get Import Custom Object Status response. If numOfRowsWithWarning is greater than zero, then that value indicates the number of warnings that occurred. Call [Get Import Custom Object Warnings](https://developer.adobe.com/marketo-apis/api/mapi#tag/Bulk-Import-Custom-Objects/operation/getImportCustomObjectWarningsUsingGET) endpoint to obtain a file with warning detail. Again, you must pass the custom object API name and `batchId` in the path. If no warning file exists, an HTTP 404 status code is returned.
+The `numOfRowsWithWarning` attribute in the Get Import Custom Object Status response indicates the number of rows with warnings. A value greater than zero means that warnings occurred.
+
+Pass the custom object API name and `batchId` in the path to the [Get Import Custom Object Warnings](https://developer.adobe.com/marketo-apis/api/mapi#operation/getImportCustomObjectWarningsUsingGET) endpoint. The endpoint returns a file with warning details. If no warning file exists, it returns an HTTP 404 status code.
 
 ```http
 GET /bulk/v1/customobjects/car_c/import/{batchId}/warnings.json

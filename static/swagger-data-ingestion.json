@@ -1,0 +1,1046 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Marketo Data Ingestion API",
+    "description": "High volume, low latency, highly available service designed to handle ingestion of large amounts of person and person-related data efficiently and with minimal delays. Data is ingested by submitting requests that execute asynchronously. Request status can be retrieved by subscribing to events from the Marketo Observability Data Stream.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://mkto-ingestion-api.adobe.io",
+      "description": "Marketo Data Ingestion API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Persons",
+      "description": "Upsert (insert or update) person/lead records"
+    },
+    {
+      "name": "Custom Objects",
+      "description": "Upsert (insert or update) custom object records"
+    },
+    {
+      "name": "Companies",
+      "description": "Sync company records (createOnly, updateOnly, or createOrUpdate)"
+    },
+    {
+      "name": "Program Members",
+      "description": "Sync program member status or delete (remove) members from programs"
+    },
+    {
+      "name": "Lists",
+      "description": "Add leads to or remove leads from static lists"
+    }
+  ],
+  "paths": {
+    "/subscriptions/{munchkinId}/persons": {
+      "post": {
+        "tags": ["Persons"],
+        "summary": "Sync Persons",
+        "description": "Upsert (insert or update) a list of person/lead records. Required permission: `Read-Write Lead`.",
+        "operationId": "syncPersons",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncPersonsRequest"
+              },
+              "example": {
+                "priority": "high",
+                "partitionName": "EMEA",
+                "dedupeFields": {
+                  "field1": "email",
+                  "field2": "firstName"
+                },
+                "persons": [
+                  {
+                    "email": "brooklyn.parker@karnv.com",
+                    "firstName": "Brooklyn",
+                    "lastName": "Parker",
+                    "company": "Karnv"
+                  },
+                  {
+                    "email": "johnny.neal@yvu30.com",
+                    "firstName": "Johnny",
+                    "lastName": "Neal",
+                    "company": "Acme Inc"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{munchkinId}/customobjects/{customObjectAPIName}": {
+      "post": {
+        "tags": ["Custom Objects"],
+        "summary": "Sync Custom Objects",
+        "description": "Upsert (insert or update) a list of custom object records. If a link field to a Person is specified in the request and that Person does not exist, several retries occur. If that Person is added during the retry window (65 minutes), then the update is successful. Required permission: `Read-Write Custom Object`.",
+        "operationId": "syncCustomObjects",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "customObjectAPIName",
+            "in": "path",
+            "description": "The API name of the custom object type",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "purchases"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncCustomObjectsRequest"
+              },
+              "example": {
+                "dedupeBy": "dedupeFields",
+                "priority": "high",
+                "customObjects": [
+                  {
+                    "email": "brooklyn.parker@karnv.com",
+                    "vin": "20UYA31581L000000",
+                    "make": "BMW",
+                    "model": "3-Series 330i",
+                    "year": 2003
+                  },
+                  {
+                    "email": "johnny.neal@yvu30.com",
+                    "vin": "19UYA31581L000000",
+                    "make": "BMW",
+                    "model": "3-Series 325i",
+                    "year": 1989
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{munchkinId}/companies": {
+      "post": {
+        "tags": ["Companies"],
+        "summary": "Sync Companies",
+        "description": "Sync a list of company records. Supports create, update, and upsert operations with deduplication by external company ID or Marketo internal ID. Required permission: `Read-Write Company`.",
+        "operationId": "syncCompanies",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncCompaniesRequest"
+              },
+              "example": {
+                "action": "createOrUpdate",
+                "dedupeBy": "dedupeFields",
+                "input": [
+                  {
+                    "externalCompanyId": "ext-company-001",
+                    "company": "Acme Corporation",
+                    "industry": "Technology",
+                    "numberOfEmployees": 5000,
+                    "annualRevenue": 100000000
+                  },
+                  {
+                    "externalCompanyId": "ext-company-002",
+                    "company": "Globex Industries",
+                    "industry": "Manufacturing",
+                    "numberOfEmployees": 1200
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request – validation error (e.g. invalid dedupeBy, missing company id for updateOnly when dedupeBy is idField, empty input, invalid action)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{munchkinId}/programmembers": {
+      "post": {
+        "tags": ["Program Members"],
+        "summary": "Sync Program Member Status",
+        "description": "Sync (upsert) program member status. Adds leads to programs or updates their program status. Required permission: `Read-Write Lead`.",
+        "operationId": "syncProgramMembers",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncProgramMembersRequest"
+              },
+              "example": {
+                "programs": [
+                  {
+                    "programId": 1001,
+                    "status": "Member",
+                    "members": [
+                      { "leadId": 10001 },
+                      { "leadId": 10002 }
+                    ]
+                  },
+                  {
+                    "programId": 1002,
+                    "status": "Influenced",
+                    "members": [
+                      { "leadId": 10003 }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request – validation error (e.g. status not specified, lead ids not specified, number of leads exceeded max size, status 'Not in Program' not allowed, invalid programId)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{munchkinId}/programmembers/delete": {
+      "post": {
+        "tags": ["Program Members"],
+        "summary": "Delete Program Members",
+        "description": "Remove leads from programs. Sets the lead's membership status to 'Not in Program'. This endpoint uses POST rather than DELETE because the request requires a JSON body with structured data. Required permission: `Read-Write Lead`.",
+        "operationId": "deleteProgramMembers",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteProgramMembersRequest"
+              },
+              "example": {
+                "programs": [
+                  {
+                    "programId": 1001,
+                    "members": [
+                      { "leadId": 10001 },
+                      { "leadId": 10002 }
+                    ]
+                  },
+                  {
+                    "programId": 1002,
+                    "members": [
+                      { "leadId": 10003 }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request – validation error (e.g. lead ids not specified, number of leads exceeded max size, invalid programId)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{munchkinId}/lists": {
+      "post": {
+        "tags": ["Lists"],
+        "summary": "Add Leads to List",
+        "description": "Add leads to a static list. Required permission: `Read-Write Lead`.",
+        "operationId": "addToList",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListOperationRequest"
+              },
+              "example": {
+                "listId": 1064,
+                "input": [
+                  { "leadId": 10001 },
+                  { "leadId": 10002 },
+                  { "leadId": 10003 }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request – validation error (e.g. leads not specified, number of leads exceeded max size, invalid listId)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{munchkinId}/lists/remove": {
+      "post": {
+        "tags": ["Lists"],
+        "summary": "Remove Leads from List",
+        "description": "Remove leads from a static list. This endpoint uses POST rather than DELETE because the request requires a JSON body with structured data. Required permission: `Read-Write Lead`.",
+        "operationId": "removeFromList",
+        "parameters": [
+          {
+            "name": "munchkinId",
+            "in": "path",
+            "description": "Marketo subscription Munchkin ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "556-RJS-213"
+            }
+          },
+          {
+            "name": "X-Mkto-User-Token",
+            "in": "header",
+            "description": "Marketo API access token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "Arbitrary string (max 255 characters). Used to trace requests through the system via Marketo Observability Data Stream.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "description": "Arbitrary string (max 50 characters). Used to trace the source of requests.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListOperationRequest"
+              },
+              "example": {
+                "listId": 1064,
+                "input": [
+                  { "leadId": 10001 },
+                  { "leadId": 10002 }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted – request accepted for async processing",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Unique request ID",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request – validation error (e.g. leads not specified, number of leads exceeded max size, invalid listId)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – OAuth token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SyncPersonsRequest": {
+        "required": ["persons"],
+        "type": "object",
+        "properties": {
+          "priority": {
+            "type": "string",
+            "description": "Priority of the request.",
+            "enum": ["normal", "high"],
+            "default": "normal"
+          },
+          "partitionName": {
+            "type": "string",
+            "description": "Name of person partition.",
+            "default": "Default"
+          },
+          "dedupeFields": {
+            "$ref": "#/components/schemas/DedupeFields"
+          },
+          "persons": {
+            "type": "array",
+            "description": "List of attribute name-value pairs for the person.",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        }
+      },
+      "DedupeFields": {
+        "type": "object",
+        "description": "Attributes to deduplicate on. One or two attribute names are allowed. Two attributes are used in an AND operation. Supported attributes: id, email, sfdcAccountId, sfdcContactId, sfdcLeadId, sfdcLeadOwnerId, custom attributes (string and integer type only).",
+        "properties": {
+          "field1": {
+            "type": "string",
+            "example": "email"
+          },
+          "field2": {
+            "type": "string",
+            "example": "firstName"
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "description": "Person/lead record. May contain any standard or custom lead field as key-value pairs.",
+        "additionalProperties": true,
+        "example": {
+          "email": "brooklyn.parker@karnv.com",
+          "firstName": "Brooklyn",
+          "lastName": "Parker",
+          "company": "Karnv"
+        }
+      },
+      "SyncCustomObjectsRequest": {
+        "required": ["customObjects"],
+        "type": "object",
+        "properties": {
+          "priority": {
+            "type": "string",
+            "description": "Priority of the request.",
+            "enum": ["normal", "high"],
+            "default": "normal"
+          },
+          "dedupeBy": {
+            "type": "string",
+            "description": "Attributes to deduplicate on.",
+            "enum": ["dedupeFields", "marketoGUID"],
+            "default": "dedupeFields"
+          },
+          "customObjects": {
+            "type": "array",
+            "description": "List of attribute name-value pairs for the object.",
+            "items": {
+              "$ref": "#/components/schemas/CustomObject"
+            }
+          }
+        }
+      },
+      "CustomObject": {
+        "type": "object",
+        "description": "Custom object record. Fields depend on the custom object schema definition.",
+        "additionalProperties": true,
+        "example": {
+          "email": "brooklyn.parker@karnv.com",
+          "vin": "20UYA31581L000000",
+          "make": "BMW",
+          "model": "3-Series 330i",
+          "year": 2003
+        }
+      },
+      "SyncCompaniesRequest": {
+        "required": ["input"],
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Sync action. For createOnly and createOrUpdate, only dedupeFields is allowed for dedupeBy. For updateOnly, both dedupeFields and idField are allowed.",
+            "enum": ["createOnly", "updateOnly", "createOrUpdate"],
+            "default": "createOrUpdate"
+          },
+          "dedupeBy": {
+            "type": "string",
+            "description": "Field to deduplicate on (case-insensitive).",
+            "enum": ["dedupeFields", "idField"],
+            "default": "dedupeFields"
+          },
+          "input": {
+            "type": "array",
+            "description": "List of company attribute name-value pairs.",
+            "items": {
+              "$ref": "#/components/schemas/Company"
+            }
+          }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "description": "Company record. When dedupeBy=dedupeFields, externalCompanyId is required. When dedupeBy=idField, id is required. Additional standard or custom company fields are supported.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Marketo internal company ID. Required when dedupeBy is idField and action is updateOnly."
+          },
+          "externalCompanyId": {
+            "type": "string",
+            "description": "External company identifier. Required when dedupeBy is dedupeFields."
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name."
+          }
+        },
+        "additionalProperties": true
+      },
+      "SyncProgramMembersRequest": {
+        "required": ["programs"],
+        "type": "object",
+        "properties": {
+          "programs": {
+            "type": "array",
+            "description": "List of program operations. Each specifies a program, a target status, and the leads to sync.",
+            "items": {
+              "$ref": "#/components/schemas/ProgramOperation"
+            }
+          }
+        }
+      },
+      "ProgramOperation": {
+        "required": ["programId", "status", "members"],
+        "type": "object",
+        "description": "A program sync operation.",
+        "properties": {
+          "programId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The Marketo program ID. Must be a positive integer.",
+            "example": 1001
+          },
+          "status": {
+            "type": "string",
+            "description": "The program member status to set (e.g. 'Member', 'Influenced'). Must not be 'Not in Program'; use the delete endpoint instead.",
+            "example": "Member"
+          },
+          "members": {
+            "type": "array",
+            "description": "List of lead references to add or update in the program.",
+            "items": {
+              "$ref": "#/components/schemas/ProgramMember"
+            }
+          }
+        }
+      },
+      "DeleteProgramMembersRequest": {
+        "required": ["programs"],
+        "type": "object",
+        "properties": {
+          "programs": {
+            "type": "array",
+            "description": "List of program delete operations.",
+            "items": {
+              "$ref": "#/components/schemas/DeleteProgramOperation"
+            }
+          }
+        }
+      },
+      "DeleteProgramOperation": {
+        "required": ["programId", "members"],
+        "type": "object",
+        "description": "A program delete operation.",
+        "properties": {
+          "programId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The Marketo program ID. Must be a positive integer.",
+            "example": 1001
+          },
+          "members": {
+            "type": "array",
+            "description": "List of lead references to remove from the program.",
+            "items": {
+              "$ref": "#/components/schemas/ProgramMember"
+            }
+          }
+        }
+      },
+      "ProgramMember": {
+        "required": ["leadId"],
+        "type": "object",
+        "description": "Lead reference for program membership.",
+        "properties": {
+          "leadId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The Marketo lead ID.",
+            "example": 10001
+          }
+        }
+      },
+      "ListOperationRequest": {
+        "required": ["listId", "input"],
+        "type": "object",
+        "properties": {
+          "listId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The Marketo static list ID. Must be a positive integer.",
+            "example": 1064
+          },
+          "input": {
+            "type": "array",
+            "description": "List of lead references to add to or remove from the list.",
+            "items": {
+              "$ref": "#/components/schemas/Lead"
+            }
+          }
+        }
+      },
+      "Lead": {
+        "required": ["leadId"],
+        "type": "object",
+        "description": "Lead reference for list membership.",
+        "properties": {
+          "leadId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The Marketo lead ID.",
+            "example": 10001
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Error response body returned for non-202 responses.",
+        "properties": {
+          "error_code": {
+            "type": "string",
+            "description": "Error code.",
+            "example": "4000801"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message.",
+            "example": "Bad request"
+          }
+        }
+      }
+    }
+  }
+}

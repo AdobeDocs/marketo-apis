@@ -7,7 +7,9 @@ description: "Manage Marketo My Tokens with Asset REST API. See supported data t
 
 [Token Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Tokens)
 
-Tokens in Marketo are special strings similar to shortcodes which are replaced by a separate piece of data at run time. There are several types of tokens available in Marketo, but only My Tokens can be edited via the API. My Tokens are child tokens which are local to a particular folder or program. Tokens can be read, created, and deleted via the API.
+Tokens are strings that Marketo replaces with other data at run time. The API can edit only My Tokens, which are child tokens local to a folder or program.
+
+Use the Tokens API to read, create, update, and delete My Tokens.
 
 ## Data Type
 
@@ -22,11 +24,11 @@ Tokens can be created with the following data types:
 | sfdc campaign | Used in Salesforce campaign management integration |
 | text | A text string |
 
-These are the only data types that can used when creating a token via API.
+The API supports only these data types when creating a token.
 
 ## Query
 
-[Get Tokens by Folder Id](https://developer.adobe.com/marketo-apis/api/asset#tag/Tokens/operation/getTokensByFolderIdUsingGET) takes an `id` as a path parameter of either a Program or Folder type. This type is specified by the `folderType` parameter.
+[Get Tokens by Folder ID](https://developer.adobe.com/marketo-apis/api/asset#operation/getTokensByFolderIdUsingGET) takes the ID of a program or folder as a path parameter. Use the `folderType` parameter to specify the type.
 
 ```http
 GET /rest/asset/v1/folder/{id}/tokens.json?folderType=Folder
@@ -60,7 +62,9 @@ GET /rest/asset/v1/folder/{id}/tokens.json?folderType=Folder
 
 ## Create and Update
 
-The [Create Token](https://developer.adobe.com/marketo-apis/api/asset#tag/Tokens/operation/addTokenTOFolderUsingPOST) endpoint creates tokens, or if they exist update them with submitted values. Tokens are created in the context of a folder or a program. The required `id` path parameter is the id of the folder to which the token will be associated with. The `name`, `type`, `value`, and `folderType` are all required parameters of the token. Data is passed as POST x-www-form-urlencoded, not as JSON. The `name` field of the token may not exceed 50 characters.
+The [Create Token](https://developer.adobe.com/marketo-apis/api/asset#operation/addTokenTOFolderUsingPOST) endpoint creates a token or updates an existing token with the submitted values. Tokens belong to a folder or program.
+
+The `id` path parameter identifies the parent folder. The `name`, `type`, `value`, and `folderType` parameters are required. Pass the data as POST `x-www-form-urlencoded`, not as JSON. The token `name` cannot exceed 50 characters.
 
 ```http
 POST /rest/asset/v1/folder/{id}/tokens.json
@@ -102,7 +106,9 @@ name=April Fools&type=date&value=2015-04-01&folderType=Folder
 
 ## Delete
 
-[Delete Token by Name](https://developer.adobe.com/marketo-apis/api/asset#tag/Tokens/operation/deleteTokenByNameUsingPOST) takes an id as a path parameter of either a Program or Folder type. This type is specified by the `folderType` parameter. Tokens are deleted based on their parent folder, the `name`, and the `type` of the token, each of which are required. Data is passed as POST x-www-form-urlencoded, not as JSON.
+[Delete Token by Name](https://developer.adobe.com/marketo-apis/api/asset#operation/deleteTokenByNameUsingPOST) takes the ID of a program or folder as a path parameter. Use `folderType` to specify the type.
+
+The parent folder, token `name`, and token `type` are required. Pass the data as POST `x-www-form-urlencoded`, not as JSON.
 
 ```http
 POST /rest/asset/v1/folder/{id}/tokens/delete.json

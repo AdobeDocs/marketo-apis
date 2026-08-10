@@ -5,11 +5,11 @@ description: Boost Marketo REST API performance with HTTP compression. Enable gz
 
 # Performance
 
-This page contains a list of performance-related topics that you can use to increase the performance of your integration.
+Use the performance options on this page to improve the efficiency of your integration.
 
 ## HTTP Compression
 
-The Marketo REST API supports HTTP compression of response bodies using standards defined by the HTTP 1.1 specification. Enabling compression is recommended because it reduces bandwidth usage, and time spent retrieving data.
+The Marketo REST API supports HTTP response-body compression as defined by the HTTP 1.1 specification. Enable compression to reduce bandwidth usage and data retrieval time.
 
 <InlineAlert slots="text" variant="info" />
 
@@ -21,13 +21,13 @@ To enable compression, include the following HTTP header in the request:
 Accept-Encoding: gzip
 ```
 
-The Marketo REST API will compress the response body and include this header:
+The Marketo REST API compresses the response body and includes the following header:
 
 ```html
 Content-Encoding: gzip
 ```
 
-Here is an example using Curl to call the [Get Leads by Filter Type](https://developer.adobe.com/marketo-apis/api/mapi#tag/Leads/operation/getLeadsByFilterUsingGET) endpoint to retrieve 5 leads:
+The following cURL example calls the [Get Leads by Filter Type](https://developer.adobe.com/marketo-apis/api/mapi#operation/getLeadsByFilterUsingGET) endpoint to retrieve five leads:
 
 ```bash
 curl -H 'Accept-Encoding: gzip' 'https://123-ABC-456.mktorest.com/rest/v1/leads.json?filterType=id&filterValues=4,5,7,12,13'

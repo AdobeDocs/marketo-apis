@@ -5,7 +5,7 @@ description: "Use the Marketo Asset REST API to query, create, update, clone, de
 
 # Emails
 
-[Email Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Emails_New)
+[Email Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset)
 
 Emails are asset records that define message metadata, content configuration, settings, and approval state.
 
@@ -25,7 +25,7 @@ x-app-type: <app-type>
 
 ## Query
 
-You can retrieve email metadata by asset `id` or with the filter endpoint.
+Retrieve email metadata by asset `id` or with the filter endpoint.
 
 ### By ID
 
@@ -56,7 +56,7 @@ GET /rest/asset/v2/email/{id}
 
 ### Filter
 
-The filter endpoint supports searching within a workspace and narrowing results with additional query parameters. 
+The filter endpoint searches within a workspace and supports additional query parameters.
 
 `workspaceId` is required.
 

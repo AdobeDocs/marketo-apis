@@ -7,11 +7,13 @@ description: "Learn how to query Marketo Channels via Asset REST API, browse wit
 
 [Channels Endpoint Reference](https://developer.adobe.com/marketo-apis/api/asset#tag/Channels)
 
-Channels are a standard and required field for all program types. Each type of channel can only be used with the given `applicableProgramType` and provides the list of available program statuses which are valid for program members in each program. If a channel's program statuses are changed after a program is created, then the list of program statuses which a lead may be changed to will match the list given by the channel at that time, but it will not retroactively change the program status for any existing program membership records.
+Channels are a required field for every program type. A channel can be used only with its specified `applicableProgramType`. The channel also defines the program statuses available to program members.
+
+If you change a channel's statuses after creating a program, the program uses the updated list for future status changes. Existing program membership records retain their current statuses.
 
 ## Query
 
-Channels can be queried as standard assets, but do not have an endpoint to retrieve a channel by Id.
+Query channels as standard assets. The API does not provide an endpoint for retrieving a channel by ID.
 
 ### Browse
 

@@ -5,4 +5,4 @@ description: Learn how the Predictive Content JavaScript API enables dynamic web
 
 # Predictive Content
 
-The Predictive Content JavaScript API extends the platform's predictive content. It allows for dynamic customization of a webpage via [Rich Media Recommendations](rich-media-recommendation.md).
+The Predictive Content JavaScript API dynamically customizes webpages with [Rich Media Recommendations](rich-media-recommendation.md). Use the API to extend the platform's predictive content capabilities.

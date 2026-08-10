@@ -7,16 +7,23 @@ description: "Learn how to manage Marketo Named Account Lists with the REST API,
 
 [Named Account Lists Endpoint Reference](https://developer.adobe.com/marketo-apis/api/mapi#tag/Named-Account-Lists)
 
-[Named Account Lists](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/target-account-management/target/account-lists) in Marketo represent collections of named accounts. They can be used for a wide variety of cases, including categorization, data enrichment, and smart campaign filtering. The Named Account List APIs allow for remote management of these list assets and their membership.
+[Named Account Lists](https://experienceleague.adobe.com/en/docs/marketo/using/product-docs/target-account-management/target/account-lists) are collections of named accounts in Marketo. Use them for categorization, data enrichment, and smart campaign filtering.
+
+The Named Account List APIs let you remotely manage list assets and their membership.
 `Content`
 
 ## Permissions
 
-To query Named Account Lists, the Read-Only Named Account List or the Read-Write Named Account List permission is required. To Create, Update, or Delete Lists, the Read-Write Named Account List permission is required. Querying list membership requires the Read-Only Named Account or Read-Write Named Account permissions, while managing membership requires the Read-Write Named Account Permissions.
+The required permission depends on the operation:
+
+- Query Named Account Lists: Read-Only Named Account List or Read-Write Named Account List.
+- Create, update, or delete lists: Read-Write Named Account List.
+- Query list membership: Read-Only Named Account or Read-Write Named Account.
+- Manage list membership: Read-Write Named Account.
 
 ## Model
 
-Named Account Lists have a limited number of standard fields, and are not extensible with custom fields.
+Named Account Lists have a limited set of standard fields and do not support custom fields.
 `Named Account List Field`
 
 | Name | Data Type | Updateable | Notes |
@@ -29,7 +36,9 @@ Named Account Lists have a limited number of standard fields, and are not exten
 
 ## Query
 
-Querying account lists is simple and easy. Currently, there are only two valid filterTypes for querying named account lists: "dedupeFields" and "idField". The field to filter on is set in the `filterType` parameter of the query, and the values are set in `filterValues as` a comma-separated list. The `nextPageToken` and `batchSize` filters are also optional parameters.
+Named account list queries support two filterTypes: "dedupeFields" and "idField". Set the field in the `filterType` query parameter and provide the values in `filterValues as` a comma-separated list.
+
+The `nextPageToken` and `batchSize` filters are optional.
 
 ```http
 GET /rest/v1/namedAccountLists.json?filterType=idField&filterValues=dff23271-f996-47d7-984f-f2676861b5fb,dff23271-f996-47d7-984f-f2676861b5fc
@@ -64,11 +73,13 @@ GET /rest/v1/namedAccountLists.json?filterType=idField&filterValues=dff23271-f99
 
 ## Create and Update
 
-Creating and updating named account list records follows the established patterns for other Lead Database create and update operations. Keep in mind that named account lists only have one updateable field, `name`.
+Create and update named account list records by using the standard Lead Database pattern. Named account lists have only one updateable field: `name`.
 
-The endpoint permits the two standard action types: "createOnly," and "updateOnly."  The `action defaults` to "createOnly."
+The endpoint supports two standard action types: "createOnly" and "updateOnly." The `action defaults` to "createOnly."
 
-The optional `dedupeBy parameter` can be specified if action is `updateOnly`.  Permitted values are "dedupeFields" (corresponding to "name"), or "idField" (corresponding to "marketoGUID").  In `createOnly` modes, only "name" is permitted as the `dedupeBy` field. You can submit up to 300 records at a time.
+You can specify the optional `dedupeBy parameter` when action is `updateOnly`. The permitted values are "dedupeFields", which corresponds to "name", and "idField", which corresponds to "marketoGUID".
+
+In `createOnly` modes, only "name" is permitted as the `dedupeBy` field. You can submit up to 300 records at a time.
 
 ```http
 POST /rest/v1/namedAccountLists.json
@@ -110,7 +121,9 @@ POST /rest/v1/namedAccountLists.json
 
 ## Delete
 
-Deletion of Named Account Lists is simple, and can be done based on either the `name`, or the `marketoGUID` of the list. To select the key you wish to use, pass either "dedupeFields" for name, or "idField" for marketoGUID in the`deleteB` member of your request. If unset, this will default to dedupeFields. You can delete up to 300 records at a time.
+Delete Named Account Lists by using either the `name` or `marketoGUID` of the list. To select the key, pass "dedupeFields" for name or "idField" for marketoGUID in the`deleteB` member of the request.
+
+If unset, the value defaults to dedupeFields. You can delete up to 300 records at a time.
 
 ```http
 POST /rest/v1/namedAccountLists/delete.json
@@ -162,13 +175,13 @@ POST /rest/v1/namedAccountLists/delete.json
 }
 ```
 
-In the case that a record cannot be found for a given key, the corresponding result item will have a`status` of "skipped" and a reason with a code and message describing the failure, as shown in the above example.
+If a record cannot be found for a key, the corresponding result item has a`status` of "skipped." It also includes a reason with a code and message that describe the failure.
 
 ## Managing Membership
 
 ### Query Membership
 
-Querying the membership of a named account list is simple, requiring only the`i` of the account list. Optional parameters are:
+Query named account list membership by providing the`i` of the account list. The optional parameters are:
 
 -`field` - a comma-separated list of fields to include in the response records
 -`nextPageToke` - for paging through the result set
@@ -205,7 +218,7 @@ GET /rest/v1/namedAccountList/{id}/namedAccounts.json
 
 ### Add Members
 
-Named accounts can easily be added to a Named Account List. Accounts may only be added using their marketoGUID. You can add up to 300 records at a time.
+Add named accounts to a Named Account List by using their marketoGUID. You can add up to 300 records at a time.
 
 ```http
 POST /rest/v1/namedAccountList/{id}/namedAccounts.json
@@ -245,7 +258,7 @@ POST /rest/v1/namedAccountList/{id}/namedAccounts.json
 
 ### Remove Members
 
-Removing records from an account list has a different path, but the same interface, requiring a`marketoGUI` for each record that you want to delete. You can remove up to 300 records at a time.
+Removing records from an account list uses a different path but the same interface. Provide a`marketoGUI` for each record to remove. You can remove up to 300 records at a time.
 
 ```http
 POST /rest/v1/namedAccountList/{id}/namedAccounts/remove.json
@@ -285,10 +298,10 @@ POST /rest/v1/namedAccountList/{id}/namedAccounts/remove.json
 
 ## Timeouts
 
-- Named Account List endpoints have a timeout of 30s unless noted below
-  - Sync Named Account Lists: 60s
-  - Delete Named Account Lists: 60s
-  - Get Named Account Lists: 60s
-  - Add Named Account List Members: 60s
-  - Remove Named Account List Members: 60s
-  - Get Named Account List Members: 60s
+- Named Account List endpoints have a timeout of 30s unless otherwise noted.
+- Sync Named Account Lists has a timeout of 60s.
+- Delete Named Account Lists has a timeout of 60s.
+- Get Named Account Lists has a timeout of 60s.
+- Add Named Account List Members has a timeout of 60s.
+- Remove Named Account List Members has a timeout of 60s.
+- Get Named Account List Members has a timeout of 60s.

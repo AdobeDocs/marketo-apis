@@ -5,28 +5,32 @@ description: "Learn how to enable deep links in your app for Marketo push messag
 
 # Enabling Deep Links
 
-Deep linking allows you to redirect people to specific content (resources) within your app. For example, when a person clicks a mobile push message that advertises a purple t-shirt, you can open the app directly to the purple t-shirt content (rather than the home page).
+Deep linking directs people to specific content in your app. For example, when a person selects a mobile push message that advertises a purple t-shirt, the app can open the purple t-shirt content instead of the home page.
 
 The process works like this:
 
-1. The Marketo user places a custom URI in the Tap Action for their push message.
+1. A Marketo user places a custom URI in the Tap Action for a push message.
 1. When a person taps the push message on their device, the Marketo MME SDK triggers an event with the custom URI.
-1. Your app then processes the event and redirects the person to the proper content within your app.
+1. Your app processes the event and directs the person to the corresponding content.
 
-This requires that you define a custom URI structure for your app; register the scheme within your app's manifest; and then add code to process deep link events and route to the proper location in your app.
+To enable this process:
 
-For iOS, refer to the Apple documentation on [Defining a Custom URL Scheme for Your App](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
+1. Define a custom URI structure for your app.
+1. Register the scheme in your app manifest.
+1. Add code that processes deep link events and routes people to the corresponding content.
 
-For Android, refer to Google documentation on [Enabling Deep Links for App Content](https://developer.android.com/training/app-links/deep-linking).
+For iOS, see the Apple documentation on [Defining a Custom URL Scheme for Your App](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
 
-For PhoneGap apps, deep linking is not as straight forward as with native iOS or Android apps, but there are plugins that enable your hybrid app to respond to deep link custom URL schemes and Universal/App Links on both iOS and Android. Consider [these plugins](https://cordova.apache.org/plugins/?q=deeplink).
+For Android, see the Google documentation on [Enabling Deep Links for App Content](https://developer.android.com/training/app-links/deep-linking).
+
+For PhoneGap apps, use a plugin to enable your hybrid app to respond to custom URL schemes and Universal/App Links on iOS and Android. See the available [deep-link plugins](https://cordova.apache.org/plugins/?q=deeplink).
 
 When you have enabled deep linking in your app, share your custom URIs with your Marketo users so they can insert them into the Tap Action for push messages.
 
-Marketo uses a predefined URI structure when setting up test devices. Refer to the "Test Devices" section of the [Installation Guide](installation.md) for more information.
+Marketo uses a predefined URI structure when setting up test devices. For more information, see "Test Devices" in the [Installation Guide](installation.md).
 
 ## Best Practices for Defining a URI Structure
 
-If your brand has an existing mobile site, best practice is to follow its URL structure for the deep link URI as well. For example, if `https://myappname.com/products/purple-shirt` is your website address for the product in question, then `myappname://products/purple-shirt` would be a good deep link URI structure to use in your app.
+If your brand has a mobile site, follow its URL structure when you define the deep link URI. For example, if the product URL is `https://myappname.com/products/purple-shirt`, use `myappname://products/purple-shirt` as the corresponding deep link URI.
 
-Generally, your schemes should be unique to your brand. While there currently are no regulations to make schemes unique worldwide, one way to help ensure that your schemes are unique is to reverse your domain name (for example, `org.companyname`).
+Use a scheme that is unique to your brand. Although no regulation requires schemes to be globally unique, you can help create a unique scheme by reversing your domain name, such as `org.companyname`.
