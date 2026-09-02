@@ -6138,6 +6138,66 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "name": "operator",
+            "in": "formData",
+            "description": "Condition operator",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "formData",
+            "description": "Condition value",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "attributeId.id",
+            "in": "formData",
+            "description": "Id of the attribute",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "attributeId.type",
+            "in": "formData",
+            "description": "Type of the attribute",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "ruleTypeId.id",
+            "in": "formData",
+            "description": "Id of the rule type",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ruleTypeId.type",
+            "in": "formData",
+            "description": "Type of the rule type",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "ruleValues",
+            "in": "formData",
+            "description": "JSON object of rule values",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -7740,7 +7800,7 @@
             "name": "matchType",
             "in": "formData",
             "description": "How rules are combined",
-            "required": true,
+            "required": false,
             "type": "string",
             "enum": [
               "all",
