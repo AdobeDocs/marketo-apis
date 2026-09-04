@@ -5713,13 +5713,20 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "name": "includeFlowSteps",
+            "in": "query",
+            "description": "Set to include flow steps in the response. Default true",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -5787,13 +5794,657 @@
             "description": "Name for the smart campaign",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "includeFlowSteps",
+            "in": "query",
+            "description": "Set to include flow steps in the response. Default true",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/usedBy.json": {
+      "get": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Get Smart Campaign Used By",
+        "description": "Returns a list of assets that reference the specified smart campaign. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartCampaignUsedByUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Integer offset for paging",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "maxReturn",
+            "in": "query",
+            "description": "Maximum number of results to return. Max 50, default 50",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sortByColumn",
+            "in": "query",
+            "description": "Column to sort results by. Default updated_at",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "updatedAt",
+              "name",
+              "updated_at"
+            ]
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Sort order. Default desc",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "asc",
+              "desc"
+            ]
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Filter results by name",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignUsedBy"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/rules.json": {
+      "get": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Get Smart Campaign Rules",
+        "description": "Returns all available trigger and filter rule types that can be used in smart campaign smart lists. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartCampaignRulesUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignRuleType"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/flowSteps.json": {
+      "get": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Get Smart Campaign Flow Steps",
+        "description": "Returns all available flow step action types. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartCampaignFlowStepsUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowStepActionType"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/flowStepTypes.json": {
+      "get": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Get Smart Campaign Flow Step Types",
+        "description": "Returns flow step types with constraint metadata. These are the subset valid for use as flow step choice conditions. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartCampaignFlowStepTypesUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowStepType"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/autoSuggest.json": {
+      "get": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Get Auto Suggest for Smart Campaign",
+        "description": "Returns suggested values for configuring a flow step choice. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartCampaignAutoSuggestUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ruleTypeId.id",
+            "in": "query",
+            "description": "Id of the rule type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ruleTypeId.type",
+            "in": "query",
+            "description": "Type of the rule type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "optionTypeId.id",
+            "in": "query",
+            "description": "Id of the option type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "optionTypeId.type",
+            "in": "query",
+            "description": "Type of the option type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "primaryAttributeValue",
+            "in": "query",
+            "description": "Value used to filter suggestions",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfAutoSuggestValue"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/flows.json": {
+      "post": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Add Flow Step",
+        "description": "Adds a flow step to a smart campaign. Required Permissions: Read-Write Assets",
+        "operationId": "addSmartCampaignFlowStepUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "activityType.id",
+            "in": "formData",
+            "description": "Id of the flow step action type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "activityType.type",
+            "in": "formData",
+            "description": "Type of the flow step action type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "index",
+            "in": "formData",
+            "description": "0-based position to insert the step",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/flow/{stepId}/addChoice.json": {
+      "post": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Add Step Choice",
+        "description": "Adds a choice to an existing flow step. All form parameters are optional; use the Update Flow Step Choice endpoint to configure the choice condition and values afterward. Required Permissions: Read-Write Assets",
+        "operationId": "addSmartCampaignFlowStepChoiceUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "stepId",
+            "in": "path",
+            "description": "Id of the flow step",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "operator",
+            "in": "formData",
+            "description": "Condition operator",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "formData",
+            "description": "Condition value",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "attributeId.id",
+            "in": "formData",
+            "description": "Id of the attribute",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "attributeId.type",
+            "in": "formData",
+            "description": "Type of the attribute",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "ruleTypeId.id",
+            "in": "formData",
+            "description": "Id of the rule type",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ruleTypeId.type",
+            "in": "formData",
+            "description": "Type of the rule type",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "ruleValues",
+            "in": "formData",
+            "description": "JSON object of rule values",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/flow/{stepId}/choice/{choiceId}.json": {
+      "post": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Update Flow Step Choice",
+        "description": "Updates a flow step choice's condition and attribute values. Required Permissions: Read-Write Assets",
+        "operationId": "updateSmartCampaignFlowStepChoiceUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "stepId",
+            "in": "path",
+            "description": "Id of the flow step",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "choiceId",
+            "in": "path",
+            "description": "Id of the flow step choice",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "operator",
+            "in": "formData",
+            "description": "Condition operator, for example 'is', 'is not', 'contains'",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "conditionTypeId.id",
+            "in": "formData",
+            "description": "Id of the condition type",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "conditionTypeId.type",
+            "in": "formData",
+            "description": "Type of the condition type",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "conditionValues",
+            "in": "formData",
+            "description": "JSON array of condition values, for example [\"San Francisco\"]",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "attributes",
+            "in": "formData",
+            "description": "JSON object mapping attribute names to values",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/flow/{stepId}/remove.json": {
+      "post": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Remove Flow Step",
+        "description": "Removes a flow step and all its choices from a smart campaign. Required Permissions: Read-Write Assets",
+        "operationId": "removeSmartCampaignFlowStepUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "stepId",
+            "in": "path",
+            "description": "Id of the flow step",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/flow/{stepId}/choice/{choiceId}/remove.json": {
+      "post": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Remove Flow Step Choice",
+        "description": "Removes a specific choice from a flow step. The default choice cannot be removed. Required Permissions: Read-Write Assets",
+        "operationId": "removeSmartCampaignFlowStepChoiceUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "stepId",
+            "in": "path",
+            "description": "Id of the flow step",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "choiceId",
+            "in": "path",
+            "description": "Id of the flow step choice",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartCampaign/{id}/flow/{stepId}/choice/{choiceId}/reorder.json": {
+      "post": {
+        "tags": [
+          "Smart Campaigns"
+        ],
+        "summary": "Reorder Flow Step Choice",
+        "description": "Moves a choice to a new position within a flow step. Required Permissions: Read-Write Assets",
+        "operationId": "reorderSmartCampaignFlowStepChoiceUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart campaign",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "stepId",
+            "in": "path",
+            "description": "Id of the flow step",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "choiceId",
+            "in": "path",
+            "description": "Id of the flow step choice",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "newSeqNumZeroBased",
+            "in": "query",
+            "description": "New 0-based position for the choice. Must be non-negative",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
             }
           }
         }
@@ -6823,6 +7474,524 @@
             "description": "Exclude smart lists after this date. Must be valid ISO-8601 string. See <a href=\"http://developers.marketo.com/rest-api/lead-database/fields/field-types/\">Datetime</a> field type description.",
             "required": false,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Create Smart List",
+        "description": "Creates a new Smart List. Required Permissions: Read-Write Assets",
+        "operationId": "createSmartListUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "createSmartListRequest",
+            "description": "createSmartListRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateSmartListRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/rules.json": {
+      "get": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Get Smart List Rules",
+        "description": "Returns all available filter rule types that can be used in smart lists. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartListRulesUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListRuleType"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/autoSuggest.json": {
+      "get": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Get Auto Suggest for Smart List",
+        "description": "Returns suggested values for configuring a smart list rule. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "operationId": "getSmartListAutoSuggestUsingGET",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "ruleTypeId.id",
+            "in": "query",
+            "description": "Id of the rule type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ruleTypeId.type",
+            "in": "query",
+            "description": "Type of the rule type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "optionTypeId.id",
+            "in": "query",
+            "description": "Id of the option type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "optionTypeId.type",
+            "in": "query",
+            "description": "Type of the option type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "primaryAttributeValue",
+            "in": "query",
+            "description": "Value used to filter suggestions",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfAutoSuggestValue"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/rules.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Add Rule",
+        "description": "Adds a rule to a smart list. Required Permissions: Read-Write Assets",
+        "operationId": "addSmartListRuleUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "ruleId.id",
+            "in": "formData",
+            "description": "Id of the rule type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ruleId.type",
+            "in": "formData",
+            "description": "Type of the rule type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "index",
+            "in": "formData",
+            "description": "1-based position to insert the rule",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "trigger",
+            "in": "formData",
+            "description": "Set true for a trigger rule. Default false",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "negative",
+            "in": "formData",
+            "description": "Set true to negate the rule. Default false",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/rule/{ruleId}.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Update Rule",
+        "description": "Updates an existing smart list rule. Required Permissions: Read-Write Assets",
+        "operationId": "updateSmartListRuleUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "ruleId",
+            "in": "path",
+            "description": "Id of the rule",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "attributeId.id",
+            "in": "formData",
+            "description": "Id of the attribute to set",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "attributeId.type",
+            "in": "formData",
+            "description": "Type of the attribute to set",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          },
+          {
+            "name": "values",
+            "in": "formData",
+            "description": "JSON array of values, for example [\"San Francisco\"]",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operator",
+            "in": "formData",
+            "description": "Comparison operator, for example 'is', 'is not', 'contains', 'starts with'",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/filterLogic.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Update Filter Logic",
+        "description": "Updates the filter match type for a smart list. Required Permissions: Read-Write Assets",
+        "operationId": "updateSmartListFilterLogicUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "matchType",
+            "in": "formData",
+            "description": "How rules are combined",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "all",
+              "any",
+              "custom"
+            ]
+          },
+          {
+            "name": "customRuleLogic",
+            "in": "formData",
+            "description": "Custom logic expression, for example '1 and (2 or 3)'. Required when matchType is custom",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/rule/{ruleId}/delete.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Delete Rule",
+        "description": "Deletes a single rule from a smart list. Required Permissions: Read-Write Assets",
+        "operationId": "deleteSmartListRuleUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "ruleId",
+            "in": "path",
+            "description": "Id of the rule",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfIdResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/rule/{ruleId}/removeConstraint.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Remove Rule Constraint",
+        "description": "Removes a constraint from a rule without deleting the entire rule. Required Permissions: Read-Write Assets",
+        "operationId": "removeSmartListRuleConstraintUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "ruleId",
+            "in": "path",
+            "description": "Id of the rule",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "attributeId.id",
+            "in": "formData",
+            "description": "Id of the constraint to remove",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "attributeId.type",
+            "in": "formData",
+            "description": "Type of the constraint to remove",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "activity",
+              "attribute"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/reorder.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Reorder Rules",
+        "description": "Changes the order of rules within a smart list. Required Permissions: Read-Write Assets",
+        "operationId": "reorderSmartListRulesUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "order",
+            "in": "formData",
+            "description": "JSON string representing the new rule order, for example [{\"ruleId\":101,\"index\":1}]",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseOfSmartListResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rest/asset/v1/smartList/{id}/rules/delete.json": {
+      "post": {
+        "tags": [
+          "Smart Lists"
+        ],
+        "summary": "Delete All Rules",
+        "description": "Removes all rules from a smart list. Required Permissions: Read-Write Assets",
+        "operationId": "deleteAllSmartListRulesUsingPOST",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the smart list",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "responses": {
@@ -11829,6 +12998,787 @@
         }
       }
     },
+    "SmartCampaignResponseWithFlow": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "type",
+        "isSystem",
+        "isActive",
+        "isRequestable",
+        "recurrence",
+        "qualificationRuleType",
+        "qualificationRuleInterval",
+        "qualificationRuleUnit",
+        "maxMembers",
+        "isCommunicationLimitEnabled",
+        "smartListId",
+        "flowId",
+        "folder",
+        "createdAt",
+        "updatedAt",
+        "workspace",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the smart campaign (system managed)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the smart campaign"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the smart campaign"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the smart campaign. Batch: has at least one filter and no triggers. Trigger: has at least one trigger. Default: has no smart list rules",
+          "enum": [
+            "batch",
+            "default",
+            "trigger"
+          ]
+        },
+        "isSystem": {
+          "type": "boolean",
+          "description": "Whether smart campaign is system managed. Defaults to false"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether smart campaign is active. Defaults to false"
+        },
+        "isRequestable": {
+          "type": "boolean",
+          "description": "Whether smart campaign is requestable (is active and contains 'Campaign is Requested' trigger with Source of 'Web Service API'). Defaults to false"
+        },
+        "recurrence": {
+          "description": "Recurrence schedule of batch smart campaign",
+          "$ref": "#/definitions/Recurrence"
+        },
+        "qualificationRuleType": {
+          "type": "string",
+          "description": "Type of qualification rule. Defaults to 'once'",
+          "enum": [
+            "once",
+            "any",
+            "interval"
+          ]
+        },
+        "qualificationRuleInterval": {
+          "type": "integer",
+          "description": "Interval of qualification rule. Only set when qualificationRuleType is 'interval'"
+        },
+        "qualificationRuleUnit": {
+          "type": "string",
+          "description": "Unit of measure of qualification rule. Only set when qualificationRuleType is 'interval'",
+          "enum": [
+            "hour",
+            "day",
+            "week",
+            "month"
+          ]
+        },
+        "maxMembers": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Smart campaign membership limit"
+        },
+        "isCommunicationLimitEnabled": {
+          "type": "boolean",
+          "description": "Whether smart campaign communication limit is enabled (i.e. block non-operational emails). Defaults to false"
+        },
+        "smartListId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the smart campaign's child smart list"
+        },
+        "flowId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the smart campaign's child flow"
+        },
+        "parentProgramId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Parent program Id. Present if smart campaign is under program or nested folder"
+        },
+        "folder": {
+          "description": "JSON representation of parent folder, with members 'id', and 'type' which may be 'Folder' or 'Program'",
+          "$ref": "#/definitions/Folder"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the smart campaign was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the smart campaign was most recently updated"
+        },
+        "workspace": {
+          "type": "string",
+          "description": "Name of the smart campaign workspace"
+        },
+        "computedUrl": {
+          "type": "string",
+          "description": "URL to asset in Marketo Engage"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of smart campaign",
+          "enum": [
+            "Inactive",
+            "Single Run",
+            "Invalid",
+            "Recurring Run",
+            "Active",
+            "Requested",
+            "Never Run"
+          ]
+        },
+        "flow": {
+          "description": "Flow steps of the campaign, included when includeFlowSteps is true",
+          "$ref": "#/definitions/Flow"
+        }
+      }
+    },
+    "ResponseOfSmartCampaignResponseWithFlow": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignResponseWithFlow"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Flow": {
+      "type": "object",
+      "description": "Flow steps of a smart campaign",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlowStep"
+          }
+        }
+      }
+    },
+    "FlowStep": {
+      "type": "object",
+      "required": [
+        "id",
+        "activityTypeId",
+        "activityTypeName"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the flow step, used in flow step mutation endpoints"
+        },
+        "activityTypeId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the flow step action type"
+        },
+        "activityTypeName": {
+          "type": "string",
+          "description": "Name of the flow step action type"
+        },
+        "stepChoice": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlowStepChoice"
+          }
+        }
+      }
+    },
+    "FlowStepChoice": {
+      "type": "object",
+      "required": [
+        "id",
+        "default"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the choice, used in choice mutation endpoints"
+        },
+        "default": {
+          "type": "boolean",
+          "description": "Whether this is the default choice for the flow step"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlowStepChoiceAttribute"
+          }
+        },
+        "rule": {
+          "description": "Condition for the choice, present on non-default choices",
+          "$ref": "#/definitions/FlowStepChoiceRule"
+        }
+      }
+    },
+    "FlowStepChoiceAttribute": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the attribute"
+        },
+        "activityTypeAttribId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the activity type attribute definition"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the attribute"
+        },
+        "dataType": {
+          "type": "string",
+          "description": "Data type of the attribute value"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value of the attribute"
+        }
+      }
+    },
+    "FlowStepChoiceRule": {
+      "type": "object",
+      "description": "Condition describing when a flow step choice applies",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the rule"
+        },
+        "operator": {
+          "type": "string",
+          "description": "Condition operator, for example 'is', 'is not', 'contains'"
+        },
+        "ruleType": {
+          "type": "string",
+          "description": "Type of the rule",
+          "enum": [
+            "activity",
+            "attribute"
+          ]
+        },
+        "ruleTypeId": {
+          "$ref": "#/definitions/FlowStepChoiceRuleTypeId"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Values used by the condition"
+        }
+      }
+    },
+    "FlowStepChoiceRuleTypeId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the rule type"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the rule",
+          "enum": [
+            "activity",
+            "attribute"
+          ]
+        }
+      }
+    },
+    "SmartCampaignFlowMutationResponse": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the smart campaign"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the smart campaign"
+        },
+        "flow": {
+          "description": "Flow steps of the smart campaign, reflecting the mutation",
+          "$ref": "#/definitions/Flow"
+        }
+      }
+    },
+    "ResponseOfSmartCampaignFlowMutationResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignFlowMutationResponse"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RuleConstraint": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the constraint"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the constraint",
+          "enum": [
+            "activity",
+            "attribute"
+          ]
+        }
+      }
+    },
+    "SmartCampaignRuleType": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the rule type"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the rule type"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the rule",
+          "enum": [
+            "activity",
+            "attribute"
+          ]
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleConstraint"
+          }
+        }
+      }
+    },
+    "ResponseOfSmartCampaignRuleType": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignRuleType"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SmartCampaignFlowStepActionType": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the flow step action type"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the flow step action type"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleConstraint"
+          }
+        }
+      }
+    },
+    "ResponseOfSmartCampaignFlowStepActionType": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignFlowStepActionType"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SmartCampaignFlowStepType": {
+      "type": "object",
+      "description": "Flow step type valid for use as a flow step choice condition",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the flow step type"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the flow step type"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleConstraint"
+          }
+        }
+      }
+    },
+    "ResponseOfSmartCampaignFlowStepType": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignFlowStepType"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "AutoSuggestValue": {
+      "type": "object",
+      "required": [
+        "id",
+        "displayName",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the suggested value"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the suggested value"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the suggested value"
+        }
+      }
+    },
+    "ResponseOfAutoSuggestValue": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AutoSuggestValue"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SmartCampaignUsedByAsset": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the referencing asset"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the referencing asset"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the referencing asset"
+        },
+        "url": {
+          "type": "string",
+          "description": "Url of the referencing asset in the Marketo UI"
+        }
+      }
+    },
+    "SmartCampaignUsedBy": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the smart campaign"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the smart campaign"
+        },
+        "usedBy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignUsedByAsset"
+          }
+        }
+      }
+    },
+    "ResponseOfSmartCampaignUsedBy": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/SmartCampaignUsedBy"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SmartListRuleType": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the rule type"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the rule type"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the rule",
+          "enum": [
+            "activity",
+            "attribute"
+          ]
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleConstraint"
+          }
+        }
+      }
+    },
+    "ResponseOfSmartListRuleType": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartListRuleType"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CreateSmartListRequest": {
+      "type": "object",
+      "required": [
+        "name",
+        "folder"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the smart list. Maximum 255 characters"
+        },
+        "folder": {
+          "description": "Folder object describing the parent folder",
+          "$ref": "#/definitions/Folder"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the smart list. Maximum 2,000 characters"
+        }
+      }
+    },
     "CreateSnippetRequest": {
       "type": "object",
       "required": [
@@ -12295,7 +14245,6 @@
         "description",
         "createdAt",
         "updatedAt",
-        "url",
         "folder",
         "workspace"
       ],
@@ -12325,7 +14274,7 @@
         },
         "url": {
           "type": "string",
-          "description": "Url of the static list in the Marketo UI"
+          "description": "May not be present in the response"
         },
         "folder": {
           "description": "JSON representation of parent folder, with members 'id', and 'type' which may be 'Folder' or 'Program'",
@@ -12336,7 +14285,8 @@
           "description": "Name of the workspace"
         },
         "computedUrl": {
-          "type": "string"
+          "type": "string",
+          "description": "Url of the asset in the Marketo UI"
         }
       }
     },
@@ -13451,10 +15401,15 @@
       "properties": {
         "URL": {
           "type": "string",
-          "description": "Url of the asset in the Marketo UI"
+          "description": "Public URL of the landing page, including the /lp/{munchkinId} path segment"
         },
         "computedUrl": {
-          "type": "string"
+          "type": "string",
+          "description": "Url of the asset in the Marketo UI"
+        },
+        "destinationUrl": {
+          "type": "string",
+          "description": "Public URL of the landing page, without the /lp/{munchkinId} path segment"
         },
         "createdAt": {
           "type": "string",
