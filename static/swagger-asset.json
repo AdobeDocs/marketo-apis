@@ -5992,42 +5992,18 @@
             "format": "int32"
           },
           {
-            "name": "ruleTypeId.id",
+            "name": "ruleTypeId",
             "in": "query",
-            "description": "Id of the rule type",
+            "description": "JSON representation of the rule type, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":11,\"type\":\"activity\"}",
             "required": true,
-            "type": "integer",
-            "format": "int32"
+            "type": "string"
           },
           {
-            "name": "ruleTypeId.type",
+            "name": "optionTypeId",
             "in": "query",
-            "description": "Type of the rule type",
+            "description": "JSON representation of the constraint, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":16,\"type\":\"activity\"}",
             "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
-          },
-          {
-            "name": "optionTypeId.id",
-            "in": "query",
-            "description": "Id of the option type",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "optionTypeId.type",
-            "in": "query",
-            "description": "Type of the option type",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           },
           {
             "name": "primaryAttributeValue",
@@ -6071,23 +6047,11 @@
             "format": "int32"
           },
           {
-            "name": "activityType.id",
+            "name": "activityType",
             "in": "formData",
-            "description": "Id of the flow step action type",
+            "description": "JSON representation of the flow step type, with members 'id' and 'type', for example {\"id\":6,\"type\":\"activity\"}. Flow step types are returned by Get Smart Campaign Flow Steps",
             "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "activityType.type",
-            "in": "formData",
-            "description": "Type of the flow step action type",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           },
           {
             "name": "index",
@@ -6114,7 +6078,7 @@
           "Smart Campaigns"
         ],
         "summary": "Add Step Choice",
-        "description": "Adds a choice to an existing flow step. All form parameters are optional; use the Update Flow Step Choice endpoint to configure the choice condition and values afterward. Required Permissions: Read-Write Assets",
+        "description": "Adds a choice to an existing flow step. Use the Update Flow Step Choice endpoint to configure the choice condition and values. Required Permissions: Read-Write Assets",
         "operationId": "addSmartCampaignFlowStepChoiceUsingPOST",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -6138,66 +6102,6 @@
             "required": true,
             "type": "integer",
             "format": "int32"
-          },
-          {
-            "name": "operator",
-            "in": "formData",
-            "description": "Condition operator",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "value",
-            "in": "formData",
-            "description": "Condition value",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "attributeId.id",
-            "in": "formData",
-            "description": "Id of the attribute",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "attributeId.type",
-            "in": "formData",
-            "description": "Type of the attribute",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
-          },
-          {
-            "name": "ruleTypeId.id",
-            "in": "formData",
-            "description": "Id of the rule type",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "ruleTypeId.type",
-            "in": "formData",
-            "description": "Type of the rule type",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
-          },
-          {
-            "name": "ruleValues",
-            "in": "formData",
-            "description": "JSON object of rule values",
-            "required": false,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6257,35 +6161,23 @@
             "type": "string"
           },
           {
-            "name": "conditionTypeId.id",
+            "name": "conditionTypeId",
             "in": "formData",
-            "description": "Id of the condition type",
+            "description": "JSON representation of the attribute tested by the choice condition, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":64,\"type\":\"attribute\"}. Applies to non-default choices",
             "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "conditionTypeId.type",
-            "in": "formData",
-            "description": "Type of the condition type",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           },
           {
             "name": "conditionValues",
             "in": "formData",
-            "description": "JSON array of condition values, for example [\"San Francisco\"]",
+            "description": "Comma-separated list of condition values, for example San Francisco,Portland",
             "required": false,
             "type": "string"
           },
           {
             "name": "attributes",
             "in": "formData",
-            "description": "JSON object mapping attribute names to values",
+            "description": "JSON object mapping attribute ids to values, for example {\"101\":\"1 day\"}. Each key is the activityTypeAttribId of a flow step choice attribute",
             "required": false,
             "type": "string"
           }
@@ -7568,42 +7460,18 @@
             "format": "int64"
           },
           {
-            "name": "ruleTypeId.id",
+            "name": "ruleTypeId",
             "in": "query",
-            "description": "Id of the rule type",
+            "description": "JSON representation of the rule type, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":11,\"type\":\"activity\"}",
             "required": true,
-            "type": "integer",
-            "format": "int32"
+            "type": "string"
           },
           {
-            "name": "ruleTypeId.type",
+            "name": "optionTypeId",
             "in": "query",
-            "description": "Type of the rule type",
+            "description": "JSON representation of the constraint, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":16,\"type\":\"activity\"}",
             "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
-          },
-          {
-            "name": "optionTypeId.id",
-            "in": "query",
-            "description": "Id of the option type",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "optionTypeId.type",
-            "in": "query",
-            "description": "Type of the option type",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           },
           {
             "name": "primaryAttributeValue",
@@ -7647,23 +7515,11 @@
             "format": "int64"
           },
           {
-            "name": "ruleId.id",
+            "name": "ruleId",
             "in": "formData",
-            "description": "Id of the rule type",
+            "description": "JSON representation of the rule type, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":11,\"type\":\"activity\"}. Rule types are returned by Get Smart List Rules",
             "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "ruleId.type",
-            "in": "formData",
-            "description": "Type of the rule type",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           },
           {
             "name": "index",
@@ -7730,28 +7586,16 @@
             "format": "int64"
           },
           {
-            "name": "attributeId.id",
+            "name": "attributeId",
             "in": "formData",
-            "description": "Id of the attribute to set",
+            "description": "JSON representation of the constraint to set, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":16,\"type\":\"activity\"}. Constraints of each rule type are returned by Get Smart List Rules",
             "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "attributeId.type",
-            "in": "formData",
-            "description": "Type of the attribute to set",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           },
           {
             "name": "values",
             "in": "formData",
-            "description": "JSON array of values, for example [\"San Francisco\"]",
+            "description": "Comma-separated list of values, for example San Francisco,Portland. Enclose a value that contains a comma in double quotes",
             "required": true,
             "type": "string"
           },
@@ -7800,7 +7644,7 @@
             "name": "matchType",
             "in": "formData",
             "description": "How rules are combined",
-            "required": false,
+            "required": true,
             "type": "string",
             "enum": [
               "all",
@@ -7900,23 +7744,11 @@
             "format": "int64"
           },
           {
-            "name": "attributeId.id",
+            "name": "attributeId",
             "in": "formData",
-            "description": "Id of the constraint to remove",
+            "description": "JSON representation of the constraint to remove, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":2,\"type\":\"activity\"}",
             "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "attributeId.type",
-            "in": "formData",
-            "description": "Type of the constraint to remove",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "activity",
-              "attribute"
-            ]
+            "type": "string"
           }
         ],
         "responses": {
@@ -7955,7 +7787,7 @@
           {
             "name": "order",
             "in": "formData",
-            "description": "JSON string representing the new rule order, for example [{\"ruleId\":101,\"index\":1}]",
+            "description": "JSON array of rules with members 'id' (the rule id) and 'index' (its 1-based position), for example [{\"id\":101,\"index\":1}]",
             "required": true,
             "type": "string"
           }
@@ -16750,7 +16582,7 @@
           "type": "array",
           "description": "List of smart list triggers",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/SmartListFilters"
           }
         },
         "filters": {
