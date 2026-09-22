@@ -5899,7 +5899,7 @@
           "Smart Campaigns"
         ],
         "summary": "Get Smart Campaign Rules",
-        "description": "Returns all available trigger and filter rule types that can be used in smart campaign smart lists. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns all available trigger and filter rule types that can be used in smart campaign smart lists. Required Permissions: Read-Write Assets",
         "operationId": "getSmartCampaignRulesUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -5974,7 +5974,7 @@
           "Smart Campaigns"
         ],
         "summary": "Get Auto Suggest for Smart Campaign",
-        "description": "Returns suggested values for configuring a flow step choice. Required Permissions: Read-Only Assets, Read-Write Assets",
+        "description": "Returns suggested values for configuring a flow step choice. Required Permissions: Read-Only Assets",
         "operationId": "getSmartCampaignAutoSuggestUsingGET",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -6066,7 +6066,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -6108,7 +6108,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -6186,7 +6186,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -6228,7 +6228,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -6278,7 +6278,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -6336,7 +6336,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartCampaignFlowMutationResponse"
+              "$ref": "#/definitions/ResponseOfSmartCampaignResponseWithFlow"
             }
           }
         }
@@ -7548,7 +7548,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartListResponse"
+              "$ref": "#/definitions/ResponseOfSmartListResponseWithRules"
             }
           }
         }
@@ -7588,7 +7588,7 @@
           {
             "name": "attributeId",
             "in": "formData",
-            "description": "JSON representation of the constraint to set, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":16,\"type\":\"activity\"}. Constraints of each rule type are returned by Get Smart List Rules",
+            "description": "JSON representation of the constraint to set, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":16,\"type\":\"activity\"}. 'id' is the id of a constraint of the rule type and 'type' is the type of the rule type, both returned by Get Smart List Rules",
             "required": true,
             "type": "string"
           },
@@ -7611,7 +7611,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartListResponse"
+              "$ref": "#/definitions/ResponseOfSmartListResponseWithRules"
             }
           }
         }
@@ -7664,7 +7664,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartListResponse"
+              "$ref": "#/definitions/ResponseOfSmartListResponseWithRules"
             }
           }
         }
@@ -7746,7 +7746,7 @@
           {
             "name": "attributeId",
             "in": "formData",
-            "description": "JSON representation of the constraint to remove, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":2,\"type\":\"activity\"}",
+            "description": "JSON representation of the constraint to remove, with members 'id' and 'type' which may be 'activity' or 'attribute', for example {\"id\":2,\"type\":\"activity\"}. 'id' is the id of a constraint of the rule type and 'type' is the type of the rule type, both returned by Get Smart List Rules",
             "required": true,
             "type": "string"
           }
@@ -7755,7 +7755,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartListResponse"
+              "$ref": "#/definitions/ResponseOfSmartListResponseWithRules"
             }
           }
         }
@@ -7796,7 +7796,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartListResponse"
+              "$ref": "#/definitions/ResponseOfSmartListResponseWithRules"
             }
           }
         }
@@ -7830,7 +7830,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/ResponseOfSmartListResponse"
+              "$ref": "#/definitions/ResponseOfSmartListResponseWithRules"
             }
           }
         }
@@ -13112,6 +13112,14 @@
         "value": {
           "type": "string",
           "description": "Value of the attribute"
+        },
+        "format": {
+          "type": "string",
+          "description": "Display format of the value"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is the primary attribute of the flow step"
         }
       }
     },
@@ -13121,7 +13129,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of the rule"
+          "description": "Name of the field tested by the condition"
         },
         "operator": {
           "type": "string",
@@ -13129,87 +13137,20 @@
         },
         "ruleType": {
           "type": "string",
-          "description": "Type of the rule",
+          "description": "Type of the condition",
           "enum": [
-            "activity",
-            "attribute"
+            "Activity",
+            "Attribute"
           ]
         },
         "ruleTypeId": {
-          "$ref": "#/definitions/FlowStepChoiceRuleTypeId"
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the activity type or field tested by the condition"
         },
         "values": {
           "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Values used by the condition"
-        }
-      }
-    },
-    "FlowStepChoiceRuleTypeId": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Id of the rule type"
-        },
-        "type": {
-          "type": "string",
-          "description": "Type of the rule",
-          "enum": [
-            "activity",
-            "attribute"
-          ]
-        }
-      }
-    },
-    "SmartCampaignFlowMutationResponse": {
-      "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Id of the smart campaign"
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of the smart campaign"
-        },
-        "flow": {
-          "description": "Flow steps of the smart campaign, reflecting the mutation",
-          "$ref": "#/definitions/Flow"
-        }
-      }
-    },
-    "ResponseOfSmartCampaignFlowMutationResponse": {
-      "type": "object",
-      "properties": {
-        "errors": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Error"
-          }
-        },
-        "requestId": {
-          "type": "string"
-        },
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SmartCampaignFlowMutationResponse"
-          }
-        },
-        "success": {
-          "type": "boolean"
-        },
-        "warnings": {
-          "type": "array",
+          "description": "Values the condition matches",
           "items": {
             "type": "string"
           }
@@ -13222,15 +13163,39 @@
         "id": {
           "type": "integer",
           "format": "int32",
-          "description": "Id of the constraint"
+          "description": "Id of the constraint. Built-in constraints have negative ids"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the constraint"
+        },
+        "dataType": {
+          "type": "string",
+          "description": "Data type of the constraint value"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is the primary constraint of the rule type"
+        },
+        "operator": {
+          "type": "string",
+          "description": "Default operator of the constraint"
+        },
+        "dbAttrib": {
+          "type": "boolean",
+          "description": "Whether the constraint is a person or company field"
+        },
+        "dbAttribId": {
+          "type": "string",
+          "description": "Id of the person or company field"
+        },
+        "dbObject": {
+          "type": "string",
+          "description": "Object the field belongs to"
         },
         "type": {
           "type": "string",
-          "description": "Type of the constraint",
-          "enum": [
-            "activity",
-            "attribute"
-          ]
+          "description": "Field type of the constraint, for example standard or custom"
         }
       }
     },
@@ -13282,7 +13247,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SmartCampaignRuleType"
+            "$ref": "#/definitions/SmartCampaignRules"
           }
         },
         "success": {
@@ -13293,6 +13258,29 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "SmartCampaignRules": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "array",
+          "description": "Filter rule types",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignRuleType"
+          }
+        },
+        "triggers": {
+          "type": "array",
+          "description": "Trigger rule types",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignRuleType"
+          }
+        },
+        "predictiveFilters": {
+          "type": "object",
+          "description": "Predictive filter rule types. Present when predictive attributes are available"
         }
       }
     },
@@ -13335,7 +13323,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SmartCampaignFlowStepActionType"
+            "$ref": "#/definitions/SmartCampaignFlowSteps"
           }
         },
         "success": {
@@ -13345,6 +13333,18 @@
           "type": "array",
           "items": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "SmartCampaignFlowSteps": {
+      "type": "object",
+      "properties": {
+        "flowSteps": {
+          "type": "array",
+          "description": "Flow step action types",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignFlowStepActionType"
           }
         }
       }
@@ -13389,7 +13389,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SmartCampaignFlowStepType"
+            "$ref": "#/definitions/SmartCampaignFlowStepTypes"
           }
         },
         "success": {
@@ -13403,12 +13403,22 @@
         }
       }
     },
+    "SmartCampaignFlowStepTypes": {
+      "type": "object",
+      "properties": {
+        "flowStepTypes": {
+          "type": "array",
+          "description": "Flow step types",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignFlowStepType"
+          }
+        }
+      }
+    },
     "AutoSuggestValue": {
       "type": "object",
       "required": [
-        "id",
-        "displayName",
-        "name"
+        "id"
       ],
       "properties": {
         "id": {
@@ -13423,6 +13433,15 @@
         "name": {
           "type": "string",
           "description": "Name of the suggested value"
+        },
+        "workspace": {
+          "type": "string",
+          "description": "Name of the workspace containing the value"
+        },
+        "workspaceId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the workspace containing the value"
         }
       }
     },
@@ -13441,8 +13460,12 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AutoSuggestValue"
-          }
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AutoSuggestValue"
+            }
+          },
+          "description": "One array of suggested values"
         },
         "success": {
           "type": "boolean"
@@ -13459,47 +13482,57 @@
       "type": "object",
       "required": [
         "id",
-        "name",
-        "type"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Id of the referencing asset"
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of the referencing asset"
-        },
-        "type": {
-          "type": "string",
-          "description": "Type of the referencing asset"
-        },
-        "url": {
-          "type": "string",
-          "description": "Url of the referencing asset in the Marketo UI"
-        }
-      }
-    },
-    "SmartCampaignUsedBy": {
-      "type": "object",
-      "required": [
-        "id",
         "name"
       ],
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32",
-          "description": "Id of the smart campaign"
+          "format": "int64",
+          "description": "Id of the asset"
         },
         "name": {
           "type": "string",
-          "description": "Name of the smart campaign"
+          "description": "Name of the asset"
+        },
+        "compType": {
+          "type": "string",
+          "description": "Type of the asset"
+        },
+        "subType": {
+          "type": "string",
+          "description": "Subtype of the asset"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the asset"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime the asset was most recently updated"
+        },
+        "programId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the program containing the asset"
+        },
+        "accessZoneId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Id of the workspace containing the asset"
+        }
+      }
+    },
+    "SmartCampaignUsedBy": {
+      "type": "object",
+      "properties": {
+        "usedByCount": {
+          "type": "string",
+          "description": "Number of assets that use the smart campaign"
         },
         "usedBy": {
           "type": "array",
+          "description": "Assets that use the smart campaign",
           "items": {
             "$ref": "#/definitions/SmartCampaignUsedByAsset"
           }
@@ -13519,7 +13552,10 @@
           "type": "string"
         },
         "result": {
-          "$ref": "#/definitions/SmartCampaignUsedBy"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmartCampaignUsedBy"
+          }
         },
         "success": {
           "type": "boolean"
@@ -13580,7 +13616,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SmartListRuleType"
+            "$ref": "#/definitions/SmartListRuleTypes"
           }
         },
         "success": {
@@ -13591,6 +13627,22 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "SmartListRuleTypes": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "array",
+          "description": "Filter rule types",
+          "items": {
+            "$ref": "#/definitions/SmartListRuleType"
+          }
+        },
+        "predictiveFilters": {
+          "type": "object",
+          "description": "Predictive filter rule types. Present when predictive attributes are available"
         }
       }
     },
@@ -13948,7 +14000,6 @@
         "description",
         "createdAt",
         "updatedAt",
-        "url",
         "folder",
         "workspace"
       ],
@@ -16573,9 +16624,9 @@
           "type": "string",
           "description": "Smart list filter match type (rule logic)",
           "enum": [
-            "All",
-            "Any",
-            "Advanced"
+            "all",
+            "any",
+            "custom"
           ]
         },
         "triggers": {
@@ -16591,6 +16642,10 @@
           "items": {
             "$ref": "#/definitions/SmartListFilters"
           }
+        },
+        "filterCustomRuleLogic": {
+          "type": "string",
+          "description": "Custom rule logic, for example 1 and (2 or 3). Present when filterMatchType is custom"
         }
       }
     },
@@ -16601,8 +16656,7 @@
         "name",
         "ruleTypeId",
         "ruleType",
-        "operator",
-        "conditions"
+        "operator"
       ],
       "description": "JSON representation of smart list filters",
       "properties": {
@@ -16622,7 +16676,11 @@
         },
         "ruleType": {
           "type": "string",
-          "description": "Name of rule type"
+          "description": "Type of rule",
+          "enum": [
+            "Activity",
+            "Attribute"
+          ]
         },
         "operator": {
           "type": "string",
@@ -16640,22 +16698,27 @@
     "SmartListConditions": {
       "type": "object",
       "required": [
-        "activityAttributeId",
-        "activityAttributeName",
-        "operator",
-        "values",
-        "isPrimary"
+        "values"
       ],
       "description": "JSON representation of smart list conditions",
       "properties": {
         "activityAttributeId": {
           "type": "integer",
           "format": "int32",
-          "description": "Id of the activity attribute"
+          "description": "Id of the activity attribute. Present on conditions of activity rules"
         },
         "activityAttributeName": {
           "type": "string",
-          "description": "Name of activity attribute"
+          "description": "Name of the activity attribute. Present on conditions of activity rules"
+        },
+        "attributeId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the field. Present on conditions of attribute rules"
+        },
+        "attributeName": {
+          "type": "string",
+          "description": "Name of the field. Present on conditions of attribute rules"
         },
         "operator": {
           "type": "string",
@@ -16671,6 +16734,14 @@
         "isPrimary": {
           "type": "boolean",
           "description": "Whether the condition is primary or not (first condition of the smart list)"
+        },
+        "isError": {
+          "type": "boolean",
+          "description": "Whether the condition has a validation error"
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "Validation error of the condition. Present when isError is true"
         }
       }
     },
