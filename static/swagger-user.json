@@ -31,7 +31,7 @@
           "User Management"
         ],
         "summary": "Get Users",
-        "description": "Retrieve a list of all user records.  Required Permissions: Access User Management Api and Access Users",		
+        "description": "Retrieve a list of all user records.  Required Permissions: Access User Management Api and Access Users",
         "operationId": "getUsersUsingGET",
         "produces": [
           "application/json"
@@ -54,6 +54,14 @@
             "type": "integer",
             "default": 20,
             "format": "int32"
+          },
+          {
+            "name": "includeRoleWorkspace",
+            "in": "query",
+            "description": "When true, adds the userRoleWorkspaces field to the results for each user.  Requires the Access Roles permission.  Default is false",
+            "required": false,
+            "type": "boolean",
+            "default": false
           }
         ],
         "responses": {
@@ -993,7 +1001,14 @@
         },
         "userid": {
           "type": "string",
-          "description": "Marketo Identity users should use an email address. Adobe Identity users should use the generated GUID." 		  
+          "description": "Marketo Identity users should use an email address. Adobe Identity users should use the generated GUID."
+        },
+        "userRoleWorkspaces": {
+          "type": "array",
+          "description": "Role and workspace assignments for the user.  Only included when includeRoleWorkspace is true.  Requires the Access Roles permission",
+          "items": {
+            "$ref": "#/definitions/UserRoleWorkspace"
+          }
         }
       },
       "title": "ResponseOfAllUsers"
